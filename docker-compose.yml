@@ -6,7 +6,7 @@ services:
     container_name: postgres-user
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD:
+      POSTGRES_PASSWORD: lokal
       POSTGRES_DB: warehouse_user_db
     restart: unless-stopped
     ports:
@@ -24,7 +24,7 @@ services:
     container_name: postgres-product
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD:
+      POSTGRES_PASSWORD: lokal
       POSTGRES_DB: warehouse_product_db
     restart: unless-stopped
     ports:
@@ -42,7 +42,7 @@ services:
     container_name: postgres-transaction
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD:
+      POSTGRES_PASSWORD: lokal
       POSTGRES_DB: warehouse_transaction_db
     restart: unless-stopped
     ports:
@@ -60,7 +60,7 @@ services:
     container_name: postgres-merchant
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD:
+      POSTGRES_PASSWORD: lokal
       POSTGRES_DB: warehouse_merchant_db
     restart: unless-stopped
     ports:
@@ -78,7 +78,7 @@ services:
     container_name: postgres-notification
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD:
+      POSTGRES_PASSWORD: lokal
       POSTGRES_DB: warehouse_notification_db
     restart: unless-stopped
     ports:
@@ -90,12 +90,13 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+
   warehouse_db:
     image: postgres:latest
     container_name: postgres-warehouse
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD:
+      POSTGRES_PASSWORD: lokal
       POSTGRES_DB: warehouse_warehouse_db
     restart: unless-stopped
     ports:
@@ -114,8 +115,6 @@ services:
     restart: unless-stopped
     ports:
       - 6379:6379
-    volumes:
-      - redis_data:/data
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
