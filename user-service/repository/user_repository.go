@@ -215,7 +215,7 @@ func (u *userRepository) GetAllUsers(ctx context.Context, page int, limit int, s
 	// Get total count
 	var totalRecords int64
 	if err := query.Count(&totalRecords).Error; err != nil {
-		log.Errorf("[UserRepository] GetAllUsers - 3: %v", err)
+		log.Errorf("[UserRepository] GetAllUsers - 2: %v", err)
 		return nil, 0, err
 	}
 
