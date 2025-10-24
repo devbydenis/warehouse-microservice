@@ -7,4 +7,5 @@ type Role struct {
 	Name      string    `json:"name"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
+	Users 	 []User     `json:"users" gorm:"foreignKey:RoleID;"`
 }
