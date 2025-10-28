@@ -23,12 +23,12 @@ func SeedManager(db *gorm.DB) {
 
 	admin := model.User{
 		Name: "manager",
-		Email: "manager@gmail.com",
+		Email: "manager@mail.com",
 		Password: bytes,
 		Roles: []model.Role{modelRole},
 	}
 
-	if err := db.FirstOrCreate(&admin, model.User{Email: "manager@gmail.com"}).Error; err != nil {
+	if err := db.FirstOrCreate(&admin, model.User{Email: "manager@mail.com"}).Error; err != nil {
 		log.Fatalf("%s: %v", err.Error(), err)
 	}	else {
 		log.Printf("Admin %s created", admin.Name)

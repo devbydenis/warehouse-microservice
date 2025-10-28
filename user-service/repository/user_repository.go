@@ -154,7 +154,7 @@ func (u *userRepository) GetAllUserRoles(ctx context.Context, page int, limit in
 	}
 
 	// Apply sorting
-	if sortBy == "" {
+	if sortBy != "" {
 		if sortOrder == "" {
 			sortOrder = "asc"
 		}
