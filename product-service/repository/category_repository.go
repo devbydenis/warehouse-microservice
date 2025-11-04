@@ -67,7 +67,7 @@ func (c *categoryRepository) GetAllCategories(ctx context.Context, page int, lim
 			limit = 10
 		}
 		if sortBy == "" {
-			sortBy = "desc"
+			sortBy = "id"
 		}
 		if sortOrder == "" {
 			sortOrder = "desc"
