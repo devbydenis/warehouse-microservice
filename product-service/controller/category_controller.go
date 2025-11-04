@@ -87,11 +87,11 @@ func (c *categoryController) GetAllCategories(ctx *fiber.Ctx) error {
 		})
 	}
 
-	if req.Page = 0 {
+	if req.Page <= 0 {
 		req.Page = 1
 	}
 
-	if req.Limit = 0 {
+	if req.Limit <= 0 {
 		req.Limit = 10
 	}
 
