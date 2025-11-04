@@ -19,4 +19,8 @@ func SetupRoutes(app *fiber.App, container *Container) {
 	products.Get("/barcode/:barcode", container.ProductController.GetProductByBarcode)
 	products.Put("/:id", container.ProductController.UpdateProduct)
 	products.Delete("/:id", container.ProductController.DeleteProduct)
+
+	uploads := api.Group("/upload")
+	uploads.Post("/product-image", container.UploadController.UploadProductImage)
+	uploads.Post("/category-image", container.UploadController.UploadCategoryImage)
 }
