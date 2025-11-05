@@ -2,7 +2,10 @@ module micro-warehouse/product-service
 
 go 1.24.7
 
-require gorm.io/driver/postgres v1.6.0
+require (
+	github.com/supabase-community/storage-go v0.8.1
+	gorm.io/driver/postgres v1.6.0
+)
 
 require (
 	github.com/gabriel-vasile/mimetype v1.4.10 // indirect
@@ -10,7 +13,6 @@ require (
 	github.com/go-playground/universal-translator v0.18.1 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect
-	github.com/supabase-community/storage-go v0.8.1 // indirect
 )
 
 require (
@@ -45,7 +47,7 @@ require (
 	github.com/valyala/fasthttp v1.51.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
-	golang.org/x/crypto v0.42.0
+	golang.org/x/crypto v0.42.0 // indirect
 	golang.org/x/sync v0.17.0 // indirect
 	golang.org/x/sys v0.36.0 // indirect
 	golang.org/x/text v0.30.0 // indirect
