@@ -7,6 +7,8 @@ import (
 type App struct {
 	AppPort string `json:"app_port"`
 	AppEnv  string `json:"app_env"`
+
+	UrlProductService string `json:"url_product_service"`
 }
 
 type SqlDB struct {
@@ -50,8 +52,9 @@ func NewConfig() *Config {
 		App: App{
 			AppPort: viper.GetString("APP_PORT"),
 			AppEnv:  viper.GetString("APP_ENV"),
+			UrlProductService: viper.GetString("URL_PRODUCT_SERVICE"),
 		},
-		SqlDB:SqlDB{
+		SqlDB: SqlDB{
 			Host:           viper.GetString("DATABASE_HOST"),
 			Port:           viper.GetString("DATABASE_PORT"),
 			User:           viper.GetString("DATABASE_USER"),
