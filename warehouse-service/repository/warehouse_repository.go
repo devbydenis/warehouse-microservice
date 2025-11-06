@@ -13,7 +13,7 @@ type WarehouseRepositoryInterface interface {
 	GetAllWarehouses(ctx context.Context, page, limit int, search, sortBy, sortOrder string) ([]model.Warehouse, int64, error)
 	GetWarehouseByID(ctx context.Context, id uint) (*model.Warehouse, error)
 	CreateWarehouse(ctx context.Context, warehouse model.Warehouse) error
-	UpdateWarehouse(ctx context.Context, warehouse model.Warehouse) error
+	UpdateWarehouse(ctx context.Context, warehouse *model.Warehouse) error
 	DeleteWarehouse(ctx context.Context, id uint) error
 }
 
@@ -124,7 +124,7 @@ func (w *WarehouseRepository) GetWarehouseByID(ctx context.Context, id uint) (*m
 }
 
 // UpdateWarehouse implements WarehouseRepositoryInterface.
-func (w *WarehouseRepository) UpdateWarehouse(ctx context.Context, warehouse model.Warehouse) error {
+func (w *WarehouseRepository) UpdateWarehouse(ctx context.Context, warehouse *model.Warehouse) error {
 	select {
 	case <-ctx.Done():
 		log.Errorf("[WarehouseRepository] UpdateWarehouse - 1: %v", ctx.Err())
