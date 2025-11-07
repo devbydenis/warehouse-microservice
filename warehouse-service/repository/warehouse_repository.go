@@ -12,7 +12,7 @@ import (
 type WarehouseRepositoryInterface interface {
 	GetAllWarehouses(ctx context.Context, page, limit int, search, sortBy, sortOrder string) ([]model.Warehouse, int64, error)
 	GetWarehouseByID(ctx context.Context, id uint) (*model.Warehouse, error)
-	CreateWarehouse(ctx context.Context, warehouse model.Warehouse) error
+	CreateWarehouse(ctx context.Context, warehouse *model.Warehouse) error
 	UpdateWarehouse(ctx context.Context, warehouse *model.Warehouse) error
 	DeleteWarehouse(ctx context.Context, id uint) error
 }

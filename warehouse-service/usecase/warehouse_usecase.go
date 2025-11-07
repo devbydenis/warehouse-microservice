@@ -7,7 +7,7 @@ import (
 )
 
 type WarehouseUsecaseInterface interface {
-	CreateWarehouse(ctx context.Context, warehouse model.Warehouse) error
+	CreateWarehouse(ctx context.Context, warehouse *model.Warehouse) error
 	GetAllWarehouses(ctx context.Context, page, limit int, search, sortBy, sortOrder string) ([]model.Warehouse, int64, error)
 	GetWarehouseByID(ctx context.Context, id uint) (*model.Warehouse, error)
 	UpdateWarehouse(ctx context.Context, warehouse *model.Warehouse) error
@@ -19,7 +19,7 @@ type warehouseUsecase struct {
 }
 
 // CreateWarehouse implements WarehouseUsecaseInterface.
-func (w *warehouseUsecase) CreateWarehouse(ctx context.Context, warehouse model.Warehouse) error {
+func (w *warehouseUsecase) CreateWarehouse(ctx context.Context, warehouse *model.Warehouse) error {
 	return w.warehouseRepo.CreateWarehouse(ctx, warehouse)
 }
 
