@@ -17,12 +17,12 @@ type WarehouseRepositoryInterface interface {
 	DeleteWarehouse(ctx context.Context, id uint) error
 }
 
-type WarehouseRepository struct {
+type warehouseRepository struct {
 	db *gorm.DB
 }
 
 // CreateWarehouse implements WarehouseRepositoryInterface.
-func (w *WarehouseRepository) CreateWarehouse(ctx context.Context, warehouse model.Warehouse) error {
+func (w *warehouseRepository) CreateWarehouse(ctx context.Context, warehouse *model.Warehouse) error {
 	select {
 	case <-ctx.Done():
 		log.Errorf("[WarehouseRepository] CreateWarehouse - 1: %v", ctx.Err())
@@ -33,7 +33,7 @@ func (w *WarehouseRepository) CreateWarehouse(ctx context.Context, warehouse mod
 }
 
 // DeleteWarehouse implements WarehouseRepositoryInterface.
-func (w *WarehouseRepository) DeleteWarehouse(ctx context.Context, id uint) error {
+func (w *warehouseRepository) DeleteWarehouse(ctx context.Context, id uint) error {
 	select {
 	case <-ctx.Done():
 		log.Errorf("[WarehouseRepository] DeleteWarehouse - 1: %v", ctx.Err())
@@ -55,7 +55,7 @@ func (w *WarehouseRepository) DeleteWarehouse(ctx context.Context, id uint) erro
 }
 
 // GetAllWarehouses implements WarehouseRepositoryInterface.
-func (w *WarehouseRepository) GetAllWarehouses(ctx context.Context, page, limit int, search, sortBy, sortOrder string) ([]model.Warehouse, int64, error) {
+func (w *warehouseRepository) GetAllWarehouses(ctx context.Context, page, limit int, search, sortBy, sortOrder string) ([]model.Warehouse, int64, error) {
 	select {
 	case <-ctx.Done():
 		log.Errorf("[WarehouseRepository] GetAllWarehouses - 1: %v", ctx.Err())
@@ -107,7 +107,7 @@ func (w *WarehouseRepository) GetAllWarehouses(ctx context.Context, page, limit 
 }
 
 // GetWarehouseByID implements WarehouseRepositoryInterface.
-func (w *WarehouseRepository) GetWarehouseByID(ctx context.Context, id uint) (*model.Warehouse, error) {
+func (w *warehouseRepository) GetWarehouseByID(ctx context.Context, id uint) (*model.Warehouse, error) {
 	select {
 	case <-ctx.Done():
 		log.Errorf("[WarehouseRepository] GetWarehouseByID - 1: %v", ctx.Err())
@@ -118,13 +118,13 @@ func (w *WarehouseRepository) GetWarehouseByID(ctx context.Context, id uint) (*m
 			log.Errorf("[WarehouseRepository] GetWarehouseByID - 2: %v", err)
 			return nil, err
 		}
-		
+
 		return &modelWarehouse, nil
 	}
 }
 
 // UpdateWarehouse implements WarehouseRepositoryInterface.
-func (w *WarehouseRepository) UpdateWarehouse(ctx context.Context, warehouse *model.Warehouse) error {
+func (w *warehouseRepository) UpdateWarehouse(ctx context.Context, warehouse *model.Warehouse) error {
 	select {
 	case <-ctx.Done():
 		log.Errorf("[WarehouseRepository] UpdateWarehouse - 1: %v", ctx.Err())
@@ -147,7 +147,7 @@ func (w *WarehouseRepository) UpdateWarehouse(ctx context.Context, warehouse *mo
 }
 
 func NewWarehouseRepository(db *gorm.DB) WarehouseRepositoryInterface {
-	return &WarehouseRepository{
+	return &warehouseRepository{
 		db: db,
 	}
 }
