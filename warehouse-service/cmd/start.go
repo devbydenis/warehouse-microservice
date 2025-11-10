@@ -1,16 +1,16 @@
 package cmd
 
 import (
-	// "micro-warehouse/warehouse-service/app"
+	"micro-warehouse/warehouse-service/app"
 
 	"github.com/spf13/cobra"
 )
 
 var startCmd = &cobra.Command{
-	Use: "start",
+	Use:   "start",
 	Short: "Start the HTTP server",
 	Run: func(cmd *cobra.Command, args []string) {
-		// app.RunServer()
+		app.RunServer()
 	},
 }
 
