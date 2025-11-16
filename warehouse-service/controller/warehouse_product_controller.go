@@ -48,7 +48,7 @@ func (w *warehouseProductController) CreateWarehouseProduct(c *fiber.Ctx) error 
 		})
 	}
 
-	warehouseID := c.Params("Warehouse_id")
+	warehouseID := c.Params("warehouse_id")
 	warehouseIDUint := conv.StringToUint(warehouseID)
 
 	reqModel := model.WarehouseProduct{
@@ -58,7 +58,7 @@ func (w *warehouseProductController) CreateWarehouseProduct(c *fiber.Ctx) error 
 	}
 
 	if err := w.warehouseProductUsecase.CreateWarehouseProduct(ctx, &reqModel); err != nil {
-		log.Errorf("[WarehouseProductController] CreateWarehouse - 3: %v", err)
+		log.Errorf("[WarehouseProductController] CreateWarehouseProduct - 3: %v", err)
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": "Failed to create warehouse product",
 		})
@@ -283,6 +283,8 @@ func (w *warehouseProductController) UpdateWarehouseProduct(c *fiber.Ctx) error 
 	ctx := c.Context()
 	warehouseProductID := c.Params("warehouse_product_id")
 	warehouseProductIDUint := conv.StringToUint(warehouseProductID)
+	warehouseID := c.Params("warehouse_id")
+	warehouseIDUint := conv.StringToUint(warehouseID)
 	
 	var req request.CreateWarehouseProductRequest
 	if err := c.BodyParser(&req); err != nil {
@@ -301,7 +303,7 @@ func (w *warehouseProductController) UpdateWarehouseProduct(c *fiber.Ctx) error 
 
 	reqModel := model.WarehouseProduct{
 		ID:          warehouseProductIDUint,
-		WarehouseID: req.WarehouseID,
+		WarehouseID: warehouseIDUint,
 		ProductID:   req.ProductID,
 		Stock:       req.Stock,
 	}
