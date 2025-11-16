@@ -22,4 +22,6 @@ func SetupRoutes(app *fiber.App, c* Container) {
 	warehouseProducts.Get("/detail/products/:product_id/total-stock", c.WarehouseProductController.GetProductTotalStock)
 	warehouseProducts.Get("/detail/products/:product_id", c.WarehouseProductController.GetWarehouseProductByProductID)
 	warehouseProducts.Get("/detail/products/:product_id/warehouses", c.WarehouseProductController.GetDetailWarehouseProductByID)
+
+	api.Post("/upload-warehouse", c.UploadController.UploadPhoto)
 }
