@@ -44,11 +44,11 @@ func (h *FileUploadHelper) UploadPhoto(ctx context.Context, file *multipart.File
 }
 
 func (h *FileUploadHelper) validateImageFile(file *multipart.FileHeader, maxSize int64) error {
-	if validateFileSize(file.Size, maxSize) {
+	if !validateFileSize(file.Size, maxSize) {
 		return fmt.Errorf("file size exceeds the maximum allowed size")
 	}
 
-	if validateFileExtension(getFileExtension(file.Filename), AllowedImageExtensions) {
+	if !validateFileExtension(getFileExtension(file.Filename), AllowedImageExtensions) {
 		return fmt.Errorf("invalid file extension")
 	}
 
