@@ -44,10 +44,8 @@ func (p *ProductClient) GetProductByID(ctx context.Context, productID uint) (*Pr
 
 	body, err := io.ReadAll(resp.Body) 
 	if err != nil {
-		if err != nil {
 			log.Errorf("[ProductClient] - GetProductByID - 3: %v", err)
 			return nil, err
-		}
 	}
 	
 	if resp.StatusCode != http.StatusOK {
