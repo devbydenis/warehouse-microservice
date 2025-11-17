@@ -3,7 +3,8 @@ package storage
 import (
 	"context"
 	"fmt"
-	"micro-warehouse/user-service/configs"
+	"micro-warehouse/warehouse-service/configs"
+
 	"mime/multipart"
 	"path/filepath"
 	"strings"
@@ -34,7 +35,7 @@ func (h *FileUploadHelper) UploadPhoto(ctx context.Context, file *multipart.File
 		return nil, err
 	}
 
-	result, err := h.storage.UploadFile(ctx, file, "users")
+	result, err := h.storage.UploadFile(ctx, file, "warehouses")
 	if err != nil {
 		log.Errorf("failed to upload file: %v", err)
 		return nil, fmt.Errorf("failed to upload file: %w", err)
