@@ -1,6 +1,8 @@
 package configs
 
 import (
+	"fmt"
+
 	"github.com/spf13/viper"
 )
 
@@ -45,6 +47,10 @@ type Config struct {
 	Redis    Redis    `json:"redis"`
 	RabbitMQ RabbitMQ `json:"rabbitmq"`
 	Supabase Supabase `json:"supabase"`
+}
+
+func (r *RabbitMQ) URL() string {
+	return fmt.Sprintf("amqp://%s:%s@%s:%s/", r.Username, r.Password, r.Host, r.Port)
 }
 
 func NewConfig() *Config {
