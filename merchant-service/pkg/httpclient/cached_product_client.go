@@ -39,8 +39,8 @@ func (cpc *CachedProductCLient) GetProductByID(ctx context.Context, productID ui
 	cacheKey := cpc.generateCacheKey("single", productID)
 
 	var cachedProduct ProductResponse
-	if err := cpc.redis.Get(ctx, cacheKey, &cachedProduct); err != nil {
-		log.Infof("[CachedProductCLient] GetProductByID - 1: %v", err)
+	if err := cpc.redis.Get(ctx, cacheKey, &cachedProduct); err == nil {
+		log.Infof("[CachedProductCLient] GetProductByID - 1: %v", cachedProduct)
 		return &cachedProduct, nil
 	}
 
@@ -53,6 +53,30 @@ func (cpc *CachedProductCLient) GetProductByID(ctx context.Context, productID ui
 	err = cpc.redis.Set(ctx, cacheKey, product, cpc.ttl)
 	if err != nil {
 		log.Errorf("[CachedProductCLient] GetProductByID - 3: %v", err)
+		return nil, err
+	}
+
+	return product, nil
+}
+
+func (cpc *CachedProductCLient) GetProductByBarcode(ctx context.Context, barcode string) (*ProductResponse, error) {
+	cachedKey := fmt.Sprintf("product:barcode:%s", barcode)
+
+	var cachedProduct ProductResponse
+	if err := cpc.redis.Get(ctx, cachedKey, &cachedProduct); err == nil {
+		log.Infof("[CachedProductCLient] GetProductByBarcode - 1: %v", cachedProduct)
+		return &cachedProduct, nil
+	}
+
+	product, err := cpc.client.GetProductByBarcode(ctx, barcode)
+	if err != nil {
+		log.Errorf("[CachedProductCLient] GetProductByBarcode - 2: %v", err)
+		return nil, err
+	}
+
+	err = cpc.redis.Set(ctx, cachedKey, product, cpc.ttl)
+	if err != nil {
+		log.Errorf("[CachedProductCLient] GetProductByBarcode - 3: %v", err)
 		return nil, err
 	}
 

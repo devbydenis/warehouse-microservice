@@ -15,6 +15,7 @@ import (
 
 type ProductClientInterface interface {
 	GetProductByID(ctx context.Context, productID uint) (*ProductResponse, error)
+	GetProductByBarcode(ctx context.Context, barcode string) (*ProductResponse, error)
 	GetProducts(ctx context.Context, page, limit int, search, sortBy, sortOrder string) ([]ProductResponse, error)
 	HealthCheck(ctx context.Context) error
 }
@@ -22,6 +23,44 @@ type ProductClientInterface interface {
 type ProductClient struct {
 	urlProductService string
 	httpClient        *http.Client
+}
+
+// GetProductByBarcode implements ProductClientInterface.
+func (p *ProductClient) GetProductByBarcode(ctx context.Context, barcode string) (*ProductResponse, error) {
+	url := fmt.Sprintf("%s/api/v1/products/barcode/%s", p.urlProductService, barcode)
+
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
+	if err != nil {
+		log.Errorf("[ProductClient] - GetProductByBarcode - 1: %v", err)
+		return nil, err
+	}
+
+	resp, err := p.httpClient.Do(req)
+	if err != nil {
+		log.Errorf("[ProductClient] - GetProductByBarcode - 2: %v", err)
+		return nil, err
+	}
+
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		log.Errorf("[ProductClient] - GetProductByBarcode - 3: %v", err)
+		return nil, err
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		log.Errorf("[ProductClient] - GetProductByBarcode - 4: %s", string(body))
+		return nil, errors.New("failed to get product by barcode")
+	}
+
+	var productResponse ProductServiceResponse
+	if err := json.Unmarshal(body, &productResponse); err != nil {
+		log.Errorf("[ProductClient] - GetProductByBarcode - 5: %v", err)
+		return nil, err
+	}
+
+	return &productResponse.Data, nil
 }
 
 // GetProductByID implements ProductClientInterface.
@@ -33,7 +72,7 @@ func (p *ProductClient) GetProductByID(ctx context.Context, productID uint) (*Pr
 		log.Errorf("[ProductClient] - GetProductByID - 1: %v", err)
 		return nil, err
 	}
-	
+
 	resp, err := p.httpClient.Do(req)
 	if err != nil {
 		log.Errorf("[ProductClient] - GetProductByID - 2: %v", err)
@@ -42,12 +81,12 @@ func (p *ProductClient) GetProductByID(ctx context.Context, productID uint) (*Pr
 
 	defer resp.Body.Close()
 
-	body, err := io.ReadAll(resp.Body) 
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-			log.Errorf("[ProductClient] - GetProductByID - 3: %v", err)
-			return nil, err
+		log.Errorf("[ProductClient] - GetProductByID - 3: %v", err)
+		return nil, err
 	}
-	
+
 	if resp.StatusCode != http.StatusOK {
 		log.Errorf("[ProductClient] - GetProductByID - 4: %s", string(body))
 		return nil, errors.New("failed to get product by id")
@@ -153,7 +192,7 @@ type ProductListServiceResponse struct {
 
 func NewProductClient(cfg configs.Config) ProductClientInterface {
 	return &ProductClient{
-		httpClient:        &http.Client{
+		httpClient: &http.Client{
 			Timeout: 30 * time.Second,
 		},
 		urlProductService: cfg.App.UrlProductService,
