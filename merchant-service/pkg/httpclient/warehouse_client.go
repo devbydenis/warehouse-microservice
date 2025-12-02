@@ -14,8 +14,8 @@ import (
 )
 
 type WarehouseClientInterface interface {
-	GetWarehouseByID(ctc context.Context, warehouseID uint) (*WarehouseResponse, error)
-	GetWarehouseProductStock(ctc context.Context, warehouseID, productID uint) (*WarehouseProductStockResponse, error)
+	GetWarehouseByID(ctx context.Context, warehouseID uint) (*WarehouseResponse, error)
+	GetWarehouseProductStock(ctx context.Context, warehouseID, productID uint) (*WarehouseProductStockResponse, error)
 }
 
 type WarehouseCLient struct {
