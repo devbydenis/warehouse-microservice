@@ -15,7 +15,7 @@ type CachedWarehouseClient struct {
 	ttl time.Duration
 }
 
-func NewCachedWarehouseClient(warehouseClient WarehouseClientInterface, redisClient *redis.RedisClient, ttl time.Duration) *CachedWarehouseClient {
+func NewCachedWarehouseClient(warehouseClient WarehouseClientInterface, redisClient *redis.RedisClient) *CachedWarehouseClient {
 	return &CachedWarehouseClient{
 		client: warehouseClient,
 		redis:  redisClient,
