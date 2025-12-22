@@ -7,6 +7,7 @@ import (
 	"micro-warehouse/merchant-service/pkg/httpclient"
 	"micro-warehouse/merchant-service/pkg/rabbitmq"
 	"micro-warehouse/merchant-service/pkg/redis"
+	"micro-warehouse/merchant-service/pkg/storage"
 	"micro-warehouse/merchant-service/repository"
 	"micro-warehouse/merchant-service/usecase"
 
@@ -16,6 +17,7 @@ import (
 type Container struct {
 	MerchantController controller.MerchantControllerInterface
 	MerchantProductController controller.MerchantProductControllerInterface
+	UploadController controller.UploadControllerInterface
 }
 
 func BuildContainer() *Container {
@@ -46,9 +48,14 @@ func BuildContainer() *Container {
 	merchantProductUsecase := usecase.NewMerchantProductUsecase(merchantProductRepo, cachedProductClient, cachedWarehouseClient, rabbitMQService)
 	merchantProductController := controller.NewMerchantProductController(merchantProductUsecase)
 
+	supabaseStorage := storage.NewSupabaseStorage(*cfg)
+	fileUploadHelper := storage.NewFileUploadHelper(supabaseStorage, *cfg)
+	uploadController := controller.NewUploadController(fileUploadHelper)
+
 	return &Container{
 		MerchantController: merchantController,
 		MerchantProductController: merchantProductController,
+		UploadController: uploadController,
 	}
 }
 

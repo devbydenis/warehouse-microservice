@@ -21,4 +21,6 @@ func SetupRoutes(app *fiber.App, c *Container) {
 	merchantProducts.Delete("/:id", c.MerchantProductController.DeleteMerchantProduct)
 	merchantProducts.Delete("/product/:product_id", c.MerchantProductController.DeleteAllProductMerchantProducts)
 	merchantProducts.Get("/:product_id/total-stock", c.MerchantProductController.GetProductTotalStock)
+
+	api.Post("upload-merchant", c.UploadController.UploadMerchantPhoto)
 }
