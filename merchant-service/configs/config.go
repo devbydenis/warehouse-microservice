@@ -80,7 +80,7 @@ func NewConfig() *Config {
 		RabbitMQ: RabbitMQ{
 			Host:     viper.GetString("RABBITMQ_HOST"),
 			Port:     viper.GetString("RABBITMQ_PORT"),
-			Username: viper.GetString("RABBITMQ_USERNAME"),
+			Username: viper.GetString("RABBITMQ_USER"),
 			Password: viper.GetString("RABBITMQ_PASSWORD"),
 		},
 		Supabase: Supabase{
