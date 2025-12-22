@@ -28,17 +28,17 @@ type StockConsumer struct {
 	merchantRepo repository.MerchantProductRepositoryInterface
 }
 
-func NewStockConsumer(url string, merchantRepo repository.MerchantProductRepositoryInterface) *StockConsumer {
+func NewStockConsumer(url string, merchantRepo repository.MerchantProductRepositoryInterface) (*StockConsumer, error) {
 	conn, err := amqp.Dial(url)
 	if err != nil {
 		log.Errorf("[StockConsumer] NewStockConsumer - 1: %v", err)
-		return nil
+		return nil, err
 	}
 
 	ch, err := conn.Channel()
 	if err != nil {
 		log.Errorf("[StockConsumer] NewStockConsumer - 2: %v", err)
-		return nil
+		return nil, err
 	}
 
 	err = ch.ExchangeDeclare(
@@ -53,7 +53,7 @@ func NewStockConsumer(url string, merchantRepo repository.MerchantProductReposit
 
 	if err != nil {
 		log.Errorf("[StockConsumer] NewStockConsumer - 3: %v", err)
-		return nil
+		return nil, err
 	}
 
 	q, err := ch.QueueDeclare(
@@ -67,7 +67,7 @@ func NewStockConsumer(url string, merchantRepo repository.MerchantProductReposit
 
 	if err != nil {
 		log.Errorf("[StockConsumer] NewStockConsumer - 4: %v", err)
-		return nil
+		return nil, err
 	}
 
 	err = ch.QueueBind(
@@ -80,14 +80,14 @@ func NewStockConsumer(url string, merchantRepo repository.MerchantProductReposit
 
 	if err != nil {
 		log.Errorf("[StockConsumer] NewStockConsumer - 5: %v", err)
-		return nil
+		return nil, err
 	}
 
 	return &StockConsumer{
 		conn:         conn,
 		ch:           ch,
 		merchantRepo: merchantRepo,
-	}
+	}, nil
 }
 
 func (s *StockConsumer) ConsumeStockReductionEvents(ctx context.Context) error {
