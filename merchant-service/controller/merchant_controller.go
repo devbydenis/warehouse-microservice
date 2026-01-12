@@ -107,7 +107,7 @@ func (m *merchantController) GetAllMerchants(c *fiber.Ctx) error {
 		if err != nil {
 			log.Errorf("[MerchantController] GetAllMerchants - 2: %v", err)
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"message": "Failed to get merchants",
+				"message": "Failed to get merchants by keeper id",
 			})
 		}
 
@@ -117,7 +117,7 @@ func (m *merchantController) GetAllMerchants(c *fiber.Ctx) error {
 			})
 		}
 
-		keeperNames, err := m.merchantUsecase.GetKeeperName(c.Context(), req.KeeperID)
+		keeperNames, err := m.merchantUsecase.GetKeeperName(c.Context(), merchant.KeeperID)
 		if err != nil {
 			log.Errorf("[MerchantController] GetAllMerchants - 3: %v", err)
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
@@ -181,9 +181,9 @@ func (m *merchantController) GetAllMerchants(c *fiber.Ctx) error {
 
 	merchants, total, err := m.merchantUsecase.GetAllMerchants(c.Context(), req.Page, req.Limit, req.Search, req.SortBy, req.SortOrder)
 	if err != nil {
-		log.Errorf("[MerchantController] GetAllMerchants - 2: %v", err)
+		log.Errorf("[MerchantController] GetAllMerchants - 4: %v", err)
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"message": "Failed to get merchants",
+			"message": "Failed to get all merchants",
 		})
 	}
 
@@ -191,7 +191,7 @@ func (m *merchantController) GetAllMerchants(c *fiber.Ctx) error {
 	if len(merchants) == 0 {
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 			"message":    "No merchants found",
-			"data":       nil,
+			"data":       []response.MerchantResponse{},
 			"pagination": paginationInfo,
 		})
 	}
@@ -200,7 +200,7 @@ func (m *merchantController) GetAllMerchants(c *fiber.Ctx) error {
 	for _, merchant := range merchants {
 		keeperName, err := m.merchantUsecase.GetKeeperName(c.Context(), merchant.KeeperID)
 		if err != nil {
-			log.Errorf("[MerchantController] GetAllMerchants - 3: %v", err)
+			log.Errorf("[MerchantController] GetAllMerchants - 5: %v", err)
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"message": "Failed to get keeper name",
 			})
