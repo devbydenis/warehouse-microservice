@@ -77,6 +77,6 @@ func NewUserCLient(cfg configs.Config) UserClientInterface {
 		httpClient: &http.Client{
 			Timeout: 30 * time.Second,
 		},
-		urlUserService: cfg.App.UrlProductService,
+		urlUserService: cfg.App.UrlUserService,
 	}
 }
