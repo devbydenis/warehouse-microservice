@@ -15,7 +15,7 @@ const (
 )
 
 const (
-	PaymentMEthodQRIS = "qris"
+	PaymentMethodQRIS = "qris"
 )
 
 const (
