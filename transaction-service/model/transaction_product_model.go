@@ -21,7 +21,7 @@ type TransactionProduct struct {
 	ProductName          string `json:"product_name" gorm:"-"`
 	ProductPhoto         string `json:"product_photo" gorm:"-"`
 	ProductAbout         string `json:"product_about" gorm:"-"`
-	ProductCategoryID    string `json:"product_category_id" gorm:"-"`
+	ProductCategoryID    uint `json:"product_category_id" gorm:"-"`
 	ProductCategoryName  string `json:"product_category_name" gorm:"-"`
 	ProductCategoryPhoto string `json:"product_category_photo" gorm:"-"`
 

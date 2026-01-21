@@ -57,7 +57,7 @@ func (m *MerchantCLient) GetMerchantByID(ctx context.Context, merchantID uint) (
 	var response struct {
 		Data Merchant `json:"data"`
 	}
-	
+
 	if err := json.Unmarshal(body, &response); err != nil {
 		log.Errorf("[MerchantCLient] GetMerchantByID - 5: %v", err)
 		return nil, err
@@ -99,7 +99,7 @@ func (m *MerchantCLient) GetMerchantProductStock(ctx context.Context, merchantID
 		Data MerchantProduct `json:"data"`
 	}
 
-		if err := json.Unmarshal(body, &response); err != nil {
+	if err := json.Unmarshal(body, &response); err != nil {
 		log.Errorf("[MerchantCLient] GetMerchantProductStock - 5: %v", err)
 		return nil, err
 	}
@@ -110,7 +110,7 @@ func (m *MerchantCLient) GetMerchantProductStock(ctx context.Context, merchantID
 // GetMerchantProducts implements [MerchantClientInterface].
 func (m *MerchantCLient) GetMerchantProducts(ctx context.Context, merchantID uint) ([]MerchantProduct, error) {
 	url := fmt.Sprintf("%s/api/v1/merchant-products?merchant_id=%d", m.urlMerchantService, merchantID)
-	
+
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
 	if err != nil {
 		log.Errorf("[MerchantClient] GetMerchantProducts - 1: %v", err)
@@ -140,7 +140,7 @@ func (m *MerchantCLient) GetMerchantProducts(ctx context.Context, merchantID uin
 		Data []MerchantProduct `json:"data"`
 	}
 
-		if err := json.Unmarshal(body, &response); err != nil {
+	if err := json.Unmarshal(body, &response); err != nil {
 		log.Errorf("[MerchantCLient] GetMerchantProducts - 5: %v", err)
 		return nil, err
 	}
@@ -181,7 +181,7 @@ func (m *MerchantCLient) GetMerchantsByKeeperID(ctx context.Context, keeperID ui
 		Data []Merchant `json:"data"`
 	}
 
-		if err := json.Unmarshal(body, &response); err != nil {
+	if err := json.Unmarshal(body, &response); err != nil {
 		log.Errorf("[MerchantCLient] GetMerchantsByKeeperID - 5: %v", err)
 		return nil, err
 	}
@@ -201,12 +201,12 @@ type MerchantProduct struct {
 	ID                   uint   `json:"id"`
 	MerchantID           uint   `json:"merchant_id"`
 	ProductID            uint   `json:"product_id"`
-	ProductName          uint   `json:"product_name"`
-	ProductAbout         uint   `json:"product_about"`
-	ProductPhoto         uint   `json:"product_photo"`
+	ProductName          string `json:"product_name"`
+	ProductAbout         string `json:"product_about"`
+	ProductPhoto         string `json:"product_photo"`
 	ProductPrice         uint   `json:"product_price"`
-	ProductCategory      uint   `json:"product_category"`
-	ProductCategoryPhoto uint   `json:"product_category_photo"`
+	ProductCategory      string `json:"product_category"`
+	ProductCategoryPhoto string `json:"product_category_photo"`
 	Stock                int    `json:"stock"`
 	WarehouseID          uint   `json:"warehouse_id"`
 	WarehouseName        string `json:"warehouse_name"`
