@@ -25,10 +25,10 @@ type TransactionUsecaseInterface interface {
 
 type transactionUsecase struct {
 	transactionRepo repository.TransactionRepositoryInterface
-	merchantClient  *httpclient.MerchantCLient
+	merchantClient  httpclient.MerchantClientInterface
 	rabbitMQService *rabbitmq.RabbitMQService
-	productClient   *httpclient.ProductClient
-	userClient      *httpclient.UserClient
+	productClient   httpclient.ProductClientInterface
+	userClient      httpclient.UserClientInterface
 }
 
 // CreateTransaction implements [TransactionUsecaseInterface].
@@ -147,10 +147,10 @@ func (t *transactionUsecase) UpdatePaymentStatus(ctx context.Context, orderID st
 
 func NewTransactionUsecase(
 	transactionRepo repository.TransactionRepositoryInterface,
-	merchantClient *httpclient.MerchantCLient,
+	merchantClient httpclient.MerchantClientInterface,
 	rabbitMQService *rabbitmq.RabbitMQService,
-	productClient *httpclient.ProductClient,
-	userClient *httpclient.UserClient,
+	productClient httpclient.ProductClientInterface,
+	userClient httpclient.UserClientInterface,
 ) TransactionUsecaseInterface {
 	return &transactionUsecase{
 		transactionRepo: transactionRepo,
@@ -173,7 +173,7 @@ func (tu *transactionUsecase) validateProductStocks(ctx context.Context, transac
 		// check if available stock is sufficent
 		if merchantProduct.Stock < int(product.Quantity) {
 			log.Errorf("[TransactionUsecase] validateProductStocks - 4: insufficient stock for product %d. Required: %d, Available: %d", product.ProductID, product.Quantity, merchantProduct.Stock)
-				return fmt.Errorf("stock tidak mencukupi untuk product '%s'. Dibutuhkan: %d, Tersedia: %d",
+			return fmt.Errorf("stock tidak mencukupi untuk product '%s'. Dibutuhkan: %d, Tersedia: %d",
 				merchantProduct.ProductName, product.Quantity, merchantProduct.Stock)
 		}
 
@@ -243,7 +243,7 @@ func (tu *transactionUsecase) enrichTransactionWithMerchantData(ctx context.Cont
 		return err
 	}
 
-	transaction.MerchantName = merchant.Name 
+	transaction.MerchantName = merchant.Name
 
 	return nil
 }

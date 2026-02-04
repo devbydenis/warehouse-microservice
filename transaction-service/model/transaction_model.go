@@ -30,7 +30,7 @@ type Transaction struct {
 	Phone        string `json:"phone" gorm:"type:varchar(20);not null"`
 	Email        string `json:"email" gorm:"type:varchar(255)"`
 	Address      string `json:"address" gorm:"type:text"`
-	Subtotal     int64  `json:"sub_total" gorm:"type:bigint;not null"`
+	SubTotal     int64  `json:"sub_total" gorm:"type:bigint;not null"`
 	TaxTotal     int64  `json:"tax_total" gorm:"type:bigint;not null"`
 	GrandTotal   int64  `json:"grand_total" gorm:"type:bigint;not null"`
 	MerchantID   uint   `json:"merchant_id" gorm:"type:bigint;not null"`

@@ -242,6 +242,12 @@ func (t *transactionRepository) UpdatePaymentStatus(ctx context.Context, orderID
 		log.Errorf("[TransactionRepository] UpdatePaymentStatus - 1: %v", ctx.Err())
 		return ctx.Err()
 	default:
+		
+		if err := t.db.WithContext(ctx).Model(&model.Transaction{}).Where("order_id = ?", orderID).First(&model.Transaction{}).Error; err != nil {
+			log.Errorf("[TransactionRepository] UpdatePaymentStatus - 2: %v", err)
+			return err
+		}
+
 		updates := map[string]interface{}{
 			"payment_status": paymentStatus,
 		}
@@ -263,7 +269,7 @@ func (t *transactionRepository) UpdatePaymentStatus(ctx context.Context, orderID
 			Updates(updates).Error
 
 		if err != nil {
-			log.Errorf("[TransactionRepository] UpdatePaymentStatus - 2: %v", err)
+			log.Errorf("[TransactionRepository] UpdatePaymentStatus - 3: %v", err)
 			return err
 		}
 

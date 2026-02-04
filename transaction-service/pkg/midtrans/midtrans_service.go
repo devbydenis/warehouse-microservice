@@ -15,8 +15,8 @@ type MidtransServiceInterface interface {
 type TransactionItem struct {
 	ID       string `json:"id"`
 	Name     string `json:"name"`
-	Price    int    `json:"price"`
-	Quantity int    `json:"quantity"`
+	Price    int64  `json:"price"`
+	Quantity int64  `json:"quantity"`
 }
 
 type CreateTransactionRequest struct {
