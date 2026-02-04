@@ -43,12 +43,20 @@ type Supabase struct {
 	Bucket string `json:"bucket"`
 }
 
+type Midtrans struct {
+	ServerKey    string `json:"server_key"`
+	ClientKey    string `json:"client_key"`
+	MerchantID   string `json:"merchant_id"`
+	IsProduction bool   `json:"is_production"`
+}
+
 type Config struct {
 	App      App      `json:"app"`
 	SqlDB    SqlDB    `json:"sql_db"`
 	Redis    Redis    `json:"redis"`
 	RabbitMQ RabbitMQ `json:"rabbitmq"`
 	Supabase Supabase `json:"supabase"`
+	Midtrans Midtrans `json:"midtrans"`
 }
 
 func (r *RabbitMQ) URL() string {
@@ -87,6 +95,12 @@ func NewConfig() *Config {
 			Url:    viper.GetString("SUPABASE_URL"),
 			Key:    viper.GetString("SUPABASE_KEY"),
 			Bucket: viper.GetString("SUPABASE_BUCKET"),
+		},
+		Midtrans: Midtrans{
+			ServerKey:    viper.GetString("MIDTRANS_SERVER_KEY"),
+			ClientKey:    viper.GetString("MIDTRANS_CLIENT_KEY"),
+			MerchantID:   viper.GetString("MIDTRANS_MERCHANT_ID"),
+			IsProduction: viper.GetBool("MIDTRANS_IS_PRODUCTION"),
 		},
 	}
 }
