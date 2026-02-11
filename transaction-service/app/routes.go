@@ -7,11 +7,11 @@ func SetupRoutes(app *fiber.App, container *Container) {
 
 	api := app.Group("/api/v1")
 
-	dashboard := api.Group("/dashboard")
+	dashboard := api.Group("/dashboards")
 	dashboard.Get("/manager", container.TransactionController.GetManagerDashboard)
 	dashboard.Get("/keeper/merchant/:merchant_id", container.TransactionController.GetDashboardByMerchant)
 
-	transaction := api.Group("/transaction")
+	transaction := api.Group("/transactions")
 	transaction.Post("/", container.TransactionController.CreateTransaction)
 	transaction.Get("/", container.TransactionController.GetTransactions)
 }
