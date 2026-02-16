@@ -43,7 +43,7 @@ func (m *MerchantCLient) GetMerchantByID(ctx context.Context, merchantID uint) (
 
 	defer resp.Body.Close()
 
-	body, err := io.ReadAll(req.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		log.Errorf("[MerchantClient] GetMerchantByID - 3: %v", err)
 		return nil, err
@@ -96,7 +96,9 @@ func (m *MerchantCLient) GetMerchantProductStock(ctx context.Context, merchantID
 	}
 
 	var response struct {
-		Data MerchantProduct `json:"data"`
+		Data struct {
+			MerchantProducts []MerchantProduct `json:"merchant_products"`
+		} `json:"data"`
 	}
 
 	if err := json.Unmarshal(body, &response); err != nil {
@@ -104,7 +106,14 @@ func (m *MerchantCLient) GetMerchantProductStock(ctx context.Context, merchantID
 		return nil, err
 	}
 
-	return &response.Data, nil
+	for _, product := range response.Data.MerchantProducts {
+		if product.ProductID == productID {
+			log.Infof("[MerchantCLient] GetMerchantProductStock - Found product %d with stock %d", productID, product.Stock)
+			return &product, nil
+		}
+	}
+
+	return nil, errors.New("product not found")
 }
 
 // GetMerchantProducts implements [MerchantClientInterface].
