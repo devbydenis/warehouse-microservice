@@ -126,7 +126,7 @@ func (t *transactionController) GetDashboardByMerchant(c *fiber.Ctx) error {
 	merchantIDStr := c.Params("merchant_id")
 	merchantID := conv.StringToUint(merchantIDStr)
 
-	totalRevenue, totalTransactions, productsSold, err := t.transactionUsecase.GetDashboardStatsByMerchant(ctx, 1, merchantID) // kita kasih default 1 dulu
+	totalRevenue, totalTransactions, productsSold, err := t.transactionUsecase.GetDashboardStatsByMerchant(ctx, 4, merchantID) // kita kasih default 4 dulu. nanti implemntasi lengkapnya ada di api gateway
 	if err != nil {
 		log.Errorf("[TransactionController] GetDashboardByMerchant - 1: %v", err)
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
@@ -156,7 +156,7 @@ func (t *transactionController) GetDashboardByMerchant(c *fiber.Ctx) error {
 func (t *transactionController) GetManagerDashboard(c *fiber.Ctx) error {
 	ctx := c.Context()
 
-	totalRevenue, totalTransactions, productsSold, err := t.transactionUsecase.GetDashboardStats(ctx, 1)
+	totalRevenue, totalTransactions, productsSold, err := t.transactionUsecase.GetDashboardStats(ctx, 5) // --> this is id of manager (still dummy data based on list users)
 	if err != nil {
 		log.Errorf("[TransactionController] GetManagerDashboard - 1: %v", err)
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
