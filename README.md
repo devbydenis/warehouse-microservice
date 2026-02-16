@@ -71,6 +71,9 @@ The system follows a microservice architecture pattern where each service is ind
 - **Database**: PostgreSQL 15+
 - **Storage**: [Supabase Storage](https://supabase.com/storage) - For image and file uploads
 - **Containerization**: Docker & Docker Compose
+- **Message Broker**: [RabbitMQ](https://www.rabbitmq.com/) - For inter-service communication
+- **Cache**: [Redis](https://redis.io/) - For caching
+- **Payment Gateway**: [Midtrans](https://midtrans.com/) - For payment processing
 
 ### Additional Tools
 
@@ -83,7 +86,7 @@ The system follows a microservice architecture pattern where each service is ind
 
 Before running this project, ensure you have the following installed:
 
-- Go 1.21 or higher
+- Go 1.23 or higher
 - Docker & Docker Compose
 - PostgreSQL 15+ (if running locally without Docker)
 - Git
@@ -362,11 +365,11 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Contact
 
 For questions or support, please contact:
-- Email: hello.denisrahmadi@example.com
+- Email: hello.denisrahmadi@gmail.com
 - GitHub Issues: [Project Issues](https://github.com/devbydenis/warehouse-microservice/issues)
 
 ---
 
 **Status**: 🚧 Under Active Development
 
-Last Updated: October 2025
+Last Updated: February 2026
