@@ -34,19 +34,19 @@ type transactionUsecase struct {
 // CreateTransaction implements [TransactionUsecaseInterface].
 func (t *transactionUsecase) CreateTransaction(ctx context.Context, transaction model.Transaction) (int64, error) {
 	if err := t.validateProductStocks(ctx, transaction); err != nil {
-		log.Errorf("[Transaction] CreateTransaction - 1: %v", err)
+		log.Errorf("[TransactionUsecase] CreateTransaction - 1: %v", err)
 		return 0, err
 	}
 
 	transactionID, err := t.transactionRepo.CreateTransaction(ctx, transaction)
 	if err != nil {
-		log.Errorf("[Transaction] CreateTransaction - 2: %v", err)
+		log.Errorf("[TransactionUsecase] CreateTransaction - 2: %v", err)
 		return 0, err
 	}
 
 	go func() {
 		if err := t.publishStockReducedEvent(ctx, transaction); err != nil {
-			log.Errorf("[Transaction] CreateTransaction CreateTransaction - 3: %v", err)
+			log.Errorf("[TransactionUsecase] CreateTransaction CreateTransaction - 3: %v", err)
 		}
 	}()
 
