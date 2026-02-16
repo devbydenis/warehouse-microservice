@@ -200,8 +200,7 @@ func (t *transactionRepository) GetTransactions(ctx context.Context, page int, l
 		offset := (page - 1) * limit
 
 		baseSql := t.db.WithContext(ctx).Model(&model.Transaction{}).
-			Preload("TransactionProducts").
-			Preload("Merchant")
+			Preload("TransactionProducts")
 
 		if search != "" {
 			searchTerm := "%" + search + "%"
