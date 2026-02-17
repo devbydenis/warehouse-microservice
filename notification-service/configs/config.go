@@ -1,0 +1,95 @@
+package configs
+
+import (
+	"fmt"
+
+	"github.com/spf13/viper"
+)
+
+type App struct {
+	AppPort string `json:"app_port"`
+	AppEnv  string `json:"app_env"`
+}
+
+type SqlDB struct {
+	Host           string `json:"host"`
+	Port           string `json:"port"`
+	User           string `json:"user"`
+	Password       string `json:"password"`
+	DBName         string `json:"db_name"`
+	DBMaxOpenConns int    `json:"db_max_open_conns"`
+	DBMaxIdleConns int    `json:"db_max_idle_conns"`
+}
+
+type Redis struct {
+	Host string `json:"host"`
+	Port string `json:"port"`
+}
+
+type RabbitMQ struct {
+	Host     string `json:"host"`
+	Port     string `json:"port"`
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
+
+type Supabase struct {
+	Url    string `json:"url"`
+	Key    string `json:"key"`
+	Bucket string `json:"bucket"`
+}
+
+type Email struct {
+	Host     string `json:"host"`
+	Port     int    `json:"port"`
+	User     string `json:"user"`
+	Password string `json:"password"`
+	From     string `json:"from"`
+}
+
+func (r *RabbitMQ) URL() string {
+	return fmt.Sprintf("amqp://%s:%s@%s:%s/", r.Username, r.Password, r.Host, r.Port)
+}
+
+type Config struct {
+	App      App      `json:"app"`
+	SqlDB    SqlDB    `json:"sql_db"`
+	Redis    Redis    `json:"redis"`
+	RabbitMQ RabbitMQ `json:"rabbitmq"`
+	Email    Email    `json:"email"`
+}
+
+func NewConfig() *Config {
+	return &Config{
+		App: App{
+			AppPort: viper.GetString("APP_PORT"),
+			AppEnv:  viper.GetString("APP_ENV"),
+		},
+		SqlDB: SqlDB{
+			Host:           viper.GetString("DATABASE_HOST"),
+			Port:           viper.GetString("DATABASE_PORT"),
+			User:           viper.GetString("DATABASE_USER"),
+			Password:       viper.GetString("DATABASE_PASSWORD"),
+			DBName:         viper.GetString("DATABASE_DB_NAME"),
+			DBMaxOpenConns: viper.GetInt("DATABASE_DB_MAX_OPEN_CONNECTION"),
+			DBMaxIdleConns: viper.GetInt("DATABASE_DB_MAX_IDLE_CONNECTION"),
+		},
+		Redis: Redis{
+			Host: viper.GetString("REDIS_HOST"),
+			Port: viper.GetString("REDIS_PORT"),
+		},
+		RabbitMQ: RabbitMQ{
+			Host:     viper.GetString("RABBITMQ_HOST"),
+			Port:     viper.GetString("RABBITMQ_PORT"),
+			Username: viper.GetString("RABBITMQ_USERNAME"),
+			Password: viper.GetString("RABBITMQ_PASSWORD"),
+		},
+		Email: Email{
+			Host:     viper.GetString("EMAIL_HOST"),
+			Port:     viper.GetInt("EMAIL_PORT"),
+			User:     viper.GetString("EMAIL_USER"),
+			Password: viper.GetString("EMAIL_PASSWORD"),
+			From:     viper.GetString("EMAIL_FROM"),
+		},
+	}
+}
