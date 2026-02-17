@@ -22,6 +22,7 @@ type EmailPayload struct {
 	Type     string `json:"type"`
 	UserId   string `json:"user_id"`
 	Name     string `json:"name"`
+	AppURL   string `json:"app_url"` // URL aplikasi untuk tombol login
 }
 
 type emailService struct {
@@ -35,6 +36,11 @@ func (e *emailService) SendCustomEmail(ctx context.Context, to string, subject s
 		return fmt.Errorf("email configuration is incomplete: Host=%s, User=%s", e.cfg.Email.Host, e.cfg.Email.User)
 	}
 
+	// Validasi port
+	if e.cfg.Email.Port <= 0 {
+		return fmt.Errorf("email configuration is invalid: Port=%d", e.cfg.Email.Port)
+	}
+
 	m := gomail.NewMessage()
 	m.SetHeader("From", e.cfg.Email.From)
 	m.SetHeader("To", to)
@@ -45,7 +51,7 @@ func (e *emailService) SendCustomEmail(ctx context.Context, to string, subject s
 
 	if err := d.DialAndSend(m); err != nil {
 		log.Errorf("[EmailService] SendCustomEmail - 2: %v", err)
-		return fmt.Errorf("failed to send email: %v", err)
+		return fmt.Errorf("failed to send email: %w", err)
 	}
 
 	return nil
@@ -53,6 +59,11 @@ func (e *emailService) SendCustomEmail(ctx context.Context, to string, subject s
 
 // SendWelcomeEmail implements [EmailServiceInterface].
 func (e *emailService) SendWelcomeEmail(ctx context.Context, payload EmailPayload) error {
+	// Set default AppURL jika tidak disediakan
+	if payload.AppURL == "" {
+		payload.AppURL = "http://localhost:3000" // Default URL untuk development
+	}
+
 	subject := "Selamat Datang di Warehouse Management"
 	htmlTemplate := `
 	<!DOCTYPE html>
@@ -94,20 +105,20 @@ func (e *emailService) SendWelcomeEmail(ctx context.Context, payload EmailPayloa
 	tmpl, err := template.New("welcome").Parse(htmlTemplate)
 	if err != nil {
 		log.Errorf("[EmailService] SendWelcomeEmail - 1: %v", err)
-		return fmt.Errorf("failed to parse email template: %v", err)
+		return fmt.Errorf("failed to parse email template: %w", err)
 	}
 
 	var body strings.Builder
 	err = tmpl.Execute(&body, payload)
 	if err != nil {
 		log.Errorf("[EmailService] SendWelcomeEmail - 2: %v", err)
-		return fmt.Errorf("failed to execute email template: %v", err)
+		return fmt.Errorf("failed to execute email template: %w", err)
 	}
 
 	err = e.SendCustomEmail(ctx, payload.Email, subject, body.String())
 	if err != nil {
 		log.Errorf("[EmailService] SendWelcomeEmail - 3: %v", err)
-		return fmt.Errorf("failed to send welcome email: %v", err)
+		return fmt.Errorf("failed to send welcome email: %w", err)
 	}
 
 	return nil

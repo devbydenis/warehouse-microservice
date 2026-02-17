@@ -56,7 +56,11 @@ func RunServer() {
 		Format: "[${time} ${ip} ${status} - ${latency}] ${method} ${path}\n",
 	}))
 
-	BuildContainer(rabbitMQService, emailService)
+	container := BuildContainer(rabbitMQService, emailService)
+
+	// Register routes
+	app.Post("/send-email", container.EmailController.SendEmail)
+	app.Post("/send-welcome-email", container.EmailController.SendWelcomeEmail)
 
 	port := cfg.App.AppPort
 	if port == "" {

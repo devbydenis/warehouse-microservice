@@ -6,7 +6,10 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/log"
+	"github.com/go-playground/validator/v10"
 )
+
+var validate = validator.New()
 
 type EmailController struct {
 	emailUsecase *usecase.EmailUsecase
@@ -24,6 +27,15 @@ func (e *EmailController) SendEmail(c *fiber.Ctx) error {
 		log.Errorf("[EmailController] SendEmail - 1: %v", err)
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"message": "Invalid request body",
+		})
+	}
+
+	// Validasi request
+	if err := validate.Struct(&req); err != nil {
+		log.Errorf("[EmailController] SendEmail - validation: %v", err)
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Validation failed",
+			"errors":  err.Error(),
 		})
 	}
 
@@ -45,6 +57,15 @@ func (e *EmailController) SendWelcomeEmail(c *fiber.Ctx) error {
 		log.Errorf("[EmailController] SendWelcomeEmail - 1: %v", err)
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"message": "Invalid request body",
+		})
+	}
+
+	// Validasi request
+	if err := validate.Struct(&req); err != nil {
+		log.Errorf("[EmailController] SendWelcomeEmail - validation: %v", err)
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Validation failed",
+			"errors":  err.Error(),
 		})
 	}
 
