@@ -2,6 +2,7 @@ package app
 
 import (
 	"micro-warehouse/transaction-service/configs"
+	middlewareGateway "micro-warehouse/transaction-service/middleware"
 
 	"context"
 	"os"
@@ -14,7 +15,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
-	
+
 	zerolog "github.com/rs/zerolog/log"
 )
 
@@ -34,6 +35,7 @@ func RunServer() {
 		Format: "[${time} ${ip} ${status} - ${latency} ${method} ${path}\n",
 	}))
 
+	app.Use(middlewareGateway.GatewayAuth())
 	container := BuildContainer()
 	SetupRoutes(app, container)
 

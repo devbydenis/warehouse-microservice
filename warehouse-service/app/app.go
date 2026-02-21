@@ -2,6 +2,7 @@ package app
 
 import (
 	"micro-warehouse/warehouse-service/configs"
+	middlewareGateway "micro-warehouse/warehouse-service/middleware"
 
 	"context"
 	"os"
@@ -33,6 +34,7 @@ func RunServer() {
 		Format: "[${time} ${ip} ${status} - ${latency} ${method} ${path}\n",
 	}))
 
+	app.Use(middlewareGateway.GatewayAuth())
 	container := BuildContainer()
 	SetupRoutes(app, container)
 

@@ -47,7 +47,8 @@ func (a *AuthController) Login(c *fiber.Ctx) error {
 	}
 
 	if user == nil {
-		log.Errorf("[AuthController.Login] Login - 4: %v", err.Error())
+		// log.Errorf("[AuthController.Login] Login - 4: %v", err.Error())
+		log.Errorf("[AuthController.Login] Login - 4: %v", "user didn't exist")
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 			"message": "User not found",
 		})
@@ -55,7 +56,8 @@ func (a *AuthController) Login(c *fiber.Ctx) error {
 
 	isValidPassword := conv.CheckPasswordHash(loginRequest.Password, user.Password)
 	if !isValidPassword {
-		log.Errorf("[AuthController.Login] Login - 5: %v", err.Error())
+		// log.Errorf("[AuthController.Login] Login - 5: %v", err.Error())
+		log.Errorf("[AuthController.Login] Login - 5: %v", "email or password not valid")
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
 			"message": "Invalid email or password",
 		})
