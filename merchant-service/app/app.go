@@ -5,6 +5,7 @@ import (
 	"micro-warehouse/merchant-service/database"
 	"micro-warehouse/merchant-service/pkg/rabbitmq"
 	"micro-warehouse/merchant-service/repository"
+	middlewareGateway "micro-warehouse/merchant-service/middleware"
 
 	"context"
 	"os"
@@ -35,7 +36,8 @@ func RunServer() {
 	app.Use(logger.New(logger.Config{
 		Format: "[${time} ${ip} ${status} - ${latency} ${method} ${path}\n",
 	}))
-
+	app.Use(middlewareGateway.GatewayAuth())
+	
 	container := BuildContainer()
 	SetupRoutes(app, container)
 

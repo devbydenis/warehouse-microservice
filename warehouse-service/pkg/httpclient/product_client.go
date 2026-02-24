@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io"
 	"micro-warehouse/warehouse-service/configs"
+	"micro-warehouse/warehouse-service/pkg/jwt"
 	"net/http"
 	"time"
 
@@ -22,21 +23,36 @@ type ProductClientInterface interface {
 type ProductClient struct {
 	urlProductService string
 	httpClient        *http.Client
+	config            configs.Config
+}
+
+func (pc *ProductClient) generateInternalToken() (string, error) {
+	return jwt.GenerateInternalToken(pc.config)
 }
 
 // GetProductByID implements ProductClientInterface.
 func (p *ProductClient) GetProductByID(ctx context.Context, productID uint) (*ProductResponse, error) {
 	url := fmt.Sprintf("%s/api/v1/products/%d", p.urlProductService, productID)
 
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
+	token, err := p.generateInternalToken()
 	if err != nil {
 		log.Errorf("[ProductClient] - GetProductByID - 1: %v", err)
 		return nil, err
 	}
-	
-	resp, err := p.httpClient.Do(req)
+
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
 	if err != nil {
 		log.Errorf("[ProductClient] - GetProductByID - 2: %v", err)
+		return nil, err
+	}
+	
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Authorization", "Bearer " + token)
+	req.Header.Set("X-Internal-Request", "true")
+
+	resp, err := p.httpClient.Do(req)
+	if err != nil {
+		log.Errorf("[ProductClient] - GetProductByID - 3: %v", err)
 		return nil, err
 	}
 
@@ -44,18 +60,18 @@ func (p *ProductClient) GetProductByID(ctx context.Context, productID uint) (*Pr
 
 	body, err := io.ReadAll(resp.Body) 
 	if err != nil {
-			log.Errorf("[ProductClient] - GetProductByID - 3: %v", err)
+			log.Errorf("[ProductClient] - GetProductByID - 4: %v", err)
 			return nil, err
 	}
 	
 	if resp.StatusCode != http.StatusOK {
-		log.Errorf("[ProductClient] - GetProductByID - 4: %s", string(body))
+		log.Errorf("[ProductClient] - GetProductByID - 5: %s", string(body))
 		return nil, errors.New("failed to get product by id")
 	}
 
 	var productResponse ProductServiceResponse
 	if err := json.Unmarshal(body, &productResponse); err != nil {
-		log.Errorf("[ProductClient] - GetProductByID - 5: %v", err)
+		log.Errorf("[ProductClient] - GetProductByID - 6: %v", err)
 		return nil, err
 	}
 
@@ -157,5 +173,6 @@ func NewProductClient(cfg configs.Config) ProductClientInterface {
 			Timeout: 30 * time.Second,
 		},
 		urlProductService: cfg.App.UrlProductService,
+		config:            cfg,
 	}
 }

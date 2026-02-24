@@ -11,6 +11,10 @@ type App struct {
 	AppEnv  string `json:"app_env"`
 
 	UrlProductService string `json:"url_product_service"`
+
+	JwtSecretKey string `json:"jwt_secret_key"`
+	JwtIssuer    string `json:"jwt_issuer"`
+	JwtDuration  int    `json:"jwt_duration"`
 }
 
 type SqlDB struct {
@@ -56,9 +60,12 @@ func (r *RabbitMQ) URL() string {
 func NewConfig() *Config {
 	return &Config{
 		App: App{
-			AppPort: viper.GetString("APP_PORT"),
-			AppEnv:  viper.GetString("APP_ENV"),
+			AppPort:           viper.GetString("APP_PORT"),
+			AppEnv:            viper.GetString("APP_ENV"),
 			UrlProductService: viper.GetString("URL_PRODUCT_SERVICE"),
+			JwtSecretKey:      viper.GetString("JWT_SECRET_KEY"),
+			JwtIssuer:         viper.GetString("JWT_ISSUER"),
+			JwtDuration:       viper.GetInt("JWT_DURATION"),
 		},
 		SqlDB: SqlDB{
 			Host:           viper.GetString("DATABASE_HOST"),
