@@ -10,6 +10,10 @@ type App struct {
 
 	UrlMerchantService  string `json:"url_merchant_service"`
 	UrlWarehouseService string `json:"url_warehouse_service"`
+
+	JwtSecretKey string `json:"jwt_secret_key"`
+	JwtDuration  int    `json:"jwt_duration"`
+	JwtIssuer    string `json:"jwt_issuer"`
 }
 
 type SqlDB struct {
@@ -55,6 +59,9 @@ func NewConfig() *Config {
 			AppEnv:              viper.GetString("APP_ENV"),
 			UrlMerchantService:  viper.GetString("URL_MERCHANT_SERVICE"),
 			UrlWarehouseService: viper.GetString("URL_WAREHOUSE_SERVICE"),
+			JwtSecretKey:        viper.GetString("JWT_SECRET_KEY"),
+			JwtIssuer:           viper.GetString("JWT_ISSUER"),
+			JwtDuration:         viper.GetInt("JWT_DURATION"),
 		},
 		SqlDB: SqlDB{
 			Host:           viper.GetString("DATABASE_HOST"),

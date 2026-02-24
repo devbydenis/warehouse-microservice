@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io"
 	"micro-warehouse/merchant-service/configs"
+	"micro-warehouse/merchant-service/pkg/jwt"
 	"net/http"
 	"time"
 
@@ -21,21 +22,36 @@ type WarehouseClientInterface interface {
 type WarehouseCLient struct {
 	urlWarehouseService string
 	httpClient          *http.Client
+	config              configs.Config
+}
+
+func (w *WarehouseCLient) generateInternalToken() (string, error) {
+	return jwt.GenerateInternalToken(w.config)
 }
 
 // GetWarehouseByID implements WarehouseClientInterface.
 func (w *WarehouseCLient) GetWarehouseByID(ctx context.Context, warehouseID uint) (*WarehouseResponse, error) {
 	url := fmt.Sprintf("%s/api/v1/warehouses/%d", w.urlWarehouseService, warehouseID)
 
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
+	token, err := w.generateInternalToken()
 	if err != nil {
 		log.Errorf("[WarehouseClient] - GetWarehouseByID - 1: %v", err)
 		return nil, err
 	}
 
-	resp, err := w.httpClient.Do(req)
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
 	if err != nil {
 		log.Errorf("[WarehouseClient] - GetWarehouseByID - 2: %v", err)
+		return nil, err
+	}
+
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Authorization", "Bearer "+token)
+	req.Header.Set("X-Internal-Request", "true")
+
+	resp, err := w.httpClient.Do(req)
+	if err != nil {
+		log.Errorf("[WarehouseClient] - GetWarehouseByID - 3: %v", err)
 		return nil, err
 	}
 
@@ -43,18 +59,18 @@ func (w *WarehouseCLient) GetWarehouseByID(ctx context.Context, warehouseID uint
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		log.Errorf("[WarehouseClient] - GetWarehouseByID - 3: %v", err)
+		log.Errorf("[WarehouseClient] - GetWarehouseByID - 4: %v", err)
 		return nil, err
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		log.Errorf("[WarehouseClient] - GetWarehouseByID - 4: %s", string(body))
+		log.Errorf("[WarehouseClient] - GetWarehouseByID - 5: %s", string(body))
 		return nil, errors.New("failed to get warehouse by id")
 	}
 
 	var warehouseResponse WarehouseServiceResponse
 	if err := json.Unmarshal(body, &warehouseResponse); err != nil {
-		log.Errorf("[WarehouseClient] - GetWarehouseByID - 5: %v", err)
+		log.Errorf("[WarehouseClient] - GetWarehouseByID - 6: %v", err)
 		return nil, err
 	}
 
@@ -65,32 +81,42 @@ func (w *WarehouseCLient) GetWarehouseByID(ctx context.Context, warehouseID uint
 func (w *WarehouseCLient) GetWarehouseProductStock(ctx context.Context, warehouseID uint, productID uint) (*WarehouseProductStockResponse, error) {
 	url := fmt.Sprintf("%s/api/v1/warehouse-products/%d/detail/%d", w.urlWarehouseService, warehouseID, productID)
 
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
+	token, err := w.generateInternalToken()
 	if err != nil {
 		log.Errorf("[WarehouseClient] - GetWarehouseProductStock - 1: %v", err)
 		return nil, err
 	}
 
-	resp, err := w.httpClient.Do(req)
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
 	if err != nil {
 		log.Errorf("[WarehouseClient] - GetWarehouseProductStock - 2: %v", err)
 		return nil, err
 	}
 
-	body, err := io.ReadAll(resp.Body)
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Authorization", "Bearer "+token)
+	req.Header.Set("X-Internal-Request", "true")
+
+	resp, err := w.httpClient.Do(req)
 	if err != nil {
 		log.Errorf("[WarehouseClient] - GetWarehouseProductStock - 3: %v", err)
 		return nil, err
 	}
 
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		log.Errorf("[WarehouseClient] - GetWarehouseProductStock - 4: %v", err)
+		return nil, err
+	}
+
 	if resp.StatusCode != http.StatusOK {
-		log.Errorf("[WarehouseClient] - GetWarehouseProductStock - 4: %s", string(body))
+		log.Errorf("[WarehouseClient] - GetWarehouseProductStock - 5: %s", string(body))
 		return nil, errors.New("failed to get warehouse product stock")
 	}
 
 	var warehouseProductStockResponse WarehouseProductStockServiceResponse
 	if err := json.Unmarshal(body, &warehouseProductStockResponse); err != nil {
-		log.Errorf("[WarehouseClient] - GetWarehouseProductStock - 5: %v", err)
+		log.Errorf("[WarehouseClient] - GetWarehouseProductStock - 6: %v", err)
 		return nil, err
 	}
 
@@ -130,5 +156,6 @@ func NewWarehouseClient(cfg configs.Config) WarehouseClientInterface {
 			Timeout: 30 * time.Second,
 		},
 		urlWarehouseService: cfg.App.UrlWarehouseService,
+		config:              cfg,
 	}
 }
