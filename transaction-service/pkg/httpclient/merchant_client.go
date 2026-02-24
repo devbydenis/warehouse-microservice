@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io"
 	"micro-warehouse/transaction-service/configs"
+	"micro-warehouse/transaction-service/pkg/jwt"
 	"net/http"
 	"time"
 
@@ -23,21 +24,36 @@ type MerchantClientInterface interface {
 type MerchantCLient struct {
 	urlMerchantService string
 	httpClient         *http.Client
+	config             configs.Config
+}
+
+func (m *MerchantCLient) generateInternalToken() (string, error) {
+	return jwt.GenerateInternalToken(m.config)
 }
 
 // GetMerchantByID implements [MerchantClientInterface].
 func (m *MerchantCLient) GetMerchantByID(ctx context.Context, merchantID uint) (*Merchant, error) {
 	url := fmt.Sprintf("%s/api/v1/merchants/%d", m.urlMerchantService, merchantID)
 
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
+	token, err := m.generateInternalToken()
 	if err != nil {
 		log.Errorf("[MerchantClient] GetMerchantByID - 1: %v", err)
 		return nil, err
 	}
 
-	resp, err := m.httpClient.Do(req)
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
 	if err != nil {
 		log.Errorf("[MerchantClient] GetMerchantByID - 2: %v", err)
+		return nil, err
+	}
+
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Authorization", "Bearer "+token)
+	req.Header.Set("X-Internal-Service", "true")
+
+	resp, err := m.httpClient.Do(req)
+	if err != nil {
+		log.Errorf("[MerchantClient] GetMerchantByID - 3: %v", err)
 		return nil, err
 	}
 
@@ -45,12 +61,12 @@ func (m *MerchantCLient) GetMerchantByID(ctx context.Context, merchantID uint) (
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		log.Errorf("[MerchantClient] GetMerchantByID - 3: %v", err)
+		log.Errorf("[MerchantClient] GetMerchantByID - 4: %v", err)
 		return nil, err
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		log.Errorf("[MerchantClient] GetMerchantByID - 4: %s", string(body))
+		log.Errorf("[MerchantClient] GetMerchantByID - 5: %s", string(body))
 		return nil, errors.New("failed to get merchant by id")
 	}
 
@@ -59,7 +75,7 @@ func (m *MerchantCLient) GetMerchantByID(ctx context.Context, merchantID uint) (
 	}
 
 	if err := json.Unmarshal(body, &response); err != nil {
-		log.Errorf("[MerchantCLient] GetMerchantByID - 5: %v", err)
+		log.Errorf("[MerchantCLient] GetMerchantByID - 6: %v", err)
 		return nil, err
 	}
 
@@ -70,15 +86,25 @@ func (m *MerchantCLient) GetMerchantByID(ctx context.Context, merchantID uint) (
 func (m *MerchantCLient) GetMerchantProductStock(ctx context.Context, merchantID uint, productID uint) (*MerchantProduct, error) {
 	url := fmt.Sprintf("%s/api/v1/merchant-products?merchant_id=%d&product_id=%d", m.urlMerchantService, merchantID, productID)
 
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
+	token, err := m.generateInternalToken()
 	if err != nil {
 		log.Errorf("[MerchantClient] GetMerchantProductStock - 1: %v", err)
 		return nil, err
 	}
 
-	resp, err := m.httpClient.Do(req)
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
 	if err != nil {
 		log.Errorf("[MerchantClient] GetMerchantProductStock - 2: %v", err)
+		return nil, err
+	}
+
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Authorization", "Bearer "+token)
+	req.Header.Set("X-Internal-Service", "true")
+
+	resp, err := m.httpClient.Do(req)
+	if err != nil {
+		log.Errorf("[MerchantClient] GetMerchantProductStock - 3: %v", err)
 		return nil, err
 	}
 
@@ -86,12 +112,12 @@ func (m *MerchantCLient) GetMerchantProductStock(ctx context.Context, merchantID
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		log.Errorf("[MerchantClient] GetMerchantProductStock - 3: %v", err)
+		log.Errorf("[MerchantClient] GetMerchantProductStock - 4: %v", err)
 		return nil, err
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		log.Errorf("[MerchantClient] GetMerchantProductStock - 2: %s", string(body))
+		log.Errorf("[MerchantClient] GetMerchantProductStock - 5: %s", string(body))
 		return nil, errors.New("failed to get merchant product stock")
 	}
 
@@ -102,7 +128,7 @@ func (m *MerchantCLient) GetMerchantProductStock(ctx context.Context, merchantID
 	}
 
 	if err := json.Unmarshal(body, &response); err != nil {
-		log.Errorf("[MerchantCLient] GetMerchantProductStock - 5: %v", err)
+		log.Errorf("[MerchantCLient] GetMerchantProductStock - 6: %v", err)
 		return nil, err
 	}
 
@@ -120,15 +146,25 @@ func (m *MerchantCLient) GetMerchantProductStock(ctx context.Context, merchantID
 func (m *MerchantCLient) GetMerchantProducts(ctx context.Context, merchantID uint) ([]MerchantProduct, error) {
 	url := fmt.Sprintf("%s/api/v1/merchant-products?merchant_id=%d", m.urlMerchantService, merchantID)
 
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
+	token, err := m.generateInternalToken()
 	if err != nil {
 		log.Errorf("[MerchantClient] GetMerchantProducts - 1: %v", err)
 		return nil, err
 	}
 
-	resp, err := m.httpClient.Do(req)
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
 	if err != nil {
 		log.Errorf("[MerchantClient] GetMerchantProducts - 2: %v", err)
+		return nil, err
+	}
+
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Authorization", "Bearer "+token)
+	req.Header.Set("X-Internal-Service", "true")
+
+	resp, err := m.httpClient.Do(req)
+	if err != nil {
+		log.Errorf("[MerchantClient] GetMerchantProducts - 3: %v", err)
 		return nil, err
 	}
 
@@ -136,12 +172,12 @@ func (m *MerchantCLient) GetMerchantProducts(ctx context.Context, merchantID uin
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		log.Errorf("[MerchantClient] GetMerchantProducts - 3: %v", err)
+		log.Errorf("[MerchantClient] GetMerchantProducts - 4: %v", err)
 		return nil, err
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		log.Errorf("[MerchantClient] GetMerchantProducts - 2: %s", string(body))
+		log.Errorf("[MerchantClient] GetMerchantProducts - 5: %s", string(body))
 		return nil, errors.New("failed to get merchant product stock")
 	}
 
@@ -150,7 +186,7 @@ func (m *MerchantCLient) GetMerchantProducts(ctx context.Context, merchantID uin
 	}
 
 	if err := json.Unmarshal(body, &response); err != nil {
-		log.Errorf("[MerchantCLient] GetMerchantProducts - 5: %v", err)
+		log.Errorf("[MerchantCLient] GetMerchantProducts - 6: %v", err)
 		return nil, err
 	}
 
@@ -161,15 +197,25 @@ func (m *MerchantCLient) GetMerchantProducts(ctx context.Context, merchantID uin
 func (m *MerchantCLient) GetMerchantsByKeeperID(ctx context.Context, keeperID uint) ([]Merchant, error) {
 	url := fmt.Sprintf("%s/api/v1/merchants?keeper_id=%d", m.urlMerchantService, keeperID)
 
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
+	token, err := m.generateInternalToken()
 	if err != nil {
 		log.Errorf("[MerchantClient] GetMerchantsByKeeperID - 1: %v", err)
 		return nil, err
 	}
 
-	resp, err := m.httpClient.Do(req)
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
 	if err != nil {
 		log.Errorf("[MerchantClient] GetMerchantsByKeeperID - 2: %v", err)
+		return nil, err
+	}
+
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Authorization", "Bearer "+token)
+	req.Header.Set("X-Internal-Service", "true")
+
+	resp, err := m.httpClient.Do(req)
+	if err != nil {
+		log.Errorf("[MerchantClient] GetMerchantsByKeeperID - 3: %v", err)
 		return nil, err
 	}
 
@@ -177,12 +223,12 @@ func (m *MerchantCLient) GetMerchantsByKeeperID(ctx context.Context, keeperID ui
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		log.Errorf("[MerchantClient] GetMerchantsByKeeperID - 3: %v", err)
+		log.Errorf("[MerchantClient] GetMerchantsByKeeperID - 4: %v", err)
 		return nil, err
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		log.Errorf("[MerchantClient] GetMerchantsByKeeperID - 2: %s", string(body))
+		log.Errorf("[MerchantClient] GetMerchantsByKeeperID - 5: %s", string(body))
 		return nil, errors.New("failed to get merchant product stock")
 	}
 
@@ -191,7 +237,7 @@ func (m *MerchantCLient) GetMerchantsByKeeperID(ctx context.Context, keeperID ui
 	}
 
 	if err := json.Unmarshal(body, &response); err != nil {
-		log.Errorf("[MerchantCLient] GetMerchantsByKeeperID - 5: %v", err)
+		log.Errorf("[MerchantCLient] GetMerchantsByKeeperID - 6: %v", err)
 		return nil, err
 	}
 
@@ -229,5 +275,6 @@ func NewMerchantClient(cfg configs.Config) MerchantClientInterface {
 			Timeout: 30 * time.Second,
 		},
 		urlMerchantService: cfg.App.UrlMerchantService,
+		config:             cfg,
 	}
 }
