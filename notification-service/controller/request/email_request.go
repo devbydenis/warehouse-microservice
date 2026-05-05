@@ -9,6 +9,6 @@ type SendEmailRequest struct {
 type SendWelcomeEmailRequest struct {
 	Email    string `json:"email" validate:"required,email"`
 	Password string `json:"password" validate:"required"`
-	UserId   string `json:"user_id" validate:"required"`
+	UserId   uint   `json:"user_id" validate:"required"`
 	Name     string `json:"name" validate:"required"`
 }
