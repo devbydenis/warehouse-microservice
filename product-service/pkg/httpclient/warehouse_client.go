@@ -15,7 +15,7 @@ import (
 )
 
 type WarehouseClient struct {
-	urlWarehouseService string
+	urlApiGateway string
 	httpClient          *http.Client
 	config              configs.Config
 }
@@ -40,13 +40,13 @@ func NewWarehouseClient(cfg configs.Config) *WarehouseClient {
 		httpClient: &http.Client{
 			Timeout: 30 * time.Second,
 		},
-		urlWarehouseService: cfg.App.UrlWarehouseService,
+		urlApiGateway: cfg.App.UrlApiGateway,
 		config:              cfg,
 	}
 }
 
 func (wc *WarehouseClient) GetProductStockAcrossWarehouses(ctx context.Context, productID uint) (int, error) {
-	url := fmt.Sprintf("%s/api/v1/warehouse-products/detail/products/%d/total-stock", wc.urlWarehouseService, productID)
+	url := fmt.Sprintf("%s/api/v1/warehouse-products/detail/products/%d/total-stock", wc.urlApiGateway, productID)
 
 	token, err := wc.generateInternalToken()
 	if err != nil {
@@ -93,7 +93,7 @@ func (wc *WarehouseClient) GetProductStockAcrossWarehouses(ctx context.Context, 
 }
 
 func (wc *WarehouseClient) DeleteAllProductWarehouseProducts(ctx context.Context, productID uint) error {
-	url := fmt.Sprintf("%s/api/v1/warehouse-products/detail/products/%d", wc.urlWarehouseService, productID)
+	url := fmt.Sprintf("%s/api/v1/warehouse-products/detail/products/%d", wc.urlApiGateway, productID)
 
 	token, err := wc.generateInternalToken()
 	if err != nil {

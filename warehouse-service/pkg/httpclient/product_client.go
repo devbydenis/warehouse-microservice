@@ -21,7 +21,7 @@ type ProductClientInterface interface {
 }
 
 type ProductClient struct {
-	urlProductService string
+	urlApiGateway string
 	httpClient        *http.Client
 	config            configs.Config
 }
@@ -32,7 +32,7 @@ func (pc *ProductClient) generateInternalToken() (string, error) {
 
 // GetProductByID implements ProductClientInterface.
 func (p *ProductClient) GetProductByID(ctx context.Context, productID uint) (*ProductResponse, error) {
-	url := fmt.Sprintf("%s/api/v1/products/%d", p.urlProductService, productID)
+	url := fmt.Sprintf("%s/api/v1/products/%d", p.urlApiGateway, productID)
 
 	token, err := p.generateInternalToken()
 	if err != nil {
@@ -80,7 +80,7 @@ func (p *ProductClient) GetProductByID(ctx context.Context, productID uint) (*Pr
 
 // GetProducts implements ProductClientInterface.
 func (p *ProductClient) GetProducts(ctx context.Context, page int, limit int, search string, sortBy string, sortOrder string) ([]ProductResponse, error) {
-	url := fmt.Sprintf("%s/api/v1/products?page=%d&limit=%d&search=%s&sort_by=%s&sort_order=%s", p.urlProductService, page, limit, search, sortBy, sortOrder)
+	url := fmt.Sprintf("%s/api/v1/products?page=%d&limit=%d&search=%s&sort_by=%s&sort_order=%s", p.urlApiGateway, page, limit, search, sortBy, sortOrder)
 
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
 	if err != nil {
@@ -118,7 +118,7 @@ func (p *ProductClient) GetProducts(ctx context.Context, page int, limit int, se
 
 // HealthCheck implements ProductClientInterface.
 func (p *ProductClient) HealthCheck(ctx context.Context) error {
-	url := fmt.Sprintf("%s/health", p.urlProductService)
+	url := fmt.Sprintf("%s/health", p.urlApiGateway)
 
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
 	if err != nil {
@@ -172,7 +172,7 @@ func NewProductClient(cfg configs.Config) ProductClientInterface {
 		httpClient:        &http.Client{
 			Timeout: 30 * time.Second,
 		},
-		urlProductService: cfg.App.UrlProductService,
+		urlApiGateway: cfg.App.UrlApiGateway,
 		config:            cfg,
 	}
 }
