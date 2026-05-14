@@ -20,6 +20,18 @@ type AuthController struct {
 }
 
 // Login implements AuthControllerInterface.
+// @Summary User Login
+// @Description Login user
+// @Tags Auth
+// @Accept json
+// @Produce json
+// @Param request body request.LoginRequest true "Login Request Body"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 401 {object} map[string]interface{}
+// @Failure 404 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /api/v1/auth/login [post]
 func (a *AuthController) Login(c *fiber.Ctx) error {
 	ctx := c.Context()
 

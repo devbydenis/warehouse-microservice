@@ -16,6 +16,16 @@ type UploadController struct {
 	fileUploadHelper *storage.FileUploadHelper
 }
 
+// @Summary Upload Photo
+// @Description Upload a photo
+// @Tags Upload
+// @Accept multipart/form-data
+// @Produce json
+// @Param image formData file true "Photo"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /api/v1/upload/photo [post]
 func (u *UploadController) UploadPhoto(c *fiber.Ctx) error {
 	file, err := c.FormFile("image")
 	if err != nil {

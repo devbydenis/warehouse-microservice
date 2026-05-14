@@ -25,6 +25,16 @@ type roleController struct {
 }
 
 // CreateRole implements RoleControllerInterface.
+// @Summary Create Role
+// @Description Create a new role
+// @Tags Role
+// @Accept json
+// @Produce json
+// @Param name body string true "Role name"
+// @Success 201 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /api/v1/roles [post]
 func (r *roleController) CreateRole(c *fiber.Ctx) error {
 	ctx := c.Context()
 
@@ -60,6 +70,16 @@ func (r *roleController) CreateRole(c *fiber.Ctx) error {
 }
 
 // DeleteRole implements RoleControllerInterface.
+// @Summary Delete Role
+// @Description Delete a role
+// @Tags Role
+// @Accept json
+// @Produce json
+// @Param id path string true "Role ID"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /api/v1/roles/{id} [delete]
 func (r *roleController) DeleteRole(c *fiber.Ctx) error {
 	ctx := c.Context()
 
@@ -86,6 +106,14 @@ func (r *roleController) DeleteRole(c *fiber.Ctx) error {
 }
 
 // GetAllRoles implements RoleControllerInterface.
+// @Summary Get All Roles
+// @Description Get all roles
+// @Tags Role
+// @Accept json
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /api/v1/roles [get]
 func (r *roleController) GetAllRoles(c *fiber.Ctx) error {
 	ctx := c.Context()
 
@@ -112,6 +140,16 @@ func (r *roleController) GetAllRoles(c *fiber.Ctx) error {
 }
 
 // GetRoleByID implements RoleControllerInterface.
+// @Summary Get Role By ID
+// @Description Get a role by ID
+// @Tags Role
+// @Accept json
+// @Produce json
+// @Param id path string true "Role ID"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /api/v1/roles/{id} [get]
 func (r *roleController) GetRoleByID(c *fiber.Ctx) error {
 	ctx := c.Context()
 
@@ -139,6 +177,16 @@ func (r *roleController) GetRoleByID(c *fiber.Ctx) error {
 }
 
 // UpdateRole implements RoleControllerInterface.
+// @Summary Update Role
+// @Description Update a role
+// @Tags Role
+// @Accept json
+// @Produce json
+// @Param request body request.CreateRoleRequest true "Update Role Request Body"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /api/v1/roles/{id} [put]
 func (r *roleController) UpdateRole(c *fiber.Ctx) error {
 	ctx := c.Context()
 

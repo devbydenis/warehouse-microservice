@@ -1,9 +1,17 @@
 package app
 
-import "github.com/gofiber/fiber/v2"
+import (
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/swagger"
+
+	_ "micro-warehouse/user-service/docs"
+)
 
 func SetupRoutes(app *fiber.App, container *Container) {
 	api := app.Group("api/v1")
+
+	// Swagger
+	app.Get("/swagger/*", swagger.HandlerDefault)
 	
 	roles := api.Group("/roles")
 	roles.Post("/", container.RoleController.CreateRole)
@@ -16,16 +24,15 @@ func SetupRoutes(app *fiber.App, container *Container) {
 	users.Post("/", container.UserController.CreateUser)
 	users.Get("/", container.UserController.GetAllUsers)
 	users.Get("/:id", container.UserController.GetUserByID)
+	users.Get("/role/:roleName", container.UserController.GetUserByRoleName)
 	users.Put("/:id", container.UserController.UpdateUser)
 	users.Delete("/:id", container.UserController.DeleteUser)
 
 	assignRole := api.Group("/assign-role")
 	assignRole.Post("/", container.UserController.AssignUserToRole)
 	assignRole.Get("/", container.UserController.GetAllUserRoles)
-	assignRole.Get("/:id", container.UserController.GetUserByID)
-	assignRole.Put("/:id", container.UserController.EditAssignUserToRole)
-
-	users.Get("/role/:roleName", container.UserController.GetUserByRoleName)
+	assignRole.Get("/:userRoleID", container.UserController.GetUserRoleByID)
+	assignRole.Put("/:userRoleID", container.UserController.EditAssignUserToRole)
 
 	auth := api.Group("/auth")
 	auth.Post("/login", container.AuthController.Login)
