@@ -1,0 +1,402 @@
+basePath: /api/v1
+definitions:
+  pagination.PaginationResponse:
+    properties:
+      current_page:
+        type: integer
+      has_next:
+        type: boolean
+      has_prev:
+        type: boolean
+      limit:
+        type: integer
+      total_pages:
+        type: integer
+      total_records:
+        type: integer
+    type: object
+  request.CreateTransactionProductRequest:
+    properties:
+      price:
+        minimum: 1
+        type: integer
+      product_id:
+        type: integer
+      quantity:
+        minimum: 1
+        type: integer
+    required:
+    - price
+    - product_id
+    - quantity
+    type: object
+  request.CreateTransactionWithProductRequest:
+    properties:
+      address:
+        type: string
+      currency:
+        enum:
+        - IDR
+        type: string
+      email:
+        type: string
+      merchant_id:
+        type: integer
+      name:
+        type: string
+      notes:
+        type: string
+      phone:
+        type: string
+      products:
+        items:
+          $ref: '#/definitions/request.CreateTransactionProductRequest'
+        minItems: 1
+        type: array
+    required:
+    - address
+    - email
+    - merchant_id
+    - name
+    - phone
+    - products
+    type: object
+  request.MidtransCallbackRequest:
+    properties:
+      fraud_status:
+        type: string
+      order_id:
+        type: string
+      payment_type:
+        type: string
+      signature_key:
+        type: string
+      status_code:
+        type: string
+      transaction_id:
+        type: string
+      transaction_status:
+        type: string
+    required:
+    - fraud_status
+    - order_id
+    - payment_type
+    - signature_key
+    - status_code
+    - transaction_id
+    - transaction_status
+    type: object
+  response.DashboardByMerchantResponse:
+    properties:
+      merchant:
+        $ref: '#/definitions/response.MerchantSummary'
+      products_sold:
+        type: integer
+      total_revenue:
+        type: integer
+      total_transactions:
+        type: integer
+    type: object
+  response.DashboardResponse:
+    properties:
+      products_sold:
+        type: integer
+      total_revenue:
+        type: integer
+      total_transactions:
+        type: integer
+    type: object
+  response.GetAllTransactionsResponse:
+    properties:
+      pagination:
+        $ref: '#/definitions/pagination.PaginationResponse'
+      transactions:
+        items:
+          $ref: '#/definitions/response.TransactionResponse'
+        type: array
+    type: object
+  response.MerchantProduct:
+    properties:
+      id:
+        type: integer
+      merchant_id:
+        type: integer
+      product_about:
+        type: string
+      product_category:
+        type: string
+      product_category_photo:
+        type: string
+      product_id:
+        type: integer
+      product_name:
+        type: string
+      product_photo:
+        type: string
+      product_price:
+        type: integer
+      stock:
+        type: integer
+      warehouse_id:
+        type: integer
+      warehouse_name:
+        type: string
+      warehouse_phone:
+        type: string
+      warehouse_photo:
+        type: string
+    type: object
+  response.MerchantSummary:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      products:
+        items:
+          $ref: '#/definitions/response.MerchantProduct'
+        type: array
+      products_sold:
+        type: integer
+      total_revenue:
+        type: integer
+      total_transactions:
+        type: integer
+    type: object
+  response.TransactionProductResponse:
+    properties:
+      category:
+        properties:
+          id:
+            type: integer
+          name:
+            type: string
+          photo:
+            type: string
+        type: object
+      id:
+        type: integer
+      price:
+        type: integer
+      product_about:
+        type: string
+      product_id:
+        type: integer
+      product_name:
+        type: string
+      product_photo:
+        type: string
+      quantity:
+        type: integer
+      sub_total:
+        type: integer
+      transaction_id:
+        type: integer
+    type: object
+  response.TransactionResponse:
+    properties:
+      address:
+        type: string
+      email:
+        type: string
+      grand_total:
+        type: integer
+      id:
+        type: integer
+      merchant_id:
+        type: integer
+      merchant_name:
+        type: string
+      name:
+        type: string
+      notes:
+        type: string
+      order_id:
+        type: string
+      payment_method:
+        type: string
+      payment_status:
+        type: string
+      phone:
+        type: string
+      sub_total:
+        type: integer
+      tax_total:
+        type: integer
+      transaction_code:
+        type: string
+      transaction_products:
+        items:
+          $ref: '#/definitions/response.TransactionProductResponse'
+        type: array
+    type: object
+host: localhost:8085
+info:
+  contact: {}
+  description: This is a transaction service API for warehouse management system
+  title: Transaction Service API
+  version: "1.0"
+paths:
+  /api/v1/dashboard/keeper/merchant/{merchant_id}:
+    get:
+      consumes:
+      - application/json
+      description: Get dashboard statistics by merchant
+      parameters:
+      - description: Merchant ID
+        in: path
+        name: merchant_id
+        required: true
+        type: string
+      - description: User ID
+        in: query
+        name: user_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.DashboardByMerchantResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get dashboard by merchant
+      tags:
+      - dashboard
+  /api/v1/dashboard/manager:
+    get:
+      consumes:
+      - application/json
+      description: Get dashboard statistics by manager
+      parameters:
+      - description: User ID
+        in: query
+        name: user_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.DashboardResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get dashboard by manager
+      tags:
+      - dashboard
+  /api/v1/midtrans/callback:
+    post:
+      consumes:
+      - application/json
+      description: Handle Midtrans callback
+      parameters:
+      - description: Midtrans callback request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.MidtransCallbackRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Midtrans callback
+      tags:
+      - transaction
+  /api/v1/transactions:
+    get:
+      consumes:
+      - application/json
+      description: Get all transactions
+      parameters:
+      - description: Page number
+        in: query
+        name: page
+        type: integer
+      - description: Limit per page
+        in: query
+        name: limit
+        type: integer
+      - description: Search keyword
+        in: query
+        name: search
+        type: string
+      - description: Sort By
+        in: query
+        name: sort_by
+        type: string
+      - description: Sort Order
+        in: query
+        name: sort_order
+        type: string
+      - description: Merchant ID
+        in: query
+        name: merchant_id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.GetAllTransactionsResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get transactions
+      tags:
+      - transaction
+    post:
+      consumes:
+      - application/json
+      description: Create a new transaction
+      parameters:
+      - description: Transaction data
+        in: body
+        name: transaction
+        required: true
+        schema:
+          $ref: '#/definitions/request.CreateTransactionWithProductRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create transaction
+      tags:
+      - transaction
+swagger: "2.0"

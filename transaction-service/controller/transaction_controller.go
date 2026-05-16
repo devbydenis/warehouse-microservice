@@ -30,6 +30,16 @@ type transactionController struct {
 }
 
 // CreateTransaction implements [TransactionControllerInterface].
+// @Summary      Create transaction
+// @Description  Create a new transaction
+// @Tags         transaction
+// @Accept       json
+// @Produce      json
+// @Param      transaction body request.CreateTransactionWithProductRequest true "Transaction data"
+// @Success      200  {object} map[string]interface{}
+// @Failure      400  {object} map[string]interface{}
+// @Failure      500  {object} map[string]interface{}
+// @Router       /api/v1/transactions [post]
 func (t *transactionController) CreateTransaction(ctx *fiber.Ctx) error {
 	var req request.CreateTransactionWithProductRequest
 	if err := ctx.BodyParser(&req); err != nil {
@@ -120,13 +130,26 @@ func (t *transactionController) CreateTransaction(ctx *fiber.Ctx) error {
 }
 
 // GetDashboardByMerchant implements [TransactionControllerInterface].
+// @Summary      Get dashboard by merchant
+// @Description  Get dashboard statistics by merchant
+// @Tags         dashboard
+// @Accept       json
+// @Produce      json
+// @Param      	 merchant_id path string true "Merchant ID"
+// @Param      	 user_id query uint true "User ID"
+// @Success      200  {object} response.DashboardByMerchantResponse
+// @Failure      500  {object} map[string]interface{}
+// @Router       /api/v1/dashboard/keeper/merchant/{merchant_id} [get]
 func (t *transactionController) GetDashboardByMerchant(c *fiber.Ctx) error {
 	ctx := c.Context()
 
 	merchantIDStr := c.Params("merchant_id")
 	merchantID := conv.StringToUint(merchantIDStr)
 
-	totalRevenue, totalTransactions, productsSold, err := t.transactionUsecase.GetDashboardStatsByMerchant(ctx, 4, merchantID) // kita kasih default 4 dulu. nanti implemntasi lengkapnya ada di api gateway
+	userIDStr := c.Query("user_id")
+	userID := conv.StringToUint(userIDStr)
+
+	totalRevenue, totalTransactions, productsSold, err := t.transactionUsecase.GetDashboardStatsByMerchant(ctx, userID, merchantID)
 	if err != nil {
 		log.Errorf("[TransactionController] GetDashboardByMerchant - 1: %v", err)
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
@@ -153,10 +176,22 @@ func (t *transactionController) GetDashboardByMerchant(c *fiber.Ctx) error {
 }
 
 // GetManagerDashboard implements [TransactionControllerInterface].
+// @Summary      Get dashboard by manager
+// @Description  Get dashboard statistics by manager
+// @Tags         dashboard
+// @Accept       json
+// @Produce      json
+// @Param      	 user_id query uint true "User ID"
+// @Success      200  {object} response.DashboardResponse
+// @Failure      500  {object} map[string]interface{}
+// @Router       /api/v1/dashboard/manager [get]
 func (t *transactionController) GetManagerDashboard(c *fiber.Ctx) error {
 	ctx := c.Context()
 
-	totalRevenue, totalTransactions, productsSold, err := t.transactionUsecase.GetDashboardStats(ctx, 5) // --> this is id of manager (still dummy data based on list users)
+	managerIDStr := c.Query("user_id")
+	managerID := conv.StringToUint(managerIDStr)
+
+	totalRevenue, totalTransactions, productsSold, err := t.transactionUsecase.GetDashboardStats(ctx, managerID)
 	if err != nil {
 		log.Errorf("[TransactionController] GetManagerDashboard - 1: %v", err)
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
@@ -177,6 +212,20 @@ func (t *transactionController) GetManagerDashboard(c *fiber.Ctx) error {
 }
 
 // GetTransactions implements [TransactionControllerInterface].
+// @Summary      Get transactions
+// @Description  Get all transactions
+// @Tags         transaction
+// @Accept       json
+// @Produce      json
+// @Param page query int false "Page number"
+// @Param limit query int false "Limit per page"
+// @Param search query string false "Search keyword"
+// @Param sort_by query string false "Sort By"
+// @Param sort_order query string false "Sort Order"
+// @Param merchant_id query string false "Merchant ID"
+// @Success      200  {object} response.GetAllTransactionsResponse
+// @Failure      500  {object} map[string]interface{}
+// @Router       /api/v1/transactions [get]
 func (t *transactionController) GetTransactions(c *fiber.Ctx) error {
 	ctx := c.Context()
 
@@ -266,6 +315,15 @@ func (t *transactionController) GetTransactions(c *fiber.Ctx) error {
 }
 
 // MidtransCallback implements [TransactionControllerInterface].
+// @Summary      Midtrans callback
+// @Description  Handle Midtrans callback
+// @Tags         transaction
+// @Accept       json
+// @Produce      json
+// @Param        request body request.MidtransCallbackRequest true "Midtrans callback request"
+// @Success      200  {object} map[string]interface{}
+// @Failure      500  {object} map[string]interface{}
+// @Router       /api/v1/midtrans/callback [post]
 func (t *transactionController) MidtransCallback(c *fiber.Ctx) error {
 	ctx := c.Context()
 
