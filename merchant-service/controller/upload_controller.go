@@ -17,6 +17,15 @@ type uploadController struct {
 }
 
 // UploadMerchantPhoto implements UploadControllerInterface.
+// @Summary Upload Merchant Photo
+// @Tags Upload
+// @Accept multipart/form-data
+// @Produce json
+// @Param photo formData file true "Photo"
+// @Success      200  {object} map[string]interface{}
+// @Failure      400  {object} map[string]interface{}
+// @Failure      500  {object} map[string]interface{}
+// @Router       /api/v1/upload-merchant [post]
 func (u *uploadController) UploadMerchantPhoto(c *fiber.Ctx) error {
 	file, err := c.FormFile("photo")
 	if err != nil {

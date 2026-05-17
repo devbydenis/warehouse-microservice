@@ -27,6 +27,15 @@ type merchantController struct {
 }
 
 // CreateMerchant implements MerchantControllerInterface.
+// @Summary Create Merchant
+// @Tags Merchant
+// @Accept json
+// @Produce json
+// @Param merchant body request.CreateMerchantRequest true "Merchant"
+// @Success      200  {object} map[string]interface{}
+// @Failure      400  {object} map[string]interface{}
+// @Failure      500  {object} map[string]interface{}
+// @Router       /api/v1/merchants [post]
 func (m *merchantController) CreateMerchant(c *fiber.Ctx) error {
 	var req request.CreateMerchantRequest
 	if err := c.BodyParser(&req); err != nil {
@@ -64,6 +73,15 @@ func (m *merchantController) CreateMerchant(c *fiber.Ctx) error {
 }
 
 // DeleteMerchant implements MerchantControllerInterface.
+// @Summary Delete Merchant
+// @Tags Merchant
+// @Accept json
+// @Produce json
+// @Param id path string true "Merchant ID"
+// @Success      200  {object} map[string]interface{}
+// @Failure      400  {object} map[string]interface{}
+// @Failure      500  {object} map[string]interface{}
+// @Router       /api/v1/merchants/{id} [delete]
 func (m *merchantController) DeleteMerchant(c *fiber.Ctx) error {
 	id := c.Params("id")
 	merchantID := conv.StringToUint(id)
@@ -82,6 +100,22 @@ func (m *merchantController) DeleteMerchant(c *fiber.Ctx) error {
 }
 
 // GetAllMerchants implements MerchantControllerInterface.
+// @Summary Get All Merchants
+// @Tags Merchant
+// @Accept json
+// @Produce json
+// @Param page       	query int    false "Page"
+// @Param limit      	query int    false "Limit"
+// @Param search     	query string false "Search"
+// @Param sort_by    	query string false "Sort By"
+// @Param sort_order 	query string false "Sort Order"
+// @Param keeper_id  	query uint   false "Keeper ID"
+// @Param merchant_id query uint   false "Merchant ID"
+// @Param product_id  query uint   false "Product ID"
+// @Success      200  {object} map[string]interface{}
+// @Failure      400  {object} map[string]interface{}
+// @Failure      500  {object} map[string]interface{}
+// @Router       /api/v1/merchants [get]
 func (m *merchantController) GetAllMerchants(c *fiber.Ctx) error {
 	var req request.GetMerchantProductRequest
 	if err := c.QueryParser(&req); err != nil {
@@ -231,6 +265,15 @@ func (m *merchantController) GetAllMerchants(c *fiber.Ctx) error {
 }
 
 // GetMerchantById implements MerchantControllerInterface.
+// @Summary Get Merchant By ID
+// @Tags Merchant
+// @Accept json
+// @Produce json
+// @Param id path uint true "Merchant ID"
+// @Success      200  {object} map[string]interface{}
+// @Failure      400  {object} map[string]interface{}
+// @Failure      500  {object} map[string]interface{}
+// @Router       /api/v1/merchants/{id} [get]
 func (m *merchantController) GetMerchantById(c *fiber.Ctx) error {
 	idStr := c.Params("id")
 	id := conv.StringToUint(idStr)
@@ -272,6 +315,16 @@ func (m *merchantController) GetMerchantById(c *fiber.Ctx) error {
 }
 
 // UpdateMerchant implements MerchantControllerInterface.
+// @Summary Update Merchant
+// @Tags Merchant
+// @Accept json
+// @Produce json
+// @Param id path uint true "Merchant ID"
+// @Param merchant body request.CreateMerchantRequest true "Merchant"
+// @Success      200  {object} map[string]interface{}
+// @Failure      400  {object} map[string]interface{}
+// @Failure      500  {object} map[string]interface{}
+// @Router       /api/v1/merchants/{id} [put]
 func (m *merchantController) UpdateMerchant(c *fiber.Ctx) error {
 	idStr := c.Params("id")
 	id := conv.StringToUint(idStr)

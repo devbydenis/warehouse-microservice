@@ -1,0 +1,546 @@
+basePath: /api/v1
+definitions:
+  request.CreateMerchantProductRequest:
+    properties:
+      merchant_id:
+        type: integer
+      product_id:
+        type: integer
+      stock:
+        type: integer
+      warehouse_id:
+        type: integer
+    required:
+    - merchant_id
+    - product_id
+    - stock
+    - warehouse_id
+    type: object
+  request.CreateMerchantRequest:
+    properties:
+      address:
+        type: string
+      keeper_id:
+        type: integer
+      name:
+        type: string
+      phone:
+        type: string
+      photo:
+        type: string
+    required:
+    - address
+    - keeper_id
+    - name
+    - phone
+    - photo
+    type: object
+host: localhost:8084
+info:
+  contact: {}
+  description: This is the API for the merchant service
+  title: Merchant Service API
+  version: "1.0"
+paths:
+  /api/v1/merchant-products:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Page
+        in: query
+        name: page
+        type: integer
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Search
+        in: query
+        name: search
+        type: string
+      - description: Sort By
+        in: query
+        name: sort_by
+        type: string
+      - description: Sort Order
+        in: query
+        name: sort_order
+        type: string
+      - description: Merchant ID
+        in: query
+        name: merchant_id
+        type: integer
+      - description: Product ID
+        in: query
+        name: product_id
+        type: integer
+      - description: Keeper ID
+        in: query
+        name: keeper_id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get Merchant Products
+      tags:
+      - Merchant Product
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Product
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/request.CreateMerchantProductRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create Merchant Product
+      tags:
+      - Merchant Product
+  /api/v1/merchant-products/{merchant_product_id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: Merchant Product ID
+        in: path
+        name: merchant_product_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete Merchant Product
+      tags:
+      - Merchant Product
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Merchant Product ID
+        in: path
+        name: merchant_product_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get Merchant Product By ID
+      tags:
+      - Merchant Product
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Merchant Product ID
+        in: path
+        name: merchant_product_id
+        required: true
+        type: integer
+      - description: Request Body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.CreateMerchantProductRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update Merchant Product
+      tags:
+      - Merchant Product
+  /api/v1/merchant-products/{product_id}/total-stock:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Product ID
+        in: path
+        name: product_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get Product Total Stock
+      tags:
+      - Merchant Product
+  /api/v1/merchant-products/barcode/{barcode}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Barcode
+        in: path
+        name: barcode
+        required: true
+        type: string
+      - description: Merchant ID
+        in: query
+        name: merchant_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get Merchant Product By Barcode
+      tags:
+      - Merchant Product
+  /api/v1/merchant-products/product/{product_id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: Product ID
+        in: path
+        name: product_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete All Product Merchant Products
+      tags:
+      - Merchant Product
+  /api/v1/merchants:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Page
+        in: query
+        name: page
+        type: integer
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Search
+        in: query
+        name: search
+        type: string
+      - description: Sort By
+        in: query
+        name: sort_by
+        type: string
+      - description: Sort Order
+        in: query
+        name: sort_order
+        type: string
+      - description: Keeper ID
+        in: query
+        name: keeper_id
+        type: integer
+      - description: Merchant ID
+        in: query
+        name: merchant_id
+        type: integer
+      - description: Product ID
+        in: query
+        name: product_id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get All Merchants
+      tags:
+      - Merchant
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Merchant
+        in: body
+        name: merchant
+        required: true
+        schema:
+          $ref: '#/definitions/request.CreateMerchantRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create Merchant
+      tags:
+      - Merchant
+  /api/v1/merchants/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: Merchant ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete Merchant
+      tags:
+      - Merchant
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Merchant ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get Merchant By ID
+      tags:
+      - Merchant
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Merchant ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Merchant
+        in: body
+        name: merchant
+        required: true
+        schema:
+          $ref: '#/definitions/request.CreateMerchantRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update Merchant
+      tags:
+      - Merchant
+  /api/v1/upload-merchant:
+    post:
+      consumes:
+      - multipart/form-data
+      parameters:
+      - description: Photo
+        in: formData
+        name: photo
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Upload Merchant Photo
+      tags:
+      - Upload
+swagger: "2.0"
