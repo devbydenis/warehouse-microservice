@@ -21,6 +21,15 @@ func NewEmailController(emailUsecase *usecase.EmailUsecase) *EmailController {
 	}
 }
 
+// @Summary Send Email
+// @Tags Email
+// @Accept json
+// @Produce json
+// @Param email body request.SendEmailRequest true "Email"
+// @Success      200  {object} map[string]interface{}
+// @Failure      400  {object} map[string]interface{}
+// @Failure      500  {object} map[string]interface{}
+// @Router       /send-email [post]
 func (e *EmailController) SendEmail(c *fiber.Ctx) error {
 	var req request.SendEmailRequest
 	if err := c.BodyParser(&req); err != nil {
@@ -51,6 +60,15 @@ func (e *EmailController) SendEmail(c *fiber.Ctx) error {
 	})
 }
 
+// @Summary Send Welcome Email
+// @Tags Email
+// @Accept json
+// @Produce json
+// @Param email body request.SendWelcomeEmailRequest true "Email"
+// @Success      200  {object} map[string]interface{}
+// @Failure      400  {object} map[string]interface{}
+// @Failure      500  {object} map[string]interface{}
+// @Router       /send-welcome-email [post]
 func (e *EmailController) SendWelcomeEmail(c *fiber.Ctx) error {
 	var req request.SendWelcomeEmailRequest
 	if err := c.BodyParser(&req); err != nil {

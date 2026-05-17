@@ -5,6 +5,7 @@ import (
 	"micro-warehouse/notification-service/pkg/email"
 	"micro-warehouse/notification-service/pkg/rabbitmq"
 	middlewareGateway "micro-warehouse/notification-service/middleware"
+	_ "micro-warehouse/notification-service/docs"
 
 	"context"
 	"os"
@@ -17,6 +18,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
+	"github.com/gofiber/swagger"
 
 	zerolog "github.com/rs/zerolog/log"
 )
@@ -50,6 +52,9 @@ func RunServer() {
 			return c.Status(fiber.StatusInternalServerError).SendString("Internal Server Error")
 		},
 	})
+	
+	// Swagger docs
+	app.Get("/swagger/*", swagger.HandlerDefault) 
 
 	app.Use(cors.New())	
 	app.Use(recover.New())
