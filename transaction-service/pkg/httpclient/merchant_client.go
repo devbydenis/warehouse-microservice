@@ -22,9 +22,9 @@ type MerchantClientInterface interface {
 }
 
 type MerchantCLient struct {
-	urlMerchantService string
-	httpClient         *http.Client
-	config             configs.Config
+	urlApiGateway string
+	httpClient    *http.Client
+	config        configs.Config
 }
 
 func (m *MerchantCLient) generateInternalToken() (string, error) {
@@ -33,7 +33,7 @@ func (m *MerchantCLient) generateInternalToken() (string, error) {
 
 // GetMerchantByID implements [MerchantClientInterface].
 func (m *MerchantCLient) GetMerchantByID(ctx context.Context, merchantID uint) (*Merchant, error) {
-	url := fmt.Sprintf("%s/api/v1/merchants/%d", m.urlMerchantService, merchantID)
+	url := fmt.Sprintf("%s/api/v1/merchants/%d", m.urlApiGateway, merchantID)
 
 	token, err := m.generateInternalToken()
 	if err != nil {
@@ -84,7 +84,7 @@ func (m *MerchantCLient) GetMerchantByID(ctx context.Context, merchantID uint) (
 
 // GetMerchantProductStock implements [MerchantClientInterface].
 func (m *MerchantCLient) GetMerchantProductStock(ctx context.Context, merchantID uint, productID uint) (*MerchantProduct, error) {
-	url := fmt.Sprintf("%s/api/v1/merchant-products?merchant_id=%d&product_id=%d", m.urlMerchantService, merchantID, productID)
+	url := fmt.Sprintf("%s/api/v1/merchant-products?merchant_id=%d&product_id=%d", m.urlApiGateway, merchantID, productID)
 
 	token, err := m.generateInternalToken()
 	if err != nil {
@@ -144,7 +144,7 @@ func (m *MerchantCLient) GetMerchantProductStock(ctx context.Context, merchantID
 
 // GetMerchantProducts implements [MerchantClientInterface].
 func (m *MerchantCLient) GetMerchantProducts(ctx context.Context, merchantID uint) ([]MerchantProduct, error) {
-	url := fmt.Sprintf("%s/api/v1/merchant-products?merchant_id=%d", m.urlMerchantService, merchantID)
+	url := fmt.Sprintf("%s/api/v1/merchant-products?merchant_id=%d", m.urlApiGateway, merchantID)
 
 	token, err := m.generateInternalToken()
 	if err != nil {
@@ -195,7 +195,7 @@ func (m *MerchantCLient) GetMerchantProducts(ctx context.Context, merchantID uin
 
 // GetMerchantsByKeeperID implements [MerchantClientInterface].
 func (m *MerchantCLient) GetMerchantsByKeeperID(ctx context.Context, keeperID uint) ([]Merchant, error) {
-	url := fmt.Sprintf("%s/api/v1/merchants?keeper_id=%d", m.urlMerchantService, keeperID)
+	url := fmt.Sprintf("%s/api/v1/merchants?keeper_id=%d", m.urlApiGateway, keeperID)
 
 	token, err := m.generateInternalToken()
 	if err != nil {
@@ -274,7 +274,7 @@ func NewMerchantClient(cfg configs.Config) MerchantClientInterface {
 		httpClient: &http.Client{
 			Timeout: 30 * time.Second,
 		},
-		urlMerchantService: cfg.App.UrlMerchantService,
-		config:             cfg,
+		urlApiGateway: cfg.App.UrlApiGateway,
+		config:        cfg,
 	}
 }

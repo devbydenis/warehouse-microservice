@@ -63,13 +63,20 @@ func (r *rabbitmqService) ConsumeEmail(ctx context.Context, emailService email.E
 		for {
 			select {
 			case <-ctx.Done():
-				log.Infof("[RabbitMQService] ConsumeEmail - 2: %v", "Email consumer context cancelled")
+				log.Infof("[RabbitMQService] ConsumeEmail: %v", "Email consumer context cancelled")
 				return
 			case msg := <-msgs:
+				// validasi pesan agar tidak kosong
+				if len(msg.Body) == 0 {
+					log.Warnf("[RabbitMQService] ConsumeEmail - 1: Empty message received")
+					msg.Nack(false, false)
+					continue
+				}
+
 				// fix: check jika channel ditutup (ConsumerTag bakal kosong)
 				// ketika channel ditutup, amqp menutup channel msgs dan mengirim zero-value Delivery berupa struct kosong bukan nil
 				if msg.ConsumerTag == "" {
-					log.Errorf("[RabbitMQService] ConsumeEmail - channel closed")
+					log.Errorf("[RabbitMQService] ConsumeEmail - 2: channel closed")
 					return
 				}
 

@@ -20,9 +20,9 @@ type WarehouseClientInterface interface {
 }
 
 type WarehouseCLient struct {
-	urlWarehouseService string
-	httpClient          *http.Client
-	config              configs.Config
+	urlApiGateway string
+	httpClient    *http.Client
+	config        configs.Config
 }
 
 func (w *WarehouseCLient) generateInternalToken() (string, error) {
@@ -31,7 +31,7 @@ func (w *WarehouseCLient) generateInternalToken() (string, error) {
 
 // GetWarehouseByID implements WarehouseClientInterface.
 func (w *WarehouseCLient) GetWarehouseByID(ctx context.Context, warehouseID uint) (*WarehouseResponse, error) {
-	url := fmt.Sprintf("%s/api/v1/warehouses/%d", w.urlWarehouseService, warehouseID)
+	url := fmt.Sprintf("%s/api/v1/warehouses/%d", w.urlApiGateway, warehouseID)
 
 	token, err := w.generateInternalToken()
 	if err != nil {
@@ -79,7 +79,7 @@ func (w *WarehouseCLient) GetWarehouseByID(ctx context.Context, warehouseID uint
 
 // GetWarehouseProductStock implements WarehouseClientInterface.
 func (w *WarehouseCLient) GetWarehouseProductStock(ctx context.Context, warehouseID uint, productID uint) (*WarehouseProductStockResponse, error) {
-	url := fmt.Sprintf("%s/api/v1/warehouse-products/%d/detail/%d", w.urlWarehouseService, warehouseID, productID)
+	url := fmt.Sprintf("%s/api/v1/warehouse-products/%d/detail/%d", w.urlApiGateway, warehouseID, productID)
 
 	token, err := w.generateInternalToken()
 	if err != nil {
@@ -155,7 +155,7 @@ func NewWarehouseClient(cfg configs.Config) WarehouseClientInterface {
 		httpClient: &http.Client{
 			Timeout: 30 * time.Second,
 		},
-		urlWarehouseService: cfg.App.UrlWarehouseService,
-		config:              cfg,
+		urlApiGateway: cfg.App.UrlApiGateway,
+		config:        cfg,
 	}
 }

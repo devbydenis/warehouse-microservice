@@ -15,7 +15,7 @@ import (
 )
 
 type MerchantClient struct {
-	urlMerchantService string
+	urlApiGateway string
 	httpClient         *http.Client
 	config             configs.Config
 }
@@ -40,13 +40,13 @@ func NewMerchantClient(cfg configs.Config) *MerchantClient {
 		httpClient: &http.Client{
 			Timeout: 30 * time.Second,
 		},
-		urlMerchantService: cfg.App.UrlMerchantService,
+		urlApiGateway: cfg.App.UrlApiGateway,
 		config:             cfg,
 	}
 }
 
 func (mc *MerchantClient) GetProductStockAcrossMerchants(ctx context.Context, productID uint) (int, error) {
-	url := fmt.Sprintf("%s/api/v1/merchant-products/%d/total-stock", mc.urlMerchantService, productID)
+	url := fmt.Sprintf("%s/api/v1/merchant-products/%d/total-stock", mc.urlApiGateway, productID)
 
 	token, err := mc.generateInternalToken()
 	if err != nil {
@@ -93,7 +93,7 @@ func (mc *MerchantClient) GetProductStockAcrossMerchants(ctx context.Context, pr
 }
 
 func (mc *MerchantClient) DeleteAllProductMerchantProducts(ctx context.Context, productID uint) error {
-	url := fmt.Sprintf("%s/api/v1/merchant-products/product/%d", mc.urlMerchantService, productID)
+	url := fmt.Sprintf("%s/api/v1/merchant-products/product/%d", mc.urlApiGateway, productID)
 
 	token, err := mc.generateInternalToken()
 	if err != nil {
