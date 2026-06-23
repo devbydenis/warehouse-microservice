@@ -5,7 +5,7 @@ import "micro-warehouse/merchant-service/cmd"
 // @title Merchant Service API
 // @version 1.0
 // @description This is the API for the merchant service
-// @host localhost:8084
+// @host merchant-service:8084
 // @BasePath /api/v1
 func main() {
 	cmd.Execute()

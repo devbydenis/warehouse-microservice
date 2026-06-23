@@ -6,7 +6,7 @@
         "contact": {},
         "version": "1.0"
     },
-    "host": "localhost:8085",
+    "host": "transaction-service:8085",
     "basePath": "/api/v1",
     "paths": {
         "/api/v1/dashboard/keeper/merchant/{merchant_id}": {

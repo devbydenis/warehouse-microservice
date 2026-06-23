@@ -2,8 +2,8 @@ package app
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/swagger"
-
+	
+	fiberSwagger "github.com/swaggo/fiber-swagger"
 	_ "micro-warehouse/warehouse-service/docs"
 )
 
@@ -11,7 +11,7 @@ func SetupRoutes(app *fiber.App, c* Container) {
 	api := app.Group("/api/v1")
 
 	// Swagger
-	app.Get("/swagger/*", swagger.HandlerDefault)
+	app.Get("/swagger/*", fiberSwagger.WrapHandler)
 
 	warehouses := api.Group("/warehouses")
 	warehouses.Post("/", c.WarehouseController.CreateWarehouse)

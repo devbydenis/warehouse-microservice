@@ -6,7 +6,7 @@
         "contact": {},
         "version": "1.0"
     },
-    "host": "localhost:8081",
+    "host": "user-service:8081",
     "basePath": "/api/v1",
     "paths": {
         "/api/v1/assign-role": {
@@ -902,10 +902,13 @@
             ],
             "properties": {
                 "email": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "admin@gmail.com"
                 },
                 "password": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 8,
+                    "example": "password123"
                 }
             }
         }

@@ -1,17 +1,17 @@
 package app
 
 import (
-	_ "micro-warehouse/merchant-service/docs"
-
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/swagger"
+	
+	fiberSwagger "github.com/swaggo/fiber-swagger"
+	_ "micro-warehouse/merchant-service/docs"
 )
 
 func SetupRoutes(app *fiber.App, c *Container) {
 	api := app.Group("/api/v1")
 
 	// Swagger
-	app.Get("/swagger/*", swagger.HandlerDefault)
+	app.Get("/swagger/*", fiberSwagger.WrapHandler)
 
 	merchants := api.Group("/merchants")
 	merchants.Post("/", c.MerchantController.CreateMerchant)

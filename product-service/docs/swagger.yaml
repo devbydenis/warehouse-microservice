@@ -37,7 +37,7 @@ definitions:
     - price
     - thumbnail
     type: object
-host: localhost:8082
+host: product-service:8082
 info:
   contact: {}
   description: This is the API documentation for the Product Service.
@@ -75,6 +75,11 @@ paths:
       responses:
         "200":
           description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
           schema:
             additionalProperties: true
             type: object
@@ -239,6 +244,11 @@ paths:
       responses:
         "200":
           description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
           schema:
             additionalProperties: true
             type: object

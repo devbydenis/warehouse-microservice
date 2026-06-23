@@ -1,16 +1,17 @@
 package app
 
 import (
-	_ "micro-warehouse/product-service/docs"
-
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/swagger"
+	
+	_ "micro-warehouse/product-service/docs"
+	fiberSwagger "github.com/swaggo/fiber-swagger"
 )
 
 func SetupRoutes(app *fiber.App, container *Container) {
 	api := app.Group("/api/v1")
 
-	app.Get("/swagger/*", swagger.HandlerDefault)
+	// swagger
+	app.Get("/swagger/*", fiberSwagger.WrapHandler)
 
 	categories := api.Group("/categories")
 	categories.Post("/", container.CategoryController.CreateCategory)

@@ -908,10 +908,13 @@ const docTemplate = `{
             ],
             "properties": {
                 "email": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "admin@gmail.com"
                 },
                 "password": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 8,
+                    "example": "password123"
                 }
             }
         }
@@ -921,7 +924,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "localhost:8081",
+	Host:             "user-service:8081",
 	BasePath:         "/api/v1",
 	Schemes:          []string{},
 	Title:            "User Service API",

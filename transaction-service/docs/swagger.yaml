@@ -230,7 +230,7 @@ definitions:
           $ref: '#/definitions/response.TransactionProductResponse'
         type: array
     type: object
-host: localhost:8085
+host: transaction-service:8085
 info:
   contact: {}
   description: This is a transaction service API for warehouse management system

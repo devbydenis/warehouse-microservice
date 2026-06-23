@@ -6,7 +6,7 @@
         "contact": {},
         "version": "1.0"
     },
-    "host": "localhost:8083",
+    "host": "warehouse-service:8083",
     "basePath": "/api/v1",
     "paths": {
         "/api/v1/upload-warehouse": {

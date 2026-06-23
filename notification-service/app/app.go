@@ -5,8 +5,7 @@ import (
 	"micro-warehouse/notification-service/pkg/email"
 	"micro-warehouse/notification-service/pkg/rabbitmq"
 	middlewareGateway "micro-warehouse/notification-service/middleware"
-	_ "micro-warehouse/notification-service/docs"
-
+	
 	"context"
 	"os"
 	"os/signal"
@@ -18,7 +17,9 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
-	"github.com/gofiber/swagger"
+	
+	_ "micro-warehouse/notification-service/docs"
+	fiberSwagger "github.com/swaggo/fiber-swagger"
 
 	zerolog "github.com/rs/zerolog/log"
 )
@@ -54,9 +55,9 @@ func RunServer() {
 	})
 	
 	// Swagger docs
-	app.Get("/swagger/*", swagger.HandlerDefault) 
+	app.Get("/swagger/*", fiberSwagger.WrapHandler) 
 
-	app.Use(cors.New())	
+	app.Use(cors.New())
 	app.Use(recover.New())
 	app.Use(logger.New(logger.Config{
 		Format: "[${time} ${ip} ${status} - ${latency}] ${method} ${path}\n",

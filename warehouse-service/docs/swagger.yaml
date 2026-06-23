@@ -150,7 +150,7 @@ definitions:
       photo:
         type: string
     type: object
-host: localhost:8083
+host: warehouse-service:8083
 info:
   contact: {}
   description: This is the API documentation for the Warehouse Service.
