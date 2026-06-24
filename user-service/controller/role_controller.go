@@ -35,6 +35,7 @@ type roleController struct {
 // @Failure 400 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /api/v1/roles [post]
+// @Security Bearer
 func (r *roleController) CreateRole(c *fiber.Ctx) error {
 	ctx := c.Context()
 
@@ -80,6 +81,7 @@ func (r *roleController) CreateRole(c *fiber.Ctx) error {
 // @Failure 400 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /api/v1/roles/{id} [delete]
+// @Security Bearer
 func (r *roleController) DeleteRole(c *fiber.Ctx) error {
 	ctx := c.Context()
 
@@ -114,6 +116,7 @@ func (r *roleController) DeleteRole(c *fiber.Ctx) error {
 // @Success 200 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /api/v1/roles [get]
+// @Security Bearer
 func (r *roleController) GetAllRoles(c *fiber.Ctx) error {
 	ctx := c.Context()
 
@@ -150,6 +153,7 @@ func (r *roleController) GetAllRoles(c *fiber.Ctx) error {
 // @Failure 400 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /api/v1/roles/{id} [get]
+// @Security Bearer
 func (r *roleController) GetRoleByID(c *fiber.Ctx) error {
 	ctx := c.Context()
 
@@ -187,6 +191,7 @@ func (r *roleController) GetRoleByID(c *fiber.Ctx) error {
 // @Failure 400 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /api/v1/roles/{id} [put]
+// @Security Bearer
 func (r *roleController) UpdateRole(c *fiber.Ctx) error {
 	ctx := c.Context()
 

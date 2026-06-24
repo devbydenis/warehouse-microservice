@@ -17,6 +17,11 @@ const docTemplate = `{
     "paths": {
         "/api/v1/merchant-products": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -24,7 +29,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Merchant Product"
+                    "Merchant Products"
                 ],
                 "summary": "Get Merchant Products",
                 "parameters": [
@@ -102,6 +107,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -109,7 +119,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Merchant Product"
+                    "Merchant Products"
                 ],
                 "summary": "Create Merchant Product",
                 "parameters": [
@@ -150,6 +160,11 @@ const docTemplate = `{
         },
         "/api/v1/merchant-products/barcode/{barcode}": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -157,7 +172,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Merchant Product"
+                    "Merchant Products"
                 ],
                 "summary": "Get Merchant Product By Barcode",
                 "parameters": [
@@ -203,6 +218,11 @@ const docTemplate = `{
         },
         "/api/v1/merchant-products/product/{product_id}": {
             "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -210,7 +230,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Merchant Product"
+                    "Merchant Products"
                 ],
                 "summary": "Delete All Product Merchant Products",
                 "parameters": [
@@ -249,6 +269,11 @@ const docTemplate = `{
         },
         "/api/v1/merchant-products/{merchant_product_id}": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -256,7 +281,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Merchant Product"
+                    "Merchant Products"
                 ],
                 "summary": "Get Merchant Product By ID",
                 "parameters": [
@@ -293,6 +318,11 @@ const docTemplate = `{
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -300,7 +330,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Merchant Product"
+                    "Merchant Products"
                 ],
                 "summary": "Update Merchant Product",
                 "parameters": [
@@ -346,6 +376,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -353,7 +388,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Merchant Product"
+                    "Merchant Products"
                 ],
                 "summary": "Delete Merchant Product",
                 "parameters": [
@@ -392,6 +427,11 @@ const docTemplate = `{
         },
         "/api/v1/merchant-products/{product_id}/total-stock": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -399,7 +439,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Merchant Product"
+                    "Merchant Products"
                 ],
                 "summary": "Get Product Total Stock",
                 "parameters": [
@@ -438,6 +478,11 @@ const docTemplate = `{
         },
         "/api/v1/merchants": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -445,7 +490,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Merchant"
+                    "Merchants"
                 ],
                 "summary": "Get All Merchants",
                 "parameters": [
@@ -523,6 +568,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -530,7 +580,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Merchant"
+                    "Merchants"
                 ],
                 "summary": "Create Merchant",
                 "parameters": [
@@ -571,6 +621,11 @@ const docTemplate = `{
         },
         "/api/v1/merchants/{id}": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -578,7 +633,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Merchant"
+                    "Merchants"
                 ],
                 "summary": "Get Merchant By ID",
                 "parameters": [
@@ -615,6 +670,11 @@ const docTemplate = `{
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -622,7 +682,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Merchant"
+                    "Merchants"
                 ],
                 "summary": "Update Merchant",
                 "parameters": [
@@ -668,6 +728,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -675,7 +740,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Merchant"
+                    "Merchants"
                 ],
                 "summary": "Delete Merchant",
                 "parameters": [
@@ -714,6 +779,11 @@ const docTemplate = `{
         },
         "/api/v1/upload-merchant": {
             "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "consumes": [
                     "multipart/form-data"
                 ],
@@ -721,7 +791,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Upload"
+                    "Merchant Upload Photo"
                 ],
                 "summary": "Upload Merchant Photo",
                 "parameters": [
@@ -810,6 +880,13 @@ const docTemplate = `{
                 }
             }
         }
+    },
+    "securityDefinitions": {
+        "Bearer": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
     }
 }`
 
@@ -817,7 +894,7 @@ const docTemplate = `{
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
 	Host:             "merchant-service:8084",
-	BasePath:         "/api/v1",
+	BasePath:         "",
 	Schemes:          []string{},
 	Title:            "Merchant Service API",
 	Description:      "This is the API for the merchant service",

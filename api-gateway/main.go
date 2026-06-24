@@ -330,7 +330,7 @@ func setupSwaggerRoutes(app *fiber.App) {
 			<div id="swagger-ui"></div>
 			<script src="https://unpkg.com/swagger-ui-dist/swagger-ui-bundle.js"></script>
 			<script>
-				SwaggerUIBundle({ url: "/swagger/aggregated.json", dom_id: '#swagger-ui' })
+				SwaggerUIBundle({ url: "/swagger/aggregated.json", dom_id: '#swagger-ui', tagsSorter: 'alpha' })
 			</script>
 		</body>
 	</html>`

@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"strings"
 	"sync"
@@ -55,21 +56,16 @@ func FetchSpec(url string) (map[string]any, error) {
 
 func AggregateSpecs(gatewayURL string) (map[string]any, error) {
 	merged := map[string]any{
-		"swagger":     "2.0",
-		"host":        "localhost:8080",
-		"basePath":    "/",
-		"definitions": map[string]any{},
+		"swagger": "2.0",
 		"info": map[string]any{
 			"title":   "Warehouse Microservices API",
 			"version": "1.0.0",
-			"servers": []any{
-				map[string]any{"url": gatewayURL, "description": "API Gateway"},
-			},
-			"paths": map[string]any{},
 		},
-		"components": map[string]any{
-			"schemas": map[string]any{},
-		},
+		"host":                "localhost:8080",
+		"basePath":            "/",
+		"paths":               map[string]any{},
+		"definitions":         map[string]any{},
+		"securityDefinitions": map[string]any{},
 	}
 
 	type result struct {
@@ -88,7 +84,7 @@ func AggregateSpecs(gatewayURL string) (map[string]any, error) {
 	}
 
 	mergedPaths := merged["paths"].(map[string]any)
-	mergedSchemas := merged["components"].(map[string]any)["schemas"].(map[string]any)
+	mergedDefs := merged["definitions"].(map[string]any)
 
 	var mu sync.Mutex
 	var errs []error
@@ -129,22 +125,31 @@ func AggregateSpecs(gatewayURL string) (map[string]any, error) {
 		// merge schemas dari definitions (2.0) → components/schemas (3.0)
 		if defs, ok := r.spec["definitions"].(map[string]any); ok {
 			for name, schema := range defs {
-				mergedSchemas[r.ss.Name+"_"+name] = rewriteRefs(schema, renameMap)
+				mergedDefs[r.ss.Name+"_"+name] = rewriteRefs(schema, renameMap)
 			}
 		}
 		// merge schemas dari components.schemas (3.0)
 		if components, ok := r.spec["components"].(map[string]any); ok {
 			if schemas, ok := components["schemas"].(map[string]any); ok {
 				for name, schema := range schemas {
-					mergedSchemas[r.ss.Name+"_"+name] = rewriteRefs(schema, renameMap)
+					mergedDefs[r.ss.Name+"_"+name] = rewriteRefs(schema, renameMap)
 				}
+			}
+		}
+
+		if secDefs, ok := r.spec["securityDefinitions"].(map[string]any); ok {
+			if merged["securityDefinitions"] == nil {
+				merged["securityDefinitions"] = map[string]any{}
+			}
+			for k, v := range secDefs {
+				merged["securityDefinitions"].(map[string]any)[k] = v
 			}
 		}
 		mu.Unlock()
 	}
 
 	if len(errs) > 0 {
-		return merged, fmt.Errorf("[Swagger] AggregateSpecs - 1: some services unavailable: %v", errs[0])
+		log.Printf("[Swagger] AggregateSpecs: %d service(s) unavailable", len(errs))
 	}
 	return merged, nil
 }
@@ -161,7 +166,7 @@ func rewriteRefs(v any, renameMap map[string]string) any {
 					if strings.HasPrefix(ref, "#/definitions/") {
 						oldName := strings.TrimPrefix(ref, "#/definitions/")
 						if newName, ok := renameMap[oldName]; ok {
-							out[k] = "#/components/schemas/" + newName
+							out[k] = "#/definitions/" + newName
 							continue
 						}
 					}
@@ -169,7 +174,7 @@ func rewriteRefs(v any, renameMap map[string]string) any {
 					if strings.HasPrefix(ref, "#/components/schemas/") {
 						oldName := strings.TrimPrefix(ref, "#/components/schemas/")
 						if newName, ok := renameMap[oldName]; ok {
-							out[k] = "#/components/schemas/" + newName
+							out[k] = "#/definitions/" + newName
 							continue
 						}
 					}

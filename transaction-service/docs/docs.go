@@ -17,6 +17,11 @@ const docTemplate = `{
     "paths": {
         "/api/v1/dashboard/keeper/merchant/{merchant_id}": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Get dashboard statistics by merchant",
                 "consumes": [
                     "application/json"
@@ -25,7 +30,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "dashboard"
+                    "Dashboard"
                 ],
                 "summary": "Get dashboard by merchant",
                 "parameters": [
@@ -63,6 +68,11 @@ const docTemplate = `{
         },
         "/api/v1/dashboard/manager": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Get dashboard statistics by manager",
                 "consumes": [
                     "application/json"
@@ -71,7 +81,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "dashboard"
+                    "Dashboard"
                 ],
                 "summary": "Get dashboard by manager",
                 "parameters": [
@@ -102,6 +112,11 @@ const docTemplate = `{
         },
         "/api/v1/midtrans/callback": {
             "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Handle Midtrans callback",
                 "consumes": [
                     "application/json"
@@ -110,7 +125,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "transaction"
+                    "Transaction"
                 ],
                 "summary": "Midtrans callback",
                 "parameters": [
@@ -144,6 +159,11 @@ const docTemplate = `{
         },
         "/api/v1/transactions": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Get all transactions",
                 "consumes": [
                     "application/json"
@@ -152,7 +172,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "transaction"
+                    "Transaction"
                 ],
                 "summary": "Get transactions",
                 "parameters": [
@@ -210,6 +230,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Create a new transaction",
                 "consumes": [
                     "application/json"
@@ -218,7 +243,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "transaction"
+                    "Transaction"
                 ],
                 "summary": "Create transaction",
                 "parameters": [
@@ -602,6 +627,13 @@ const docTemplate = `{
                 }
             }
         }
+    },
+    "securityDefinitions": {
+        "Bearer": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
     }
 }`
 
@@ -609,7 +641,7 @@ const docTemplate = `{
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
 	Host:             "transaction-service:8085",
-	BasePath:         "/api/v1",
+	BasePath:         "",
 	Schemes:          []string{},
 	Title:            "Transaction Service API",
 	Description:      "This is a transaction service API for warehouse management system",

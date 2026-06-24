@@ -17,6 +17,11 @@ const docTemplate = `{
     "paths": {
         "/api/v1/assign-role": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Get all users with their roles",
                 "consumes": [
                     "application/json"
@@ -30,13 +35,34 @@ const docTemplate = `{
                 "summary": "Get All User Roles",
                 "parameters": [
                     {
-                        "description": "Get All Users Request Body",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/request.GetAllUsersRequest"
-                        }
+                        "type": "integer",
+                        "description": "Page number",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Items per page",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Search keyword",
+                        "name": "search",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Sort by field",
+                        "name": "sortBy",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Sort order (asc/desc)",
+                        "name": "sortOrder",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -64,6 +90,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Assign a user to a role",
                 "consumes": [
                     "application/json"
@@ -113,6 +144,11 @@ const docTemplate = `{
         },
         "/api/v1/assign-role/{userRoleID}": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Get a user role by ID",
                 "consumes": [
                     "application/json"
@@ -158,6 +194,11 @@ const docTemplate = `{
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Edit a user to a role",
                 "consumes": [
                     "application/json"
@@ -270,6 +311,11 @@ const docTemplate = `{
         },
         "/api/v1/roles": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Get all roles",
                 "consumes": [
                     "application/json"
@@ -299,6 +345,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Create a new role",
                 "consumes": [
                     "application/json"
@@ -348,6 +399,11 @@ const docTemplate = `{
         },
         "/api/v1/roles/{id}": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Get a role by ID",
                 "consumes": [
                     "application/json"
@@ -393,6 +449,11 @@ const docTemplate = `{
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Update a role",
                 "consumes": [
                     "application/json"
@@ -440,6 +501,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Delete a role",
                 "consumes": [
                     "application/json"
@@ -487,6 +553,11 @@ const docTemplate = `{
         },
         "/api/v1/upload/photo": {
             "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Upload a photo",
                 "consumes": [
                     "multipart/form-data"
@@ -495,7 +566,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Upload"
+                    "User Upload Photo"
                 ],
                 "summary": "Upload Photo",
                 "parameters": [
@@ -534,6 +605,11 @@ const docTemplate = `{
         },
         "/api/v1/users": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Get all users",
                 "consumes": [
                     "application/json"
@@ -542,18 +618,39 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "User"
+                    "Users"
                 ],
                 "summary": "Get All Users",
                 "parameters": [
                     {
-                        "description": "Get All Users Request Body",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/request.GetAllUsersRequest"
-                        }
+                        "type": "integer",
+                        "description": "Page number",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Items per page",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Search keyword",
+                        "name": "search",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Sort by field",
+                        "name": "sortBy",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Sort order (asc/desc)",
+                        "name": "sortOrder",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -581,6 +678,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Create a new user",
                 "consumes": [
                     "application/json"
@@ -589,7 +691,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "User"
+                    "Users"
                 ],
                 "summary": "Create User",
                 "parameters": [
@@ -630,6 +732,11 @@ const docTemplate = `{
         },
         "/api/v1/users/role/{roleName}": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Get a user by role name",
                 "consumes": [
                     "application/json"
@@ -677,6 +784,11 @@ const docTemplate = `{
         },
         "/api/v1/users/{id}": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Get a user by ID",
                 "consumes": [
                     "application/json"
@@ -685,7 +797,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "User"
+                    "Users"
                 ],
                 "summary": "Get User By ID",
                 "parameters": [
@@ -722,6 +834,11 @@ const docTemplate = `{
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Update a user by ID",
                 "consumes": [
                     "application/json"
@@ -730,7 +847,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "User"
+                    "Users"
                 ],
                 "summary": "Update User",
                 "parameters": [
@@ -767,6 +884,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Delete a user",
                 "consumes": [
                     "application/json"
@@ -775,7 +897,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "User"
+                    "Users"
                 ],
                 "summary": "Delete User",
                 "parameters": [
@@ -867,39 +989,6 @@ const docTemplate = `{
                 }
             }
         },
-        "request.GetAllUsersRequest": {
-            "type": "object",
-            "properties": {
-                "limit": {
-                    "type": "integer",
-                    "maximum": 100,
-                    "minimum": 1
-                },
-                "page": {
-                    "type": "integer",
-                    "minimum": 1
-                },
-                "search": {
-                    "type": "string"
-                },
-                "sortBy": {
-                    "type": "string",
-                    "enum": [
-                        "id",
-                        "name",
-                        "email",
-                        "created_at"
-                    ]
-                },
-                "sortOrder": {
-                    "type": "string",
-                    "enum": [
-                        "asc",
-                        "desc"
-                    ]
-                }
-            }
-        },
         "request.LoginRequest": {
             "type": "object",
             "required": [
@@ -918,6 +1007,13 @@ const docTemplate = `{
                 }
             }
         }
+    },
+    "securityDefinitions": {
+        "Bearer": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
     }
 }`
 
@@ -925,7 +1021,7 @@ const docTemplate = `{
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
 	Host:             "user-service:8081",
-	BasePath:         "/api/v1",
+	BasePath:         "",
 	Schemes:          []string{},
 	Title:            "User Service API",
 	Description:      "This is the API documentation for the User Service.",

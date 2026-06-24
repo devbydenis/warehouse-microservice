@@ -20,7 +20,7 @@ type uploadController struct {
 // UploadCategoryImage implements UploadControllerInterface.
 // @Summary Upload a category image
 // @Description Upload a category image
-// @Tags uploads
+// @Tags Product Upload Photo
 // @Accept multipart/form-data
 // @Produce json
 // @Param image formData file true "Category image"
@@ -28,6 +28,7 @@ type uploadController struct {
 // @Failure      400  {object} map[string]interface{}
 // @Failure      500  {object} map[string]interface{}
 // @Router       /api/v1/upload/category-image [post]
+// @Security Bearer
 func (u *uploadController) UploadCategoryImage(ctx *fiber.Ctx) error {
 	file, err := ctx.FormFile("image")
 	if err != nil {
@@ -62,7 +63,7 @@ func (u *uploadController) UploadCategoryImage(ctx *fiber.Ctx) error {
 // UploadProductImage implements UploadControllerInterface.
 // @Summary Upload a product image
 // @Description Upload a product image
-// @Tags uploads
+// @Tags Product Upload Photo
 // @Accept multipart/form-data
 // @Produce json
 // @Param image formData file true "Product image"
@@ -70,6 +71,7 @@ func (u *uploadController) UploadCategoryImage(ctx *fiber.Ctx) error {
 // @Failure      400  {object} map[string]interface{}
 // @Failure      500  {object} map[string]interface{}
 // @Router       /api/v1/upload/product-image [post]
+// @Security Bearer
 func (u *uploadController) UploadProductImage(ctx *fiber.Ctx) error {
 	file, err := ctx.FormFile("image")
 	if err != nil {

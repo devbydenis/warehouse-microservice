@@ -17,6 +17,11 @@ const docTemplate = `{
     "paths": {
         "/api/v1/categories": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Get all categories",
                 "consumes": [
                     "application/json"
@@ -25,7 +30,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "categories"
+                    "Product Categories"
                 ],
                 "summary": "Get all categories",
                 "parameters": [
@@ -85,6 +90,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Create a new category",
                 "consumes": [
                     "application/json"
@@ -93,7 +103,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "categories"
+                    "Product Categories"
                 ],
                 "summary": "Create a new category",
                 "parameters": [
@@ -134,6 +144,11 @@ const docTemplate = `{
         },
         "/api/v1/categories/{id}": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Get a category by ID",
                 "consumes": [
                     "application/json"
@@ -142,7 +157,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "categories"
+                    "Product Categories"
                 ],
                 "summary": "Get a category by ID",
                 "parameters": [
@@ -172,6 +187,11 @@ const docTemplate = `{
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Update a category by ID",
                 "consumes": [
                     "application/json"
@@ -180,7 +200,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "categories"
+                    "Product Categories"
                 ],
                 "summary": "Update a category by ID",
                 "parameters": [
@@ -226,6 +246,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Delete a category by ID",
                 "consumes": [
                     "application/json"
@@ -234,7 +259,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "categories"
+                    "Product Categories"
                 ],
                 "summary": "Delete a category by ID",
                 "parameters": [
@@ -266,6 +291,11 @@ const docTemplate = `{
         },
         "/api/v1/products": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Get all products",
                 "consumes": [
                     "application/json"
@@ -274,7 +304,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "products"
+                    "Products"
                 ],
                 "summary": "Get all products",
                 "parameters": [
@@ -334,6 +364,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Create a new product",
                 "consumes": [
                     "application/json"
@@ -342,7 +377,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "products"
+                    "Products"
                 ],
                 "summary": "Create a new product",
                 "parameters": [
@@ -383,6 +418,11 @@ const docTemplate = `{
         },
         "/api/v1/products/barcode/{barcode}": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Get a product by barcode",
                 "consumes": [
                     "application/json"
@@ -391,7 +431,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "products"
+                    "Products"
                 ],
                 "summary": "Get a product by barcode",
                 "parameters": [
@@ -423,6 +463,11 @@ const docTemplate = `{
         },
         "/api/v1/products/{id}": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Get a product by ID",
                 "consumes": [
                     "application/json"
@@ -431,7 +476,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "products"
+                    "Products"
                 ],
                 "summary": "Get a product by ID",
                 "parameters": [
@@ -461,6 +506,11 @@ const docTemplate = `{
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Update a product by ID",
                 "consumes": [
                     "application/json"
@@ -469,7 +519,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "products"
+                    "Products"
                 ],
                 "summary": "Update a product by ID",
                 "parameters": [
@@ -515,6 +565,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Delete a product by ID",
                 "consumes": [
                     "application/json"
@@ -523,7 +578,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "products"
+                    "Products"
                 ],
                 "summary": "Delete a product by ID",
                 "parameters": [
@@ -555,6 +610,11 @@ const docTemplate = `{
         },
         "/api/v1/upload/category-image": {
             "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Upload a category image",
                 "consumes": [
                     "multipart/form-data"
@@ -563,7 +623,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "uploads"
+                    "Product Upload Photo"
                 ],
                 "summary": "Upload a category image",
                 "parameters": [
@@ -602,6 +662,11 @@ const docTemplate = `{
         },
         "/api/v1/upload/product-image": {
             "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Upload a product image",
                 "consumes": [
                     "multipart/form-data"
@@ -610,7 +675,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "uploads"
+                    "Product Upload Photo"
                 ],
                 "summary": "Upload a product image",
                 "parameters": [
@@ -702,6 +767,13 @@ const docTemplate = `{
                 }
             }
         }
+    },
+    "securityDefinitions": {
+        "Bearer": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
     }
 }`
 
@@ -709,7 +781,7 @@ const docTemplate = `{
 var SwaggerInfo = &swag.Spec{
 	Version:          "2.0",
 	Host:             "product-service:8082",
-	BasePath:         "/api/v1",
+	BasePath:         "",
 	Schemes:          []string{},
 	Title:            "Product Service API",
 	Description:      "This is the API documentation for the Product Service.",

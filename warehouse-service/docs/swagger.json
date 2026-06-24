@@ -7,10 +7,14 @@
         "version": "1.0"
     },
     "host": "warehouse-service:8083",
-    "basePath": "/api/v1",
     "paths": {
         "/api/v1/upload-warehouse": {
             "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Upload photo",
                 "consumes": [
                     "multipart/form-data"
@@ -19,7 +23,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "upload"
+                    "Warehouse Upload Photo"
                 ],
                 "summary": "Upload photo",
                 "parameters": [
@@ -57,6 +61,11 @@
         },
         "/api/v1/warehouse-products/detail/products/{product_id}": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Get warehouse product by product ID",
                 "consumes": [
                     "application/json"
@@ -65,7 +74,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "warehouse"
+                    "Warehouse Products"
                 ],
                 "summary": "Get warehouse product by product ID",
                 "parameters": [
@@ -97,6 +106,11 @@
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Delete all warehouse products by product ID",
                 "consumes": [
                     "application/json"
@@ -105,7 +119,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "warehouse"
+                    "Warehouse Products"
                 ],
                 "summary": "Delete all warehouse products by product ID",
                 "parameters": [
@@ -137,6 +151,11 @@
         },
         "/api/v1/warehouse-products/detail/products/{product_id}/total-stock": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Get product total stock",
                 "consumes": [
                     "application/json"
@@ -145,7 +164,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "warehouse"
+                    "Warehouse Products"
                 ],
                 "summary": "Get product total stock",
                 "parameters": [
@@ -176,6 +195,11 @@
         },
         "/api/v1/warehouse-products/detail/products/{warehouse_product_id}/warehouses": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Get detail warehouse product by ID",
                 "consumes": [
                     "application/json"
@@ -184,7 +208,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "warehouse"
+                    "Warehouse Products"
                 ],
                 "summary": "Get detail warehouse product by ID",
                 "parameters": [
@@ -215,6 +239,11 @@
         },
         "/api/v1/warehouse-products/detail/{warehouse_product_id}": {
             "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Delete warehouse product",
                 "consumes": [
                     "application/json"
@@ -223,7 +252,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "warehouse"
+                    "Warehouse Products"
                 ],
                 "summary": "Delete warehouse product",
                 "parameters": [
@@ -255,6 +284,11 @@
         },
         "/api/v1/warehouse-products/detail/{warehouse_product_id}/{warehouse_id}": {
             "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Update warehouse product",
                 "consumes": [
                     "application/json"
@@ -263,7 +297,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "warehouse"
+                    "Warehouse Products"
                 ],
                 "summary": "Update warehouse product",
                 "parameters": [
@@ -318,6 +352,11 @@
         },
         "/api/v1/warehouse-products/{warehouse_id}": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Get detail warehouse",
                 "consumes": [
                     "application/json"
@@ -326,7 +365,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "warehouse"
+                    "Warehouse Products"
                 ],
                 "summary": "Get detail warehouse",
                 "parameters": [
@@ -355,6 +394,11 @@
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Create warehouse product",
                 "consumes": [
                     "application/json"
@@ -363,7 +407,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "warehouse"
+                    "Warehouse Products"
                 ],
                 "summary": "Create warehouse product",
                 "parameters": [
@@ -411,6 +455,11 @@
         },
         "/api/v1/warehouse-products/{warehouse_id}/detail/{product_id}": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Get warehouse product by warehouse ID and product ID",
                 "consumes": [
                     "application/json"
@@ -419,7 +468,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "warehouse"
+                    "Warehouse Products"
                 ],
                 "summary": "Get warehouse product by warehouse ID and product ID",
                 "parameters": [
@@ -457,6 +506,11 @@
         },
         "/api/v1/warehouses": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Get all warehouses",
                 "consumes": [
                     "application/json"
@@ -465,7 +519,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "warehouse"
+                    "Warehouses"
                 ],
                 "summary": "Get all warehouses",
                 "parameters": [
@@ -524,6 +578,11 @@
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Create warehouse",
                 "consumes": [
                     "application/json"
@@ -532,7 +591,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "warehouse"
+                    "Warehouses"
                 ],
                 "summary": "Create warehouse",
                 "parameters": [
@@ -573,6 +632,11 @@
         },
         "/api/v1/warehouses/{id}": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Get warehouse by ID",
                 "consumes": [
                     "application/json"
@@ -581,7 +645,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "warehouse"
+                    "Warehouses"
                 ],
                 "summary": "Get warehouse by ID",
                 "parameters": [
@@ -610,6 +674,11 @@
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Update warehouse",
                 "consumes": [
                     "application/json"
@@ -618,7 +687,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "warehouse"
+                    "Warehouses"
                 ],
                 "summary": "Update warehouse",
                 "parameters": [
@@ -664,6 +733,11 @@
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Delete warehouse",
                 "consumes": [
                     "application/json"
@@ -672,7 +746,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "warehouse"
+                    "Warehouses"
                 ],
                 "summary": "Delete warehouse",
                 "parameters": [
@@ -931,6 +1005,13 @@
                     "type": "string"
                 }
             }
+        }
+    },
+    "securityDefinitions": {
+        "Bearer": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }

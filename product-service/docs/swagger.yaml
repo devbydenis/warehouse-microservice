@@ -1,4 +1,3 @@
-basePath: /api/v1
 definitions:
   request.CreateCategoryRequest:
     properties:
@@ -88,9 +87,11 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - Bearer: []
       summary: Get all categories
       tags:
-      - categories
+      - Product Categories
     post:
       consumes:
       - application/json
@@ -120,9 +121,11 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - Bearer: []
       summary: Create a new category
       tags:
-      - categories
+      - Product Categories
   /api/v1/categories/{id}:
     delete:
       consumes:
@@ -147,9 +150,11 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - Bearer: []
       summary: Delete a category by ID
       tags:
-      - categories
+      - Product Categories
     get:
       consumes:
       - application/json
@@ -173,9 +178,11 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - Bearer: []
       summary: Get a category by ID
       tags:
-      - categories
+      - Product Categories
     put:
       consumes:
       - application/json
@@ -210,9 +217,11 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - Bearer: []
       summary: Update a category by ID
       tags:
-      - categories
+      - Product Categories
   /api/v1/products:
     get:
       consumes:
@@ -257,9 +266,11 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - Bearer: []
       summary: Get all products
       tags:
-      - products
+      - Products
     post:
       consumes:
       - application/json
@@ -289,9 +300,11 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - Bearer: []
       summary: Create a new product
       tags:
-      - products
+      - Products
   /api/v1/products/{id}:
     delete:
       consumes:
@@ -316,9 +329,11 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - Bearer: []
       summary: Delete a product by ID
       tags:
-      - products
+      - Products
     get:
       consumes:
       - application/json
@@ -342,9 +357,11 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - Bearer: []
       summary: Get a product by ID
       tags:
-      - products
+      - Products
     put:
       consumes:
       - application/json
@@ -379,9 +396,11 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - Bearer: []
       summary: Update a product by ID
       tags:
-      - products
+      - Products
   /api/v1/products/barcode/{barcode}:
     get:
       consumes:
@@ -406,9 +425,11 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - Bearer: []
       summary: Get a product by barcode
       tags:
-      - products
+      - Products
   /api/v1/upload/category-image:
     post:
       consumes:
@@ -438,9 +459,11 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - Bearer: []
       summary: Upload a category image
       tags:
-      - uploads
+      - Product Upload Photo
   /api/v1/upload/product-image:
     post:
       consumes:
@@ -470,7 +493,14 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - Bearer: []
       summary: Upload a product image
       tags:
-      - uploads
+      - Product Upload Photo
+securityDefinitions:
+  Bearer:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

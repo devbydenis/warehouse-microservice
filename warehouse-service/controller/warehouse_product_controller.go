@@ -32,7 +32,7 @@ type warehouseProductController struct {
 // CreateWarehouseProduct implements WarehouseProductController.
 // @Summary Create warehouse product
 // @Description Create warehouse product
-// @Tags warehouse
+// @Tags Warehouse Products
 // @Accept  json
 // @Produce  json
 // @Param warehouse_id path int true "Warehouse ID"
@@ -41,6 +41,7 @@ type warehouseProductController struct {
 // @Failure 400 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /api/v1/warehouse-products/{warehouse_id} [post]
+// @Security Bearer
 func (w *warehouseProductController) CreateWarehouseProduct(c *fiber.Ctx) error {
 	ctx := c.Context()
 
@@ -83,13 +84,14 @@ func (w *warehouseProductController) CreateWarehouseProduct(c *fiber.Ctx) error 
 // DeleteAllWarehouseProductByProductID implements WarehouseProductController.
 // @Summary Delete all warehouse products by product ID
 // @Description Delete all warehouse products by product ID
-// @Tags warehouse
+// @Tags Warehouse Products
 // @Accept  json
 // @Produce  json
 // @Param product_id path int true "Product ID"
 // @Success 200 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /api/v1/warehouse-products/detail/products/{product_id} [delete]
+// @Security Bearer
 func (w *warehouseProductController) DeleteAllWarehouseProductByProductID(c *fiber.Ctx) error {
 	ctx := c.Context()
 	productID := c.Params("product_id")
@@ -110,13 +112,14 @@ func (w *warehouseProductController) DeleteAllWarehouseProductByProductID(c *fib
 // DeleteWarehouseProduct implements WarehouseProductController.
 // @Summary Delete warehouse product
 // @Description Delete warehouse product
-// @Tags warehouse
+// @Tags Warehouse Products
 // @Accept  json
 // @Produce  json
 // @Param warehouse_product_id path int true "Warehouse Product ID"
 // @Success 200 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /api/v1/warehouse-products/detail/{warehouse_product_id} [delete]
+// @Security Bearer
 func (w *warehouseProductController) DeleteWarehouseProduct(c *fiber.Ctx) error {
 	ctx := c.Context()
 	warehouseProductID := c.Params("warehouse_product_id")
@@ -137,13 +140,14 @@ func (w *warehouseProductController) DeleteWarehouseProduct(c *fiber.Ctx) error 
 // GetDetailWarehouse implements WarehouseProductController.
 // @Summary Get detail warehouse
 // @Description Get detail warehouse
-// @Tags warehouse
+// @Tags Warehouse Products
 // @Accept  json
 // @Produce  json
 // @Param warehouse_id path int true "Warehouse ID"
 // @Success 200 {object} response.DetailWarehouseResponse
 // @Failure 500 {object} map[string]interface{}
 // @Router /api/v1/warehouse-products/{warehouse_id} [get]
+// @Security Bearer
 func (w *warehouseProductController) GetDetailWarehouse(c *fiber.Ctx) error {
 	ctx := c.Context()
 	warehouseID := c.Params("warehouse_id")
@@ -199,13 +203,14 @@ func (w *warehouseProductController) GetDetailWarehouse(c *fiber.Ctx) error {
 // GetDetailWarehouseProductByID implements WarehouseProductController.
 // @Summary Get detail warehouse product by ID
 // @Description Get detail warehouse product by ID
-// @Tags warehouse
+// @Tags Warehouse Products
 // @Accept  json
 // @Produce  json
 // @Param warehouse_product_id path int true "Warehouse Product ID"
 // @Success 200 {object} response.GetDetailWarehouseProductByIDResponse
 // @Failure 500 {object} map[string]interface{}
 // @Router /api/v1/warehouse-products/detail/products/{warehouse_product_id}/warehouses [get]
+// @Security Bearer
 func (w *warehouseProductController) GetDetailWarehouseProductByID(c *fiber.Ctx) error {
 	ctx := c.Context()
 	warehouseProductID := c.Params("warehouse_product_id")
@@ -243,13 +248,14 @@ func (w *warehouseProductController) GetDetailWarehouseProductByID(c *fiber.Ctx)
 // GetProductTotalStock implements WarehouseProductController.
 // @Summary Get product total stock
 // @Description Get product total stock
-// @Tags warehouse
+// @Tags Warehouse Products
 // @Accept  json
 // @Produce  json
 // @Param product_id path int true "Product ID"
 // @Success 200 {object} response.ProductTotalStockResponse
 // @Failure 500 {object} map[string]interface{}
 // @Router /api/v1/warehouse-products/detail/products/{product_id}/total-stock [get]
+// @Security Bearer
 func (w *warehouseProductController) GetProductTotalStock(c *fiber.Ctx) error {
 	ctx := c.Context()
 	productID := c.Params("product_id")
@@ -277,13 +283,14 @@ func (w *warehouseProductController) GetProductTotalStock(c *fiber.Ctx) error {
 // GetWarehouseProductByProductID implements WarehouseProductController.
 // @Summary Get warehouse product by product ID
 // @Description Get warehouse product by product ID
-// @Tags warehouse
+// @Tags Warehouse Products
 // @Accept  json
 // @Produce  json
 // @Param product_id path int true "Product ID"
 // @Success 200 {object} []response.WarehouseResponse
 // @Failure 500 {object} map[string]interface{}
 // @Router /api/v1/warehouse-products/detail/products/{product_id} [get]
+// @Security Bearer
 func (w *warehouseProductController) GetWarehouseProductByProductID(c *fiber.Ctx) error {
 	ctx := c.Context()
 	productID := c.Params("product_id")
@@ -317,7 +324,7 @@ func (w *warehouseProductController) GetWarehouseProductByProductID(c *fiber.Ctx
 // GetWarehouseProductByWarehouseIDAndProductID implements WarehouseProductController.
 // @Summary Get warehouse product by warehouse ID and product ID
 // @Description Get warehouse product by warehouse ID and product ID
-// @Tags warehouse
+// @Tags Warehouse Products
 // @Accept  json
 // @Produce  json
 // @Param warehouse_id path int true "Warehouse ID"
@@ -325,6 +332,7 @@ func (w *warehouseProductController) GetWarehouseProductByProductID(c *fiber.Ctx
 // @Success 200 {object} response.WarehouseProductResponse
 // @Failure 500 {object} map[string]interface{}
 // @Router /api/v1/warehouse-products/{warehouse_id}/detail/{product_id} [get]
+// @Security Bearer
 func (w *warehouseProductController) GetWarehouseProductByWarehouseIDAndProductID(c *fiber.Ctx) error {
 	ctx := c.Context()
 	warehouseID := c.Params("warehouse_id")
@@ -356,7 +364,7 @@ func (w *warehouseProductController) GetWarehouseProductByWarehouseIDAndProductI
 // UpdateWarehouseProduct implements WarehouseProductController.
 // @Summary Update warehouse product
 // @Description Update warehouse product
-// @Tags warehouse
+// @Tags Warehouse Products
 // @Accept  json
 // @Produce  json
 // @Param warehouse_product_id path int true "Warehouse Product ID"
@@ -366,6 +374,7 @@ func (w *warehouseProductController) GetWarehouseProductByWarehouseIDAndProductI
 // @Failure 400 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /api/v1/warehouse-products/detail/{warehouse_product_id}/{warehouse_id} [put]
+// @Security Bearer
 func (w *warehouseProductController) UpdateWarehouseProduct(c *fiber.Ctx) error {
 	ctx := c.Context()
 	warehouseProductID := c.Params("warehouse_product_id")

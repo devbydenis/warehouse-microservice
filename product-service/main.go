@@ -6,6 +6,9 @@ import "micro-warehouse/product-service/cmd"
 // @version 2.0
 // @description This is the API documentation for the Product Service.
 // @host product-service:8082
+// @SecurityDefinitions.apiKey Bearer
+// @in header
+// @name Authorization
 // @BasePath /api/v1
 func main() {
 	cmd.Execute()

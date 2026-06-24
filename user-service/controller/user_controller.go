@@ -1,8 +1,8 @@
 package controller
 
 import (
-	"micro-warehouse/user-service/controller/request"
-	"micro-warehouse/user-service/controller/response"
+	request "micro-warehouse/user-service/controller/request"
+	response "micro-warehouse/user-service/controller/response"
 	"micro-warehouse/user-service/model"
 	"micro-warehouse/user-service/pkg/conv"
 	"micro-warehouse/user-service/pkg/pagination"
@@ -37,7 +37,7 @@ type userController struct {
 // CreateUser implements UserControllerInterface.
 // @Summary Create User
 // @Description Create a new user
-// @Tags User
+// @Tags Users
 // @Accept json
 // @Produce json
 // @Param request body request.CreateUserRequest true "Create User Request Body"
@@ -45,6 +45,7 @@ type userController struct {
 // @Failure 400 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /api/v1/users [post]
+// @Security Bearer
 func (u *userController) CreateUser(c *fiber.Ctx) error {
 	ctx := c.Context()
 
@@ -86,7 +87,7 @@ func (u *userController) CreateUser(c *fiber.Ctx) error {
 // DeleteUser implements UserControllerInterface.
 // @Summary Delete User
 // @Description Delete a user
-// @Tags User
+// @Tags Users
 // @Accept json
 // @Produce json
 // @Param id path string true "User ID"
@@ -94,6 +95,7 @@ func (u *userController) CreateUser(c *fiber.Ctx) error {
 // @Failure 400 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /api/v1/users/{id} [delete]
+// @Security Bearer
 func (u *userController) DeleteUser(c *fiber.Ctx) error {
 	ctx := c.Context()
 	id := c.Params("id")
@@ -115,27 +117,32 @@ func (u *userController) DeleteUser(c *fiber.Ctx) error {
 // GetAllUsers implements UserControllerInterface.
 // @Summary Get All Users
 // @Description Get all users
-// @Tags User
+// @Tags Users
 // @Accept json
 // @Produce json
-// @Param request body request.GetAllUsersRequest true "Get All Users Request Body"
+// @Param page query int false "Page number"
+// @Param limit query int false "Items per page"
+// @Param search query string false "Search keyword"
+// @Param sortBy query string false "Sort by field"
+// @Param sortOrder query string false "Sort order (asc/desc)"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /api/v1/users [get]
+// @Security Bearer
 func (u *userController) GetAllUsers(c *fiber.Ctx) error {
 	ctx := c.Context()
 
 	var req request.GetAllUsersRequest
 	if err := c.QueryParser(&req); err != nil {
-		log.Errorf("[UserController] GetAllUserRoles - 1: %v", err)
+		log.Errorf("[UserController] GetAllUser - 1: %v", err)
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"message": err.Error(),
 		})
 	}
 
 	if err := validator.Validate(req); err != nil {
-		log.Errorf("[UserController] GetAllUserRoles - 2: %v", err)
+		log.Errorf("[UserController] GetAllUser - 2: %v", err)
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"message": err.Error(),
 		})
@@ -151,7 +158,7 @@ func (u *userController) GetAllUsers(c *fiber.Ctx) error {
 
 	users, total, err := u.userUsecase.GetAllUsers(ctx, req.Page, req.Limit, req.Search, req.SortBy, req.SortOrder)
 	if err != nil {
-		log.Errorf("[UserController] GetAllUserRoles - 3: %v", err)
+		log.Errorf("[UserController] GetAllUser - 3: %v", err)
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": err.Error(),
 		})
@@ -191,7 +198,7 @@ func (u *userController) GetAllUsers(c *fiber.Ctx) error {
 // GetUserByID implements UserControllerInterface.
 // @Summary Get User By ID
 // @Description Get a user by ID
-// @Tags User
+// @Tags Users
 // @Accept json
 // @Produce json
 // @Param id path string true "User ID"
@@ -199,6 +206,7 @@ func (u *userController) GetAllUsers(c *fiber.Ctx) error {
 // @Failure 400 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /api/v1/users/{id} [get]
+// @Security Bearer
 func (u *userController) GetUserByID(c *fiber.Ctx) error {
 	ctx := c.Context()
 	id := c.Params("id")
@@ -235,7 +243,7 @@ func (u *userController) GetUserByID(c *fiber.Ctx) error {
 // UpdateUser implements UserControllerInterface.
 // @Summary Update User
 // @Description Update a user by ID
-// @Tags User
+// @Tags Users
 // @Accept json
 // @Produce json
 // @Param id path string true "User ID"
@@ -243,6 +251,7 @@ func (u *userController) GetUserByID(c *fiber.Ctx) error {
 // @Failure 400 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /api/v1/users/{id} [put]
+// @Security Bearer
 func (u *userController) UpdateUser(c *fiber.Ctx) error {
 	ctx := c.Context()
 	id := c.Params("id")
@@ -306,6 +315,7 @@ func (u *userController) UpdateUser(c *fiber.Ctx) error {
 // @Failure 400 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /api/v1/assign-role [post]
+// @Security Bearer
 func (u *userController) AssignUserToRole(c *fiber.Ctx) error {
 	ctx := c.Context()
 
@@ -347,6 +357,7 @@ func (u *userController) AssignUserToRole(c *fiber.Ctx) error {
 // @Failure 400 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /api/v1/users/role/{roleName} [get]
+// @Security Bearer
 func (u *userController) GetUserByRoleName(c *fiber.Ctx) error {
 	ctx := c.Context()
 	roleName := c.Params("roleName")
@@ -393,6 +404,7 @@ func (u *userController) GetUserByRoleName(c *fiber.Ctx) error {
 // @Failure 400 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /api/v1/assign-role/{userRoleID} [get]
+// @Security Bearer
 func (u *userController) GetUserRoleByID(c *fiber.Ctx) error {
 	ctx := c.Context()
 	userRoleIDStr := c.Params("userRoleID")
@@ -423,6 +435,7 @@ func (u *userController) GetUserRoleByID(c *fiber.Ctx) error {
 // @Failure 400 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /api/v1/assign-role/{userRoleID} [put]
+// @Security Bearer
 func (u *userController) EditAssignUserToRole(c *fiber.Ctx) error {
 	ctx := c.Context()
 
@@ -462,11 +475,16 @@ func (u *userController) EditAssignUserToRole(c *fiber.Ctx) error {
 // @Tags Assign Role
 // @Accept json
 // @Produce json
-// @Param request body request.GetAllUsersRequest true "Get All Users Request Body"
+// @Param page query int false "Page number"
+// @Param limit query int false "Items per page"
+// @Param search query string false "Search keyword"
+// @Param sortBy query string false "Sort by field"
+// @Param sortOrder query string false "Sort order (asc/desc)"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /api/v1/assign-role [get]
+// @Security Bearer
 func (u *userController) GetAllUserRoles(c *fiber.Ctx) error {
 	ctx := c.Context()
 

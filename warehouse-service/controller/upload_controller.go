@@ -19,7 +19,7 @@ type uploadController struct {
 // UploadPhoto implements UploadControllerInterface.
 // @Summary Upload photo
 // @Description Upload photo
-// @Tags upload
+// @Tags Warehouse Upload Photo
 // @Accept  multipart/form-data
 // @Produce  json
 // @Param image formData file true "Image to upload"
@@ -27,6 +27,7 @@ type uploadController struct {
 // @Failure 400 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /api/v1/upload-warehouse [post]
+// @Security Bearer
 func (u *uploadController) UploadPhoto(c *fiber.Ctx) error {
 	file, err := c.FormFile("image")
 	if err != nil {

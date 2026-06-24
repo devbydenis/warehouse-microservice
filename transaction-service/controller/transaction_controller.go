@@ -32,7 +32,7 @@ type transactionController struct {
 // CreateTransaction implements [TransactionControllerInterface].
 // @Summary      Create transaction
 // @Description  Create a new transaction
-// @Tags         transaction
+// @Tags         Transaction
 // @Accept       json
 // @Produce      json
 // @Param      transaction body request.CreateTransactionWithProductRequest true "Transaction data"
@@ -40,6 +40,7 @@ type transactionController struct {
 // @Failure      400  {object} map[string]interface{}
 // @Failure      500  {object} map[string]interface{}
 // @Router       /api/v1/transactions [post]
+// @Security Bearer
 func (t *transactionController) CreateTransaction(ctx *fiber.Ctx) error {
 	var req request.CreateTransactionWithProductRequest
 	if err := ctx.BodyParser(&req); err != nil {
@@ -132,7 +133,7 @@ func (t *transactionController) CreateTransaction(ctx *fiber.Ctx) error {
 // GetDashboardByMerchant implements [TransactionControllerInterface].
 // @Summary      Get dashboard by merchant
 // @Description  Get dashboard statistics by merchant
-// @Tags         dashboard
+// @Tags         Dashboard
 // @Accept       json
 // @Produce      json
 // @Param      	 merchant_id path string true "Merchant ID"
@@ -140,6 +141,7 @@ func (t *transactionController) CreateTransaction(ctx *fiber.Ctx) error {
 // @Success      200  {object} response.DashboardByMerchantResponse
 // @Failure      500  {object} map[string]interface{}
 // @Router       /api/v1/dashboard/keeper/merchant/{merchant_id} [get]
+// @Security Bearer
 func (t *transactionController) GetDashboardByMerchant(c *fiber.Ctx) error {
 	ctx := c.Context()
 
@@ -178,13 +180,14 @@ func (t *transactionController) GetDashboardByMerchant(c *fiber.Ctx) error {
 // GetManagerDashboard implements [TransactionControllerInterface].
 // @Summary      Get dashboard by manager
 // @Description  Get dashboard statistics by manager
-// @Tags         dashboard
+// @Tags         Dashboard
 // @Accept       json
 // @Produce      json
 // @Param      	 user_id query uint true "User ID"
 // @Success      200  {object} response.DashboardResponse
 // @Failure      500  {object} map[string]interface{}
 // @Router       /api/v1/dashboard/manager [get]
+// @Security Bearer
 func (t *transactionController) GetManagerDashboard(c *fiber.Ctx) error {
 	ctx := c.Context()
 
@@ -214,7 +217,7 @@ func (t *transactionController) GetManagerDashboard(c *fiber.Ctx) error {
 // GetTransactions implements [TransactionControllerInterface].
 // @Summary      Get transactions
 // @Description  Get all transactions
-// @Tags         transaction
+// @Tags         Transaction
 // @Accept       json
 // @Produce      json
 // @Param page query int false "Page number"
@@ -226,6 +229,7 @@ func (t *transactionController) GetManagerDashboard(c *fiber.Ctx) error {
 // @Success      200  {object} response.GetAllTransactionsResponse
 // @Failure      500  {object} map[string]interface{}
 // @Router       /api/v1/transactions [get]
+// @Security Bearer
 func (t *transactionController) GetTransactions(c *fiber.Ctx) error {
 	ctx := c.Context()
 
@@ -317,13 +321,14 @@ func (t *transactionController) GetTransactions(c *fiber.Ctx) error {
 // MidtransCallback implements [TransactionControllerInterface].
 // @Summary      Midtrans callback
 // @Description  Handle Midtrans callback
-// @Tags         transaction
+// @Tags         Transaction
 // @Accept       json
 // @Produce      json
 // @Param        request body request.MidtransCallbackRequest true "Midtrans callback request"
 // @Success      200  {object} map[string]interface{}
 // @Failure      500  {object} map[string]interface{}
 // @Router       /api/v1/midtrans/callback [post]
+// @Security Bearer
 func (t *transactionController) MidtransCallback(c *fiber.Ctx) error {
 	ctx := c.Context()
 

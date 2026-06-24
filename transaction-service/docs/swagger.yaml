@@ -1,4 +1,3 @@
-basePath: /api/v1
 definitions:
   pagination.PaginationResponse:
     properties:
@@ -265,9 +264,11 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - Bearer: []
       summary: Get dashboard by merchant
       tags:
-      - dashboard
+      - Dashboard
   /api/v1/dashboard/manager:
     get:
       consumes:
@@ -291,9 +292,11 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - Bearer: []
       summary: Get dashboard by manager
       tags:
-      - dashboard
+      - Dashboard
   /api/v1/midtrans/callback:
     post:
       consumes:
@@ -319,9 +322,11 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - Bearer: []
       summary: Midtrans callback
       tags:
-      - transaction
+      - Transaction
   /api/v1/transactions:
     get:
       consumes:
@@ -364,9 +369,11 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - Bearer: []
       summary: Get transactions
       tags:
-      - transaction
+      - Transaction
     post:
       consumes:
       - application/json
@@ -396,7 +403,14 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - Bearer: []
       summary: Create transaction
       tags:
-      - transaction
+      - Transaction
+securityDefinitions:
+  Bearer:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

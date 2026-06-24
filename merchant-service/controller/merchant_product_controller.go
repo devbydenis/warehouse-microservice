@@ -31,7 +31,7 @@ type merchantProductController struct {
 
 // CreateMerchantProduct implements MerchantProductControllerInterface.
 // @Summary Create Merchant Product
-// @Tags Merchant Product
+// @Tags Merchant Products
 // @Accept json
 // @Produce json
 // @Param product body request.CreateMerchantProductRequest true "Product"
@@ -39,6 +39,7 @@ type merchantProductController struct {
 // @Failure      400  {object} map[string]interface{}
 // @Failure      500  {object} map[string]interface{}
 // @Router       /api/v1/merchant-products [post]
+// @Security Bearer
 func (m *merchantProductController) CreateMerchantProduct(c *fiber.Ctx) error {
 	ctx := c.Context()
 
@@ -78,7 +79,7 @@ func (m *merchantProductController) CreateMerchantProduct(c *fiber.Ctx) error {
 
 // DeleteAllProductMerchantProducts implements MerchantProductControllerInterface.
 // @Summary Delete All Product Merchant Products
-// @Tags Merchant Product
+// @Tags Merchant Products
 // @Accept json
 // @Produce json
 // @Param product_id path uint true "Product ID"
@@ -86,6 +87,7 @@ func (m *merchantProductController) CreateMerchantProduct(c *fiber.Ctx) error {
 // @Failure      400  {object} map[string]interface{}
 // @Failure      500  {object} map[string]interface{}
 // @Router       /api/v1/merchant-products/product/{product_id} [delete]
+// @Security Bearer
 func (m *merchantProductController) DeleteAllProductMerchantProducts(c *fiber.Ctx) error {
 	ctx := c.Context()
 	productID := c.Params("product_id")
@@ -105,7 +107,7 @@ func (m *merchantProductController) DeleteAllProductMerchantProducts(c *fiber.Ct
 
 // DeleteMerchantProduct implements MerchantProductControllerInterface.
 // @Summary Delete Merchant Product
-// @Tags Merchant Product
+// @Tags Merchant Products
 // @Accept json
 // @Produce json
 // @Param merchant_product_id path uint true "Merchant Product ID"
@@ -113,6 +115,7 @@ func (m *merchantProductController) DeleteAllProductMerchantProducts(c *fiber.Ct
 // @Failure      400  {object} map[string]interface{}
 // @Failure      500  {object} map[string]interface{}
 // @Router       /api/v1/merchant-products/{merchant_product_id} [delete]
+// @Security Bearer
 func (m *merchantProductController) DeleteMerchantProduct(c *fiber.Ctx) error {
 	ctx := c.Context()
 	merchantProductID := c.Params("merchant_product_id")
@@ -132,7 +135,7 @@ func (m *merchantProductController) DeleteMerchantProduct(c *fiber.Ctx) error {
 
 // GetMerchantProductByBarcode implements MerchantProductControllerInterface.
 // @Summary Get Merchant Product By Barcode
-// @Tags Merchant Product
+// @Tags Merchant Products
 // @Accept json
 // @Produce json
 // @Param barcode path string true "Barcode"
@@ -141,6 +144,7 @@ func (m *merchantProductController) DeleteMerchantProduct(c *fiber.Ctx) error {
 // @Failure      400  {object} map[string]interface{}
 // @Failure      500  {object} map[string]interface{}
 // @Router       /api/v1/merchant-products/barcode/{barcode} [get]
+// @Security Bearer
 func (m *merchantProductController) GetMerchantProductByBarcode(c *fiber.Ctx) error {
 	ctx := c.Context()
 	barcode := c.Params("barcode")
@@ -178,7 +182,7 @@ func (m *merchantProductController) GetMerchantProductByBarcode(c *fiber.Ctx) er
 
 // GetMerchantProductByID implements MerchantProductControllerInterface.
 // @Summary Get Merchant Product By ID
-// @Tags Merchant Product
+// @Tags Merchant Products
 // @Accept json
 // @Produce json
 // @Param merchant_product_id path uint true "Merchant Product ID"
@@ -186,6 +190,7 @@ func (m *merchantProductController) GetMerchantProductByBarcode(c *fiber.Ctx) er
 // @Failure      400  {object} map[string]interface{}
 // @Failure      500  {object} map[string]interface{}
 // @Router       /api/v1/merchant-products/{merchant_product_id} [get]
+// @Security Bearer
 func (m *merchantProductController) GetMerchantProductByID(c *fiber.Ctx) error {
 	ctx := c.Context()
 	merchantProductID := c.Params("merchant_product_id")
@@ -219,7 +224,7 @@ func (m *merchantProductController) GetMerchantProductByID(c *fiber.Ctx) error {
 
 // GetMerchantProducts implements MerchantProductControllerInterface.
 // @Summary Get Merchant Products
-// @Tags Merchant Product
+// @Tags Merchant Products
 // @Accept json
 // @Produce json
 // @Param 			page query int false "Page"
@@ -234,6 +239,7 @@ func (m *merchantProductController) GetMerchantProductByID(c *fiber.Ctx) error {
 // @Failure      400  {object} map[string]interface{}
 // @Failure      500  {object} map[string]interface{}
 // @Router       /api/v1/merchant-products [get]
+// @Security Bearer
 func (m *merchantProductController) GetMerchantProducts(c *fiber.Ctx) error {
 	ctx := c.Context()
 
@@ -314,7 +320,7 @@ func (m *merchantProductController) GetMerchantProducts(c *fiber.Ctx) error {
 
 // GetProductTotalStock implements MerchantProductControllerInterface.
 // @Summary Get Product Total Stock
-// @Tags Merchant Product
+// @Tags Merchant Products
 // @Accept json
 // @Produce json
 // @Param product_id path uint true "Product ID"
@@ -322,6 +328,7 @@ func (m *merchantProductController) GetMerchantProducts(c *fiber.Ctx) error {
 // @Failure      400  {object} map[string]interface{}
 // @Failure      500  {object} map[string]interface{}
 // @Router       /api/v1/merchant-products/{product_id}/total-stock [get]
+// @Security Bearer
 func (m *merchantProductController) GetProductTotalStock(c *fiber.Ctx) error {
 	ctx := c.Context()
 	productID := c.Params("product_id")
@@ -343,7 +350,7 @@ func (m *merchantProductController) GetProductTotalStock(c *fiber.Ctx) error {
 
 // UpdateMerchantProduct implements MerchantProductControllerInterface.
 // @Summary Update Merchant Product
-// @Tags Merchant Product
+// @Tags Merchant Products
 // @Accept json
 // @Produce json
 // @Param merchant_product_id path uint true "Merchant Product ID"
@@ -352,6 +359,7 @@ func (m *merchantProductController) GetProductTotalStock(c *fiber.Ctx) error {
 // @Failure      400  {object} map[string]interface{}
 // @Failure      500  {object} map[string]interface{}
 // @Router       /api/v1/merchant-products/{merchant_product_id} [put]
+// @Security Bearer
 func (m *merchantProductController) UpdateMerchantProduct(c *fiber.Ctx) error {
 	ctx := c.Context()
 	merchantProductID := c.Params("merchant_product_id")

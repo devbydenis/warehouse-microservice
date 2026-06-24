@@ -7,10 +7,14 @@
         "version": "2.0"
     },
     "host": "product-service:8082",
-    "basePath": "/api/v1",
     "paths": {
         "/api/v1/categories": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Get all categories",
                 "consumes": [
                     "application/json"
@@ -19,7 +23,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "categories"
+                    "Product Categories"
                 ],
                 "summary": "Get all categories",
                 "parameters": [
@@ -79,6 +83,11 @@
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Create a new category",
                 "consumes": [
                     "application/json"
@@ -87,7 +96,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "categories"
+                    "Product Categories"
                 ],
                 "summary": "Create a new category",
                 "parameters": [
@@ -128,6 +137,11 @@
         },
         "/api/v1/categories/{id}": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Get a category by ID",
                 "consumes": [
                     "application/json"
@@ -136,7 +150,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "categories"
+                    "Product Categories"
                 ],
                 "summary": "Get a category by ID",
                 "parameters": [
@@ -166,6 +180,11 @@
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Update a category by ID",
                 "consumes": [
                     "application/json"
@@ -174,7 +193,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "categories"
+                    "Product Categories"
                 ],
                 "summary": "Update a category by ID",
                 "parameters": [
@@ -220,6 +239,11 @@
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Delete a category by ID",
                 "consumes": [
                     "application/json"
@@ -228,7 +252,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "categories"
+                    "Product Categories"
                 ],
                 "summary": "Delete a category by ID",
                 "parameters": [
@@ -260,6 +284,11 @@
         },
         "/api/v1/products": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Get all products",
                 "consumes": [
                     "application/json"
@@ -268,7 +297,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "products"
+                    "Products"
                 ],
                 "summary": "Get all products",
                 "parameters": [
@@ -328,6 +357,11 @@
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Create a new product",
                 "consumes": [
                     "application/json"
@@ -336,7 +370,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "products"
+                    "Products"
                 ],
                 "summary": "Create a new product",
                 "parameters": [
@@ -377,6 +411,11 @@
         },
         "/api/v1/products/barcode/{barcode}": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Get a product by barcode",
                 "consumes": [
                     "application/json"
@@ -385,7 +424,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "products"
+                    "Products"
                 ],
                 "summary": "Get a product by barcode",
                 "parameters": [
@@ -417,6 +456,11 @@
         },
         "/api/v1/products/{id}": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Get a product by ID",
                 "consumes": [
                     "application/json"
@@ -425,7 +469,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "products"
+                    "Products"
                 ],
                 "summary": "Get a product by ID",
                 "parameters": [
@@ -455,6 +499,11 @@
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Update a product by ID",
                 "consumes": [
                     "application/json"
@@ -463,7 +512,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "products"
+                    "Products"
                 ],
                 "summary": "Update a product by ID",
                 "parameters": [
@@ -509,6 +558,11 @@
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Delete a product by ID",
                 "consumes": [
                     "application/json"
@@ -517,7 +571,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "products"
+                    "Products"
                 ],
                 "summary": "Delete a product by ID",
                 "parameters": [
@@ -549,6 +603,11 @@
         },
         "/api/v1/upload/category-image": {
             "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Upload a category image",
                 "consumes": [
                     "multipart/form-data"
@@ -557,7 +616,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "uploads"
+                    "Product Upload Photo"
                 ],
                 "summary": "Upload a category image",
                 "parameters": [
@@ -596,6 +655,11 @@
         },
         "/api/v1/upload/product-image": {
             "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Upload a product image",
                 "consumes": [
                     "multipart/form-data"
@@ -604,7 +668,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "uploads"
+                    "Product Upload Photo"
                 ],
                 "summary": "Upload a product image",
                 "parameters": [
@@ -695,6 +759,13 @@
                     "type": "string"
                 }
             }
+        }
+    },
+    "securityDefinitions": {
+        "Bearer": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }

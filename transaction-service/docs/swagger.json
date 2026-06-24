@@ -7,10 +7,14 @@
         "version": "1.0"
     },
     "host": "transaction-service:8085",
-    "basePath": "/api/v1",
     "paths": {
         "/api/v1/dashboard/keeper/merchant/{merchant_id}": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Get dashboard statistics by merchant",
                 "consumes": [
                     "application/json"
@@ -19,7 +23,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "dashboard"
+                    "Dashboard"
                 ],
                 "summary": "Get dashboard by merchant",
                 "parameters": [
@@ -57,6 +61,11 @@
         },
         "/api/v1/dashboard/manager": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Get dashboard statistics by manager",
                 "consumes": [
                     "application/json"
@@ -65,7 +74,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "dashboard"
+                    "Dashboard"
                 ],
                 "summary": "Get dashboard by manager",
                 "parameters": [
@@ -96,6 +105,11 @@
         },
         "/api/v1/midtrans/callback": {
             "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Handle Midtrans callback",
                 "consumes": [
                     "application/json"
@@ -104,7 +118,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "transaction"
+                    "Transaction"
                 ],
                 "summary": "Midtrans callback",
                 "parameters": [
@@ -138,6 +152,11 @@
         },
         "/api/v1/transactions": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Get all transactions",
                 "consumes": [
                     "application/json"
@@ -146,7 +165,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "transaction"
+                    "Transaction"
                 ],
                 "summary": "Get transactions",
                 "parameters": [
@@ -204,6 +223,11 @@
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Create a new transaction",
                 "consumes": [
                     "application/json"
@@ -212,7 +236,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "transaction"
+                    "Transaction"
                 ],
                 "summary": "Create transaction",
                 "parameters": [
@@ -595,6 +619,13 @@
                     }
                 }
             }
+        }
+    },
+    "securityDefinitions": {
+        "Bearer": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }

@@ -1,4 +1,3 @@
-basePath: /api/v1
 definitions:
   request.AssignUserToRoleRequest:
     properties:
@@ -36,30 +35,6 @@ definitions:
     - phone
     - photo
     type: object
-  request.GetAllUsersRequest:
-    properties:
-      limit:
-        maximum: 100
-        minimum: 1
-        type: integer
-      page:
-        minimum: 1
-        type: integer
-      search:
-        type: string
-      sortBy:
-        enum:
-        - id
-        - name
-        - email
-        - created_at
-        type: string
-      sortOrder:
-        enum:
-        - asc
-        - desc
-        type: string
-    type: object
   request.LoginRequest:
     properties:
       email:
@@ -86,12 +61,26 @@ paths:
       - application/json
       description: Get all users with their roles
       parameters:
-      - description: Get All Users Request Body
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/request.GetAllUsersRequest'
+      - description: Page number
+        in: query
+        name: page
+        type: integer
+      - description: Items per page
+        in: query
+        name: limit
+        type: integer
+      - description: Search keyword
+        in: query
+        name: search
+        type: string
+      - description: Sort by field
+        in: query
+        name: sortBy
+        type: string
+      - description: Sort order (asc/desc)
+        in: query
+        name: sortOrder
+        type: string
       produces:
       - application/json
       responses:
@@ -110,6 +99,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - Bearer: []
       summary: Get All User Roles
       tags:
       - Assign Role
@@ -142,6 +133,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - Bearer: []
       summary: Assign User To Role
       tags:
       - Assign Role
@@ -174,6 +167,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - Bearer: []
       summary: Get User Role By ID
       tags:
       - Assign Role
@@ -206,6 +201,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - Bearer: []
       summary: Edit Assign User To Role
       tags:
       - Assign Role
@@ -270,6 +267,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - Bearer: []
       summary: Get All Roles
       tags:
       - Role
@@ -302,6 +301,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - Bearer: []
       summary: Create Role
       tags:
       - Role
@@ -334,6 +335,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - Bearer: []
       summary: Delete Role
       tags:
       - Role
@@ -365,6 +368,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - Bearer: []
       summary: Get Role By ID
       tags:
       - Role
@@ -397,6 +402,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - Bearer: []
       summary: Update Role
       tags:
       - Role
@@ -429,21 +436,37 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - Bearer: []
       summary: Upload Photo
       tags:
-      - Upload
+      - User Upload Photo
   /api/v1/users:
     get:
       consumes:
       - application/json
       description: Get all users
       parameters:
-      - description: Get All Users Request Body
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/request.GetAllUsersRequest'
+      - description: Page number
+        in: query
+        name: page
+        type: integer
+      - description: Items per page
+        in: query
+        name: limit
+        type: integer
+      - description: Search keyword
+        in: query
+        name: search
+        type: string
+      - description: Sort by field
+        in: query
+        name: sortBy
+        type: string
+      - description: Sort order (asc/desc)
+        in: query
+        name: sortOrder
+        type: string
       produces:
       - application/json
       responses:
@@ -462,9 +485,11 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - Bearer: []
       summary: Get All Users
       tags:
-      - User
+      - Users
     post:
       consumes:
       - application/json
@@ -494,9 +519,11 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - Bearer: []
       summary: Create User
       tags:
-      - User
+      - Users
   /api/v1/users/{id}:
     delete:
       consumes:
@@ -526,9 +553,11 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - Bearer: []
       summary: Delete User
       tags:
-      - User
+      - Users
     get:
       consumes:
       - application/json
@@ -557,9 +586,11 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - Bearer: []
       summary: Get User By ID
       tags:
-      - User
+      - Users
     put:
       consumes:
       - application/json
@@ -588,9 +619,11 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - Bearer: []
       summary: Update User
       tags:
-      - User
+      - Users
   /api/v1/users/role/{roleName}:
     get:
       consumes:
@@ -620,7 +653,14 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - Bearer: []
       summary: Get User By Role Name
       tags:
       - Assign Role
+securityDefinitions:
+  Bearer:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

@@ -28,7 +28,7 @@ type categoryController struct {
 // CreateCategory implements CategoryControllerInterface.
 // @Summary Create a new category
 // @Description Create a new category
-// @Tags categories
+// @Tags Product Categories
 // @Accept json
 // @Produce json
 // @Param request body request.CreateCategoryRequest true "Category data"
@@ -36,6 +36,7 @@ type categoryController struct {
 // @Failure      400  {object} map[string]interface{}
 // @Failure      500  {object} map[string]interface{}
 // @Router       /api/v1/categories [post]
+// @Security Bearer
 func (c *categoryController) CreateCategory(ctx *fiber.Ctx) error {
 	var req request.CreateCategoryRequest
 	if err := ctx.BodyParser(&req); err != nil {
@@ -73,13 +74,14 @@ func (c *categoryController) CreateCategory(ctx *fiber.Ctx) error {
 // DeleteCategory implements CategoryControllerInterface.
 // @Summary Delete a category by ID
 // @Description Delete a category by ID
-// @Tags categories
+// @Tags Product Categories
 // @Accept json
 // @Produce json
 // @Param id path string true "Category ID"
 // @Success      200  {object} map[string]interface{}
 // @Failure      500  {object} map[string]interface{}
 // @Router       /api/v1/categories/{id} [delete]
+// @Security Bearer
 func (c *categoryController) DeleteCategory(ctx *fiber.Ctx) error {
 	id := ctx.Params("id")
 	idUint := conv.StringToUint(id)
@@ -99,7 +101,7 @@ func (c *categoryController) DeleteCategory(ctx *fiber.Ctx) error {
 // GetAllCategories implements CategoryControllerInterface.
 // @Summary Get all categories
 // @Description Get all categories
-// @Tags categories
+// @Tags Product Categories
 // @Accept json
 // @Produce json
 // @Param page query int false "Page number"
@@ -111,6 +113,7 @@ func (c *categoryController) DeleteCategory(ctx *fiber.Ctx) error {
 // @Failure      400  {object} map[string]interface{}
 // @Failure      500  {object} map[string]interface{}
 // @Router       /api/v1/categories [get]
+// @Security Bearer
 func (c *categoryController) GetAllCategories(ctx *fiber.Ctx) error {
 	var req request.GetAllCategoryRequest
 	if err := ctx.QueryParser(&req); err != nil {
@@ -162,13 +165,14 @@ func (c *categoryController) GetAllCategories(ctx *fiber.Ctx) error {
 // GetCategoryByID implements CategoryControllerInterface.
 // @Summary Get a category by ID
 // @Description Get a category by ID
-// @Tags categories
+// @Tags Product Categories
 // @Accept json
 // @Produce json
 // @Param id path string true "Category ID"
 // @Success      200  {object} map[string]interface{}
 // @Failure      500  {object} map[string]interface{}
 // @Router       /api/v1/categories/{id} [get]
+// @Security Bearer
 func (c *categoryController) GetCategoryByID(ctx *fiber.Ctx) error {
 	id := ctx.Params("id")
 	idUint := conv.StringToUint(id)
@@ -198,7 +202,7 @@ func (c *categoryController) GetCategoryByID(ctx *fiber.Ctx) error {
 // UpdateCategory implements CategoryControllerInterface.
 // @Summary Update a category by ID
 // @Description Update a category by ID
-// @Tags categories
+// @Tags Product Categories
 // @Accept json
 // @Produce json
 // @Param id path string true "Category ID"
@@ -207,6 +211,7 @@ func (c *categoryController) GetCategoryByID(ctx *fiber.Ctx) error {
 // @Failure      400  {object} map[string]interface{}
 // @Failure      500  {object} map[string]interface{}
 // @Router       /api/v1/categories/{id} [put]
+// @Security Bearer
 func (c *categoryController) UpdateCategory(ctx *fiber.Ctx) error {
 	id := ctx.Params("id")
 	idUint := conv.StringToUint(id)

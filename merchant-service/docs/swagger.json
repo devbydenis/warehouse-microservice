@@ -7,10 +7,14 @@
         "version": "1.0"
     },
     "host": "merchant-service:8084",
-    "basePath": "/api/v1",
     "paths": {
         "/api/v1/merchant-products": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -18,7 +22,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Merchant Product"
+                    "Merchant Products"
                 ],
                 "summary": "Get Merchant Products",
                 "parameters": [
@@ -96,6 +100,11 @@
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -103,7 +112,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Merchant Product"
+                    "Merchant Products"
                 ],
                 "summary": "Create Merchant Product",
                 "parameters": [
@@ -144,6 +153,11 @@
         },
         "/api/v1/merchant-products/barcode/{barcode}": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -151,7 +165,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Merchant Product"
+                    "Merchant Products"
                 ],
                 "summary": "Get Merchant Product By Barcode",
                 "parameters": [
@@ -197,6 +211,11 @@
         },
         "/api/v1/merchant-products/product/{product_id}": {
             "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -204,7 +223,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Merchant Product"
+                    "Merchant Products"
                 ],
                 "summary": "Delete All Product Merchant Products",
                 "parameters": [
@@ -243,6 +262,11 @@
         },
         "/api/v1/merchant-products/{merchant_product_id}": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -250,7 +274,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Merchant Product"
+                    "Merchant Products"
                 ],
                 "summary": "Get Merchant Product By ID",
                 "parameters": [
@@ -287,6 +311,11 @@
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -294,7 +323,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Merchant Product"
+                    "Merchant Products"
                 ],
                 "summary": "Update Merchant Product",
                 "parameters": [
@@ -340,6 +369,11 @@
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -347,7 +381,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Merchant Product"
+                    "Merchant Products"
                 ],
                 "summary": "Delete Merchant Product",
                 "parameters": [
@@ -386,6 +420,11 @@
         },
         "/api/v1/merchant-products/{product_id}/total-stock": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -393,7 +432,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Merchant Product"
+                    "Merchant Products"
                 ],
                 "summary": "Get Product Total Stock",
                 "parameters": [
@@ -432,6 +471,11 @@
         },
         "/api/v1/merchants": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -439,7 +483,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Merchant"
+                    "Merchants"
                 ],
                 "summary": "Get All Merchants",
                 "parameters": [
@@ -517,6 +561,11 @@
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -524,7 +573,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Merchant"
+                    "Merchants"
                 ],
                 "summary": "Create Merchant",
                 "parameters": [
@@ -565,6 +614,11 @@
         },
         "/api/v1/merchants/{id}": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -572,7 +626,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Merchant"
+                    "Merchants"
                 ],
                 "summary": "Get Merchant By ID",
                 "parameters": [
@@ -609,6 +663,11 @@
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -616,7 +675,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Merchant"
+                    "Merchants"
                 ],
                 "summary": "Update Merchant",
                 "parameters": [
@@ -662,6 +721,11 @@
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -669,7 +733,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Merchant"
+                    "Merchants"
                 ],
                 "summary": "Delete Merchant",
                 "parameters": [
@@ -708,6 +772,11 @@
         },
         "/api/v1/upload-merchant": {
             "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "consumes": [
                     "multipart/form-data"
                 ],
@@ -715,7 +784,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Upload"
+                    "Merchant Upload Photo"
                 ],
                 "summary": "Upload Merchant Photo",
                 "parameters": [
@@ -803,6 +872,13 @@
                     "type": "string"
                 }
             }
+        }
+    },
+    "securityDefinitions": {
+        "Bearer": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }

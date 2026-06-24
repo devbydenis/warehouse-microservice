@@ -6,6 +6,9 @@ import "micro-warehouse/user-service/cmd"
 // @version 1.0
 // @description This is the API documentation for the User Service.
 // @host user-service:8081
+// @SecurityDefinitions.apiKey Bearer
+// @in header
+// @name Authorization
 // @BasePath /api/v1
 func main() {
 	cmd.Execute()

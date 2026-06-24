@@ -17,6 +17,11 @@ const docTemplate = `{
     "paths": {
         "/api/v1/upload-warehouse": {
             "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Upload photo",
                 "consumes": [
                     "multipart/form-data"
@@ -25,7 +30,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "upload"
+                    "Warehouse Upload Photo"
                 ],
                 "summary": "Upload photo",
                 "parameters": [
@@ -63,6 +68,11 @@ const docTemplate = `{
         },
         "/api/v1/warehouse-products/detail/products/{product_id}": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Get warehouse product by product ID",
                 "consumes": [
                     "application/json"
@@ -71,7 +81,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "warehouse"
+                    "Warehouse Products"
                 ],
                 "summary": "Get warehouse product by product ID",
                 "parameters": [
@@ -103,6 +113,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Delete all warehouse products by product ID",
                 "consumes": [
                     "application/json"
@@ -111,7 +126,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "warehouse"
+                    "Warehouse Products"
                 ],
                 "summary": "Delete all warehouse products by product ID",
                 "parameters": [
@@ -143,6 +158,11 @@ const docTemplate = `{
         },
         "/api/v1/warehouse-products/detail/products/{product_id}/total-stock": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Get product total stock",
                 "consumes": [
                     "application/json"
@@ -151,7 +171,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "warehouse"
+                    "Warehouse Products"
                 ],
                 "summary": "Get product total stock",
                 "parameters": [
@@ -182,6 +202,11 @@ const docTemplate = `{
         },
         "/api/v1/warehouse-products/detail/products/{warehouse_product_id}/warehouses": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Get detail warehouse product by ID",
                 "consumes": [
                     "application/json"
@@ -190,7 +215,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "warehouse"
+                    "Warehouse Products"
                 ],
                 "summary": "Get detail warehouse product by ID",
                 "parameters": [
@@ -221,6 +246,11 @@ const docTemplate = `{
         },
         "/api/v1/warehouse-products/detail/{warehouse_product_id}": {
             "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Delete warehouse product",
                 "consumes": [
                     "application/json"
@@ -229,7 +259,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "warehouse"
+                    "Warehouse Products"
                 ],
                 "summary": "Delete warehouse product",
                 "parameters": [
@@ -261,6 +291,11 @@ const docTemplate = `{
         },
         "/api/v1/warehouse-products/detail/{warehouse_product_id}/{warehouse_id}": {
             "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Update warehouse product",
                 "consumes": [
                     "application/json"
@@ -269,7 +304,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "warehouse"
+                    "Warehouse Products"
                 ],
                 "summary": "Update warehouse product",
                 "parameters": [
@@ -324,6 +359,11 @@ const docTemplate = `{
         },
         "/api/v1/warehouse-products/{warehouse_id}": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Get detail warehouse",
                 "consumes": [
                     "application/json"
@@ -332,7 +372,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "warehouse"
+                    "Warehouse Products"
                 ],
                 "summary": "Get detail warehouse",
                 "parameters": [
@@ -361,6 +401,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Create warehouse product",
                 "consumes": [
                     "application/json"
@@ -369,7 +414,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "warehouse"
+                    "Warehouse Products"
                 ],
                 "summary": "Create warehouse product",
                 "parameters": [
@@ -417,6 +462,11 @@ const docTemplate = `{
         },
         "/api/v1/warehouse-products/{warehouse_id}/detail/{product_id}": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Get warehouse product by warehouse ID and product ID",
                 "consumes": [
                     "application/json"
@@ -425,7 +475,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "warehouse"
+                    "Warehouse Products"
                 ],
                 "summary": "Get warehouse product by warehouse ID and product ID",
                 "parameters": [
@@ -463,6 +513,11 @@ const docTemplate = `{
         },
         "/api/v1/warehouses": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Get all warehouses",
                 "consumes": [
                     "application/json"
@@ -471,7 +526,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "warehouse"
+                    "Warehouses"
                 ],
                 "summary": "Get all warehouses",
                 "parameters": [
@@ -530,6 +585,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Create warehouse",
                 "consumes": [
                     "application/json"
@@ -538,7 +598,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "warehouse"
+                    "Warehouses"
                 ],
                 "summary": "Create warehouse",
                 "parameters": [
@@ -579,6 +639,11 @@ const docTemplate = `{
         },
         "/api/v1/warehouses/{id}": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Get warehouse by ID",
                 "consumes": [
                     "application/json"
@@ -587,7 +652,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "warehouse"
+                    "Warehouses"
                 ],
                 "summary": "Get warehouse by ID",
                 "parameters": [
@@ -616,6 +681,11 @@ const docTemplate = `{
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Update warehouse",
                 "consumes": [
                     "application/json"
@@ -624,7 +694,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "warehouse"
+                    "Warehouses"
                 ],
                 "summary": "Update warehouse",
                 "parameters": [
@@ -670,6 +740,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Delete warehouse",
                 "consumes": [
                     "application/json"
@@ -678,7 +753,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "warehouse"
+                    "Warehouses"
                 ],
                 "summary": "Delete warehouse",
                 "parameters": [
@@ -938,6 +1013,13 @@ const docTemplate = `{
                 }
             }
         }
+    },
+    "securityDefinitions": {
+        "Bearer": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
     }
 }`
 
@@ -945,7 +1027,7 @@ const docTemplate = `{
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
 	Host:             "warehouse-service:8083",
-	BasePath:         "/api/v1",
+	BasePath:         "",
 	Schemes:          []string{},
 	Title:            "Warehouse Service API",
 	Description:      "This is the API documentation for the Warehouse Service.",
