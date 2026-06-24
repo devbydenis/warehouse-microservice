@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"io"
 	"log"
@@ -18,7 +19,10 @@ import (
 
 	jwtConf "micro-warehouse/api-gateway/configs"
 	"micro-warehouse/api-gateway/controller"
+	swaggerAgg "micro-warehouse/api-gateway/internal/swagger"
 	"micro-warehouse/api-gateway/middleware"
+
+	_ "micro-warehouse/api-gateway/docs"
 )
 
 type ServiceConfig struct {
@@ -92,8 +96,8 @@ func main() {
 
 	setupAuthRoutes(app, authController, redisRateLimiterConfig)
 	setupMidtransCallbackRoutes(app, config.Services["midtrans"])
-	
 	setupProtectedRoutes(app, config, jwtConfig, redisRateLimiterConfig)
+	setupSwaggerRoutes(app)
 
 	app.Use(func(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
@@ -166,68 +170,8 @@ func getEnv(key, defaultValue string) string {
 	if value := os.Getenv(key); value != "" {
 		return value
 	}
+	
 	return defaultValue
-}
-
-func setupAuthRoutes(app *fiber.App, authController *controller.AuthController, rateLimiterConfig middleware.RedisRateLimiterConfig) {
-	authGroup := app.Group("/api/v1/auth")
-
-	authGroup.Use(middleware.RedisAuthRateLimiter(rateLimiterConfig))
-	authGroup.Post("/login", authController.Login)
-}
-
-func setupMidtransCallbackRoutes(app *fiber.App, service ServiceConfig) {
-	app.Post("/api/v1/midtrans/callback", func(c *fiber.Ctx) error {
-		client := &http.Client{}
-		fullURL := service.URL + "api/v1/midtrans/callback"
-		body := c.Body()
-
-		req, err := http.NewRequest(c.Method(), fullURL, bytes.NewReader(body))
-		if err != nil {
-			log.Printf("Error creating request: %v", err)
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"error":   "Internal Server Error",
-				"message": "Failed to create request",
-			})
-		}
-
-		for key, values := range c.GetReqHeaders() {
-			for _, value := range values {
-				req.Header.Add(key, value)
-			}
-		}
-
-		req.Header.Set("X-Gateway", "warehouse-api-gateway")
-		req.Header.Set("X-Internal-Request", "true")
-
-		resp, err := client.Do(req)
-		if err != nil {
-			log.Printf("Error making request to %s: %v", fullURL, err)
-			return c.Status(fiber.StatusBadGateway).JSON(fiber.Map{
-				"error":   "Bad Gateway",
-				"message": "Service unavailable",
-				"service": service.URL,
-			})
-		}
-		defer resp.Body.Close()
-
-		respBody, err := io.ReadAll(resp.Body)
-		if err != nil {
-			log.Printf("Error reading response body: %v", err)
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"error":   "Internal Server Error",
-				"message": "Failed to read response body",
-			})
-		}
-
-		for key, values := range resp.Header {
-			for _, value := range values {
-				c.Set(key, value)
-			}
-		}
-
-		return c.Status(resp.StatusCode).Send(respBody)
-	})
 }
 
 func proxyRequestWithPath(c *fiber.Ctx, targetURL string, basePath string) error {
@@ -302,9 +246,8 @@ func proxyRequest(c *fiber.Ctx, targetURL string) error {
 	fullURL := targetURL
 	if !strings.HasSuffix(targetURL, "/") && !strings.HasPrefix(path, "/") {
 		fullURL += "/"
-	} else {
-		fullURL += targetURL
 	}
+	fullURL += path
 
 	queryParams := c.Context().QueryArgs().String()
 	if queryParams != "" {
@@ -373,6 +316,117 @@ func addUserHeaders(req *http.Request, c *fiber.Ctx) {
 	if userRoles := c.Locals("user_roles"); userRoles != nil {
 		req.Header.Set("X-User-Roles", fmt.Sprintf("%v", userRoles))
 	}
+}
+
+func setupSwaggerRoutes(app *fiber.App) {
+	// swagger ui - kita serve dari gateway
+	app.Get("/swagger", func(c *fiber.Ctx) error {
+		html := `<!DOCTYPE html>
+	<html>
+		<head><title>API Docs</title>
+			<link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist/swagger-ui.css">
+		</head>
+		<body>
+			<div id="swagger-ui"></div>
+			<script src="https://unpkg.com/swagger-ui-dist/swagger-ui-bundle.js"></script>
+			<script>
+				SwaggerUIBundle({ url: "/swagger/aggregated.json", dom_id: '#swagger-ui' })
+			</script>
+		</body>
+	</html>`
+
+		c.Set("Content-Type", "text/html")
+		c.Set("X-Gateway", "warehouse-api-gateway")
+		c.Set("X-Internal-Request", "true")
+
+		return c.SendString(html)
+	})
+
+	// Endpoint aggregated spec
+	app.Get("/swagger/aggregated.json", func(c *fiber.Ctx) error {
+		gatewayURL := c.BaseURL()
+		spec, err := swaggerAgg.AggregateSpecs(gatewayURL)
+		if err != nil {
+			log.Printf("[SetupSwaggerRoutes] AggregateSpecs: %v", err)
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Failed to aggregate specs",
+			})
+		}
+
+		c.Status(fiber.StatusOK)
+		c.Set("Content-Type", "application/json")
+
+		data, err := json.Marshal(spec)
+		if err != nil {
+			log.Printf("[SetupSwaggerRoutes] Marshal: %v", err)
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Failed to marshal specs",
+			})
+		}
+
+		return c.Send(data)
+	})
+}
+
+func setupAuthRoutes(app *fiber.App, authController *controller.AuthController, rateLimiterConfig middleware.RedisRateLimiterConfig) {
+	authGroup := app.Group("/api/v1/auth")
+
+	authGroup.Use(middleware.RedisAuthRateLimiter(rateLimiterConfig))
+	authGroup.Post("/login", authController.Login)
+}
+
+func setupMidtransCallbackRoutes(app *fiber.App, service ServiceConfig) {
+	app.Post("/api/v1/midtrans/callback", func(c *fiber.Ctx) error {
+		client := &http.Client{}
+		fullURL := service.URL + "/api/v1/midtrans/callback"
+		body := c.Body()
+
+		req, err := http.NewRequest(c.Method(), fullURL, bytes.NewReader(body))
+		if err != nil {
+			log.Printf("Error creating request: %v", err)
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"error":   "Internal Server Error",
+				"message": "Failed to create request",
+			})
+		}
+
+		for key, values := range c.GetReqHeaders() {
+			for _, value := range values {
+				req.Header.Add(key, value)
+			}
+		}
+
+		req.Header.Set("X-Gateway", "warehouse-api-gateway")
+		req.Header.Set("X-Internal-Request", "true")
+
+		resp, err := client.Do(req)
+		if err != nil {
+			log.Printf("Error making request to %s: %v", fullURL, err)
+			return c.Status(fiber.StatusBadGateway).JSON(fiber.Map{
+				"error":   "Bad Gateway",
+				"message": "Service unavailable",
+				"service": service.URL,
+			})
+		}
+		defer resp.Body.Close()
+
+		respBody, err := io.ReadAll(resp.Body)
+		if err != nil {
+			log.Printf("Error reading response body: %v", err)
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"error":   "Internal Server Error",
+				"message": "Failed to read response body",
+			})
+		}
+
+		for key, values := range resp.Header {
+			for _, value := range values {
+				c.Set(key, value)
+			}
+		}
+
+		return c.Status(resp.StatusCode).Send(respBody)
+	})
 }
 
 func setupProtectedRoutes(app *fiber.App, config Config, jwtConfig middleware.JWTConfig, rateLimiterConfig middleware.RedisRateLimiterConfig) {
