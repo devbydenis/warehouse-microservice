@@ -19,9 +19,9 @@ type UserClientInterface interface {
 }
 
 type UserClient struct {
-	urlUserService string
-	httpClient     *http.Client
-	config         configs.Config
+	urlApiGateway string
+	httpClient    *http.Client
+	config        configs.Config
 }
 
 func (u *UserClient) generateInternalToken() (string, error) {
@@ -30,7 +30,7 @@ func (u *UserClient) generateInternalToken() (string, error) {
 
 // GetUserByID implements UserClientInterface.
 func (u *UserClient) GetUserByID(ctx context.Context, userID uint) (*UserResponse, error) {
-	url := fmt.Sprintf("%s/api/v1/users/%d", u.urlUserService, userID)
+	url := fmt.Sprintf("%s/api/v1/users/%d", u.urlApiGateway, userID)
 
 	token, err := u.generateInternalToken()
 	if err != nil {
@@ -94,7 +94,7 @@ func NewUserCLient(cfg configs.Config) UserClientInterface {
 		httpClient: &http.Client{
 			Timeout: 30 * time.Second,
 		},
-		urlUserService: cfg.App.UrlUserService,
-		config:         cfg,
+		urlApiGateway: cfg.App.UrlApiGateway,
+		config:        cfg,
 	}
 }

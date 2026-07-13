@@ -20,7 +20,7 @@ type EmailPayload struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
 	Type     string `json:"type"`
-	UserId   string `json:"user_id"`
+	UserId   uint   `json:"user_id"`
 	Name     string `json:"name"`
 	AppURL   string `json:"app_url"` // URL aplikasi untuk tombol login
 }

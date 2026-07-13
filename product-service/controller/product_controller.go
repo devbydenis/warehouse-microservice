@@ -27,6 +27,17 @@ type productController struct {
 }
 
 // CreateProduct implements ProductControllerInterface.
+// @Summary Create a new product
+// @Description Create a new product
+// @Tags Products
+// @Accept json
+// @Produce json
+// @Param request body request.CreateProductRequest true "Product data"
+// @Success      201  {object} map[string]interface{}
+// @Failure      400  {object} map[string]interface{}
+// @Failure      500  {object} map[string]interface{}
+// @Router       /api/v1/products [post]
+// @Security Bearer
 func (p *productController) CreateProduct(ctx *fiber.Ctx) error {
 	var req request.CreateProductRequest
 	if err := ctx.BodyParser(&req); err != nil {
@@ -66,6 +77,16 @@ func (p *productController) CreateProduct(ctx *fiber.Ctx) error {
 }
 
 // DeleteProduct implements ProductControllerInterface.
+// @Summary Delete a product by ID
+// @Description Delete a product by ID
+// @Tags Products
+// @Accept json
+// @Produce json
+// @Param id path string true "Product ID"
+// @Success      200  {object} map[string]interface{}
+// @Failure      500  {object} map[string]interface{}
+// @Router       /api/v1/products/{id} [delete]
+// @Security Bearer
 func (p *productController) DeleteProduct(ctx *fiber.Ctx) error {
 	id := ctx.Params("id")
 	idUint := conv.StringToUint(id)
@@ -83,6 +104,21 @@ func (p *productController) DeleteProduct(ctx *fiber.Ctx) error {
 }
 
 // GetAllProducts implements ProductControllerInterface.
+// @Summary Get all products
+// @Description Get all products
+// @Tags Products
+// @Accept json
+// @Produce json
+// @Param page query int false "Page number"
+// @Param limit query int false "Limit per page"
+// @Param search query string false "Search keyword"
+// @Param sort_by query string false "Sort By"
+// @Param sort_order query string false "Sort Order"
+// @Success      200  {object} map[string]interface{}
+// @Failure      400  {object} map[string]interface{}
+// @Failure      500  {object} map[string]interface{}
+// @Router       /api/v1/products [get]
+// @Security Bearer
 func (p *productController) GetAllProducts(ctx *fiber.Ctx) error {
 	var req request.GetAllProductRequest
 	if err := ctx.QueryParser(&req); err != nil {
@@ -136,6 +172,16 @@ func (p *productController) GetAllProducts(ctx *fiber.Ctx) error {
 }
 
 // GetProductByBarcode implements ProductControllerInterface.
+// @Summary Get a product by barcode
+// @Description Get a product by barcode
+// @Tags Products
+// @Accept json
+// @Produce json
+// @Param barcode path string true "Product barcode"
+// @Success      200  {object} map[string]interface{}
+// @Failure      500  {object} map[string]interface{}
+// @Router       /api/v1/products/barcode/{barcode} [get]
+// @Security Bearer
 func (p *productController) GetProductByBarcode(ctx *fiber.Ctx) error {
 	barcode := ctx.Params("barcode")
 
@@ -171,6 +217,16 @@ func (p *productController) GetProductByBarcode(ctx *fiber.Ctx) error {
 }
 
 // GetProductByID implements ProductControllerInterface.
+// @Summary Get a product by ID
+// @Description Get a product by ID
+// @Tags Products
+// @Accept json
+// @Produce json
+// @Param id path string true "Product ID"
+// @Success      200  {object} map[string]interface{}
+// @Failure      500  {object} map[string]interface{}
+// @Router       /api/v1/products/{id} [get]
+// @Security Bearer
 func (p *productController) GetProductByID(ctx *fiber.Ctx) error {
 	id := ctx.Params("id")
 	idUint := conv.StringToUint(id)
@@ -207,6 +263,18 @@ func (p *productController) GetProductByID(ctx *fiber.Ctx) error {
 }
 
 // UpdateProduct implements ProductControllerInterface.
+// @Summary Update a product by ID
+// @Description Update a product by ID
+// @Tags Products
+// @Accept json
+// @Produce json
+// @Param id path string true "Product ID"
+// @Param request body request.CreateProductRequest true "Product data"
+// @Success      200  {object} map[string]interface{}
+// @Failure      400  {object} map[string]interface{}
+// @Failure      500  {object} map[string]interface{}
+// @Router       /api/v1/products/{id} [put]
+// @Security Bearer
 func (p *productController) UpdateProduct(ctx *fiber.Ctx) error {
 	id := ctx.Params("id")
 	idUint := conv.StringToUint(id)
