@@ -1,0 +1,662 @@
+definitions:
+  pagination.PaginationResponse:
+    properties:
+      current_page:
+        type: integer
+      has_next:
+        type: boolean
+      has_prev:
+        type: boolean
+      limit:
+        type: integer
+      total_pages:
+        type: integer
+      total_records:
+        type: integer
+    type: object
+  request.CreateWarehouseProductRequest:
+    properties:
+      product_id:
+        type: integer
+      stock:
+        type: integer
+    required:
+    - product_id
+    - stock
+    type: object
+  request.CreateWarehouseRequest:
+    properties:
+      address:
+        type: string
+      name:
+        type: string
+      phone:
+        type: string
+      photo:
+        type: string
+    required:
+    - address
+    - name
+    - phone
+    - photo
+    type: object
+  response.DetailWarehouseResponse:
+    properties:
+      address:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      phone:
+        type: string
+      photo:
+        type: string
+      warehouse_products:
+        items:
+          $ref: '#/definitions/response.WarehouseProductResponse'
+        type: array
+    type: object
+  response.GetAllWarehouseResponse:
+    properties:
+      pagination:
+        $ref: '#/definitions/pagination.PaginationResponse'
+      warehouses:
+        items:
+          $ref: '#/definitions/response.WarehouseResponse'
+        type: array
+    type: object
+  response.GetDetailWarehouseProductByIDResponse:
+    properties:
+      id:
+        type: integer
+      product_about:
+        type: string
+      product_barcode:
+        type: string
+      product_id:
+        type: integer
+      product_name:
+        type: string
+      product_price:
+        type: integer
+      product_thumbnail:
+        type: string
+      stock:
+        type: integer
+      warehouse_id:
+        type: integer
+      warehouse_name:
+        type: string
+      warehouse_phone:
+        type: string
+      warehouse_photo:
+        type: string
+    type: object
+  response.ProductTotalStockResponse:
+    properties:
+      product_id:
+        type: integer
+      total_stock:
+        type: integer
+    type: object
+  response.UploadResponse:
+    properties:
+      filename:
+        type: string
+      path:
+        type: string
+      url:
+        type: string
+    type: object
+  response.WarehouseProductResponse:
+    properties:
+      id:
+        type: integer
+      product_about:
+        type: string
+      product_category:
+        type: string
+      product_category_photo:
+        type: string
+      product_id:
+        type: integer
+      product_name:
+        type: string
+      product_photo:
+        type: string
+      product_price:
+        type: integer
+      stock:
+        type: integer
+      warehouse:
+        $ref: '#/definitions/response.WarehouseResponse'
+      warehouse_id:
+        type: integer
+    type: object
+  response.WarehouseResponse:
+    properties:
+      address:
+        type: string
+      count_product:
+        type: integer
+      id:
+        type: integer
+      name:
+        type: string
+      phone:
+        type: string
+      photo:
+        type: string
+    type: object
+host: warehouse-service:8083
+info:
+  contact: {}
+  description: This is the API documentation for the Warehouse Service.
+  title: Warehouse Service API
+  version: "1.0"
+paths:
+  /api/v1/upload-warehouse:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Upload photo
+      parameters:
+      - description: Image to upload
+        in: formData
+        name: image
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.UploadResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - Bearer: []
+      summary: Upload photo
+      tags:
+      - Warehouse Upload Photo
+  /api/v1/warehouse-products/{warehouse_id}:
+    get:
+      consumes:
+      - application/json
+      description: Get detail warehouse
+      parameters:
+      - description: Warehouse ID
+        in: path
+        name: warehouse_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.DetailWarehouseResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - Bearer: []
+      summary: Get detail warehouse
+      tags:
+      - Warehouse Products
+    post:
+      consumes:
+      - application/json
+      description: Create warehouse product
+      parameters:
+      - description: Warehouse ID
+        in: path
+        name: warehouse_id
+        required: true
+        type: integer
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.CreateWarehouseProductRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - Bearer: []
+      summary: Create warehouse product
+      tags:
+      - Warehouse Products
+  /api/v1/warehouse-products/{warehouse_id}/detail/{product_id}:
+    get:
+      consumes:
+      - application/json
+      description: Get warehouse product by warehouse ID and product ID
+      parameters:
+      - description: Warehouse ID
+        in: path
+        name: warehouse_id
+        required: true
+        type: integer
+      - description: Product ID
+        in: path
+        name: product_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.WarehouseProductResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - Bearer: []
+      summary: Get warehouse product by warehouse ID and product ID
+      tags:
+      - Warehouse Products
+  /api/v1/warehouse-products/detail/{warehouse_product_id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete warehouse product
+      parameters:
+      - description: Warehouse Product ID
+        in: path
+        name: warehouse_product_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - Bearer: []
+      summary: Delete warehouse product
+      tags:
+      - Warehouse Products
+  /api/v1/warehouse-products/detail/{warehouse_product_id}/{warehouse_id}:
+    put:
+      consumes:
+      - application/json
+      description: Update warehouse product
+      parameters:
+      - description: Warehouse Product ID
+        in: path
+        name: warehouse_product_id
+        required: true
+        type: integer
+      - description: Warehouse ID
+        in: path
+        name: warehouse_id
+        required: true
+        type: integer
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.CreateWarehouseProductRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - Bearer: []
+      summary: Update warehouse product
+      tags:
+      - Warehouse Products
+  /api/v1/warehouse-products/detail/products/{product_id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete all warehouse products by product ID
+      parameters:
+      - description: Product ID
+        in: path
+        name: product_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - Bearer: []
+      summary: Delete all warehouse products by product ID
+      tags:
+      - Warehouse Products
+    get:
+      consumes:
+      - application/json
+      description: Get warehouse product by product ID
+      parameters:
+      - description: Product ID
+        in: path
+        name: product_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/response.WarehouseResponse'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - Bearer: []
+      summary: Get warehouse product by product ID
+      tags:
+      - Warehouse Products
+  /api/v1/warehouse-products/detail/products/{product_id}/total-stock:
+    get:
+      consumes:
+      - application/json
+      description: Get product total stock
+      parameters:
+      - description: Product ID
+        in: path
+        name: product_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.ProductTotalStockResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - Bearer: []
+      summary: Get product total stock
+      tags:
+      - Warehouse Products
+  /api/v1/warehouse-products/detail/products/{warehouse_product_id}/warehouses:
+    get:
+      consumes:
+      - application/json
+      description: Get detail warehouse product by ID
+      parameters:
+      - description: Warehouse Product ID
+        in: path
+        name: warehouse_product_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.GetDetailWarehouseProductByIDResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - Bearer: []
+      summary: Get detail warehouse product by ID
+      tags:
+      - Warehouse Products
+  /api/v1/warehouses:
+    get:
+      consumes:
+      - application/json
+      description: Get all warehouses
+      parameters:
+      - description: Page number
+        in: query
+        name: page
+        type: integer
+      - description: Limit number
+        in: query
+        name: limit
+        type: integer
+      - description: Search query
+        in: query
+        name: search
+        type: string
+      - description: Sort by
+        in: query
+        name: sortBy
+        type: string
+      - description: Sort order
+        in: query
+        name: sortOrder
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.GetAllWarehouseResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - Bearer: []
+      summary: Get all warehouses
+      tags:
+      - Warehouses
+    post:
+      consumes:
+      - application/json
+      description: Create warehouse
+      parameters:
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.CreateWarehouseRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - Bearer: []
+      summary: Create warehouse
+      tags:
+      - Warehouses
+  /api/v1/warehouses/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete warehouse
+      parameters:
+      - description: Warehouse ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - Bearer: []
+      summary: Delete warehouse
+      tags:
+      - Warehouses
+    get:
+      consumes:
+      - application/json
+      description: Get warehouse by ID
+      parameters:
+      - description: Warehouse ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.DetailWarehouseResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - Bearer: []
+      summary: Get warehouse by ID
+      tags:
+      - Warehouses
+    put:
+      consumes:
+      - application/json
+      description: Update warehouse
+      parameters:
+      - description: Warehouse ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.CreateWarehouseRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - Bearer: []
+      summary: Update warehouse
+      tags:
+      - Warehouses
+securityDefinitions:
+  Bearer:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

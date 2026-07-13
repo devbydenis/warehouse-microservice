@@ -26,6 +26,17 @@ type warehouseController struct {
 }
 
 // CreateWarehouse implements WarehouseControllerInterface.
+// @Summary Create warehouse
+// @Description Create warehouse
+// @Tags Warehouses
+// @Accept  json
+// @Produce  json
+// @Param request body request.CreateWarehouseRequest true "Request body"
+// @Success 201 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /api/v1/warehouses [post]
+// @Security Bearer
 func (w *warehouseController) CreateWarehouse(ctx *fiber.Ctx) error {
 	var req request.CreateWarehouseRequest
 	if err := ctx.BodyParser(&req); err != nil {
@@ -62,6 +73,16 @@ func (w *warehouseController) CreateWarehouse(ctx *fiber.Ctx) error {
 }
 
 // DeleteWarehouse implements WarehouseControllerInterface.
+// @Summary Delete warehouse
+// @Description Delete warehouse
+// @Tags Warehouses
+// @Accept  json
+// @Produce  json
+// @Param id path int true "Warehouse ID"
+// @Success 200 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /api/v1/warehouses/{id} [delete]
+// @Security Bearer
 func (w *warehouseController) DeleteWarehouse(ctx *fiber.Ctx) error {
 	id := ctx.Params("id")
 
@@ -80,6 +101,21 @@ func (w *warehouseController) DeleteWarehouse(ctx *fiber.Ctx) error {
 }
 
 // GetAllWarehouses implements WarehouseControllerInterface.
+// @Summary Get all warehouses
+// @Description Get all warehouses
+// @Tags Warehouses
+// @Accept  json
+// @Produce  json
+// @Param page query int false "Page number"
+// @Param limit query int false "Limit number"
+// @Param search query string false "Search query"
+// @Param sortBy query string false "Sort by"
+// @Param sortOrder query string false "Sort order"
+// @Success 200 {object} response.GetAllWarehouseResponse
+// @Failure 400 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /api/v1/warehouses [get]
+// @Security Bearer
 func (w *warehouseController) GetAllWarehouses(ctx *fiber.Ctx) error {
 	var req request.GetAllWarehouseRequest
 	if err := ctx.QueryParser(&req); err != nil {
@@ -138,6 +174,16 @@ func (w *warehouseController) GetAllWarehouses(ctx *fiber.Ctx) error {
 }
 
 // GetWarehouseByID implements WarehouseControllerInterface.
+// @Summary Get warehouse by ID
+// @Description Get warehouse by ID
+// @Tags Warehouses
+// @Accept  json
+// @Produce  json
+// @Param id path int true "Warehouse ID"
+// @Success 200 {object} response.DetailWarehouseResponse
+// @Failure 500 {object} map[string]interface{}
+// @Router /api/v1/warehouses/{id} [get]
+// @Security Bearer
 func (w *warehouseController) GetWarehouseByID(ctx *fiber.Ctx) error {
 	id := ctx.Params("id")
 
@@ -175,6 +221,18 @@ func (w *warehouseController) GetWarehouseByID(ctx *fiber.Ctx) error {
 }
 
 // UpdateWarehouse implements WarehouseControllerInterface.
+// @Summary Update warehouse
+// @Description Update warehouse
+// @Tags Warehouses
+// @Accept  json
+// @Produce  json
+// @Param id path int true "Warehouse ID"
+// @Param request body request.CreateWarehouseRequest true "Request body"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /api/v1/warehouses/{id} [put]
+// @Security Bearer
 func (w *warehouseController) UpdateWarehouse(ctx *fiber.Ctx) error {
 	id := ctx.Params("id")
 
